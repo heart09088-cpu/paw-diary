@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="zh-Hant"><head><meta charset="utf-8">
+<html lang="zh-Hant"><head>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@500;700;900&display=swap" rel="stylesheet"><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>毛孩零用錢日記 3D 樣品</title>
 <style>
@@ -25,12 +26,39 @@ html,body{margin:0;height:100%;overflow:hidden;background:#f6efe6;font-family:"P
 #shop .it{background:#f6ecdf;border-radius:12px;padding:7px 4px;text-align:center;font-size:12px;color:#5a4636}#shop .it b{display:block;font-size:24px}#shop .it button{margin-top:4px;border:0;border-radius:999px;padding:4px 10px;font-family:inherit;font-weight:bold;background:#ffd77a;color:#5a4636;font-size:12px}#shop .it button:disabled{background:#e2d8cc;color:#a99}
 .pill{white-space:nowrap}
 #credit{position:fixed;right:8px;bottom:70px;font-size:10px;color:#8a7262;text-align:right;pointer-events:none;opacity:.8}
+/* ===== 介面風格 B：糖果果凍 ===== */
+:root{--ink:#3B2A55;--yel:#FFD84D;--pink:#FF5C9E;--pk2:#FF8CC0;--mint:#7BE3B5;--blu:#6FCBFF;--lav:#C4A8FF;--org:#FFB36B}
+html,body{background:#8ED8FF;font-family:"Chiron GoRound TC","PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;color:var(--ink)}
+.pill,.sbtn{background:#fff!important;color:var(--ink)!important;border:3px solid var(--ink)!important;box-shadow:0 3px 0 var(--ink)!important;font-weight:900!important;font-family:inherit}
+#coin{background:var(--yel)!important}
+.sbtn:active,#bar button:active,#edbar button:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)!important}
+#bar{bottom:12px;gap:6px}
+#bar button{color:var(--ink);border:3px solid var(--ink);border-radius:18px;padding:8px 10px;font-weight:900;box-shadow:0 4px 0 var(--ink);background:var(--pk2)}
+#bar button.b2{background:var(--org);box-shadow:0 4px 0 var(--ink)}#bar button.b3{background:var(--mint);box-shadow:0 4px 0 var(--ink)}#bar button.b5{background:var(--yel);box-shadow:0 4px 0 var(--ink)}#bar button.b4{background:#5B57C9;color:#fff;box-shadow:0 4px 0 var(--ink)}
+#tip{background:#3B2A55f0;border:3px solid #fff;font-weight:900}
+#load{background:#8ED8FF;color:var(--ink)}#load .b{height:16px;border:3px solid var(--ink);background:#fff}#load .b i{background:var(--pink)}
+.tag{background:#fff;border:2.5px solid var(--ink);color:var(--ink);box-shadow:none;font-weight:900}
+#pick{background:#fff;border:3px solid var(--ink);border-radius:20px;box-shadow:0 4px 0 var(--ink)}#pick .ph{color:var(--ink);font-weight:700}
+#chips button{border:2.5px solid var(--ink);background:#fff;color:var(--ink);font-weight:700}#chips button.on{background:var(--yel);font-weight:900}
+#sty{border:2.5px solid var(--ink)!important;background:var(--lav)!important;color:var(--ink)}
+#edbar button{border:3px solid var(--ink);box-shadow:0 3px 0 var(--ink);color:var(--ink);font-weight:900}
+#shop{background:#fff;border:3px solid var(--ink);border-radius:22px;box-shadow:0 6px 0 var(--ink)}
+#shop h3{color:var(--ink);font-weight:900}
+#shop .it{background:#FFF4C2;border:2.5px solid var(--ink);border-radius:14px;color:var(--ink)}
+#shop .it button{border:2.5px solid var(--ink);background:var(--pink);color:#fff;font-weight:900}#shop .it button:disabled{background:#ECE6F7;color:#7d7296}
+#credit{color:#24486b}
+#rn{position:fixed;inset:0;background:#0006;display:none;align-items:center;justify-content:center;z-index:20;padding:20px}
+#rn .box{background:#fff;border:3px solid var(--ink);border-radius:24px;box-shadow:0 6px 0 var(--ink);padding:16px;width:100%;max-width:340px}
+#rn h3{margin:0 0 6px;font-size:18px}#rn p{margin:0 0 10px;font-size:13px}
+#rn input{width:100%;box-sizing:border-box;padding:10px;border:3px solid var(--ink);border-radius:14px;font-size:17px;font-family:inherit}
+#rn .bt{display:flex;gap:8px;margin-top:12px}#rn .bt button{flex:1;padding:10px;border:3px solid var(--ink);border-radius:14px;font-family:inherit;font-weight:900;font-size:15px;box-shadow:0 3px 0 var(--ink);background:#ECE6F7;color:var(--ink)}#rn .bt button.ok{background:var(--pink);color:#fff}
 </style></head><body>
 <canvas id="c"></canvas>
-<div id="top"><button class="pill sbtn" id="backBtn" onclick="parent.G3D&&parent.G3D.close()" style="padding:5px 10px;display:none">← 回家</button><span class="pill" id="ttl">🏠 3D 樣品</span><span class="pill" id="coin">💰 0</span><span style="flex:1"></span><button class="pill sbtn" id="edBtn" onclick="toggleEdit()" style="padding:5px 10px">🛋️ 佈置</button><button class="pill sbtn" onclick="openShop()" style="padding:5px 10px">🛒 家具店</button></div>
+<div id="top"><button class="pill sbtn" id="backBtn" onclick="parent.G3D&&parent.G3D.close()" style="padding:5px 10px;display:none">← 回家</button><span class="pill" id="ttl">🏠 3D 樣品</span><span class="pill" id="coin">💰 0</span><span style="flex:1"></span><button class="pill sbtn" id="rnBtn" onclick="openRename()" style="padding:5px 10px">✏️ 改名</button><button class="pill sbtn" id="edBtn" onclick="toggleEdit()" style="padding:5px 10px">🛋️ 佈置</button><button class="pill sbtn" onclick="openShop()" style="padding:5px 10px">🛒 家具店</button></div>
 <div id="edbar"><span class="pill" id="edtip" style="font-size:12px">點家具拖曳移動</span><button onclick="rotSel()">↻ 轉向</button><button onclick="storeSel()">📦 收起</button><button onclick="toggleEdit()">✔ 完成</button></div>
 <div id="shop"></div>
 <div id="tip"></div>
+<div id="rn" role="dialog" aria-modal="true" aria-labelledby="rnT"><div class="box"><h3 id="rnT">✏️ 幫毛孩改名字</h3><p id="rnP">最多 6 個字</p><input id="rnI" maxlength="6" aria-label="新名字"><div class="bt"><button onclick="closeRename()">取消</button><button class="ok" onclick="doRename()">確定</button></div></div></div>
 <div id="bar"><button onclick="act('pet')">🤲 摸摸</button><button class="b2" onclick="act('feed')">🍖 餵食</button><button class="b3" onclick="act('ball')">🎾 丟球</button><button class="b5" onclick="playTogether()">🤝 一起玩</button><button class="b4" onclick="act('sleep')">💤 睡覺</button></div>
 <div id="pick"><div class="ph" style="display:flex;align-items:center;gap:6px"><span style="flex:1">🐣 幼年毛孩（點選放進房間，最多 4 隻）</span><button id="sty" onclick="toggleStyle()" style="border:0;border-radius:999px;padding:4px 10px;font-family:inherit;font-size:12px;background:#ffd77a;font-weight:bold">✨ 高畫質</button></div><div id="chips"></div></div>
 <div id="credit">家具與材質：Poly Haven（CC0）</div>
@@ -319,4 +347,13 @@ cv.addEventListener('pointerup',e=>{if(drag){drag=null;ctl.enabled=true;recomput
  for(const p of pets){if(!p.off&&ray.intersectObject(p.holder,true).length){sel=pets.indexOf(p);act('pet',p);return}}});
 window.__dbg={cam,ctl,pets,items,blockers};window.__sp=startPlay;const clk=new THREE.Clock();
 R.setAnimationLoop(()=>{const dt=Math.min(.05,clk.getDelta());pets.forEach(p=>{if(!p.off)update(p,dt)});if(ball.visible)ball.rotation.x+=dt*4;ctl.update();cutWalls();R.render(scene,cam)});
+
+// ---- 改名 ----
+function curPet(){return pets[sel]||pets[0]||null}
+window.openRename=()=>{const p=curPet();if(!p)return say('先點一隻毛孩，再按改名');document.getElementById('rnT').textContent='✏️ 幫 '+p.d.name+' 改名字';const I=document.getElementById('rnI');I.value=p.d.name;document.getElementById('rn').style.display='flex';setTimeout(()=>{I.focus();I.select()},50)};
+window.closeRename=()=>{document.getElementById('rn').style.display='none'};
+window.doRename=()=>{const p=curPet();const v=document.getElementById('rnI').value.trim().slice(0,6);closeRename();if(!p||!v||v===p.d.name)return;
+ if(G&&p.d.idx>=0){if(G.rename&&G.rename(p.d.idx,v)===false)return say('改名失敗')}
+ p.d.name=v;const b=btn[p.d.key];if(b)b.textContent=(p.d.key[0]==='p'?(GP[p.d.idx]&&GP[p.d.idx].type==='cat'?'🐱':'🐶'):(p.d.key[0]==='d'?'🐶':'🐱'))+v;say('✏️ 以後叫牠「'+v+'」囉');hearts(p,'✏️')};
+document.getElementById('rnI').addEventListener('keydown',e=>{if(e.key==='Enter')doRename();if(e.key==='Escape')closeRename()});
 </script></body></html>

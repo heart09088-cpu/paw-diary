@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@500;700;900&display=swap" rel="stylesheet">
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>毛孩零用錢日記</title>
@@ -206,6 +208,67 @@ nav .badge{position:absolute;top:4px;left:56%;background:#ee5a3c;color:#fff;font
 .gpop{position:absolute;font-weight:900;font-size:22px;animation:up .8s forwards;pointer-events:none}
 .gstart{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;gap:10px;font-size:15px}
 .gstart .btn{padding:14px 34px;font-size:19px}
+/* ===== 介面風格 B：糖果果凍 ===== */
+:root{--ink:#3B2A55;--sky:#8ED8FF;--yel:#FFD84D;--pink:#FF5C9E;--pk2:#FF8CC0;--mint:#7BE3B5;--blu:#6FCBFF;--lav:#C4A8FF;--org:#FFB36B}
+body{background-color:var(--sky);background-image:radial-gradient(#B8E7FF 18%,transparent 19%);background-size:34px 34px;background-attachment:fixed;font-family:"Chiron GoRound TC","PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;color:var(--ink);font-weight:500}
+#app{padding-bottom:104px}
+.hd{background:#8ED8FFe6}
+.hd .day{background:#fff;border:3px solid var(--ink);border-radius:14px;padding:3px 10px;box-shadow:0 3px 0 var(--ink);font-weight:900}
+.hd .coin{background:var(--yel);color:var(--ink);border:3px solid var(--ink);box-shadow:0 3px 0 var(--ink);font-weight:900}
+.hd .sleep{background:#5B57C9!important;color:#fff!important;border:3px solid var(--ink);box-shadow:0 3px 0 var(--ink)!important}
+.chip{background:#fff;color:var(--ink);border:3px solid var(--ink);box-shadow:0 3px 0 var(--ink);font-weight:700}
+.chip.on{background:var(--yel);color:var(--ink);box-shadow:0 3px 0 var(--ink);font-weight:900}
+.house,.room{border:3px solid var(--ink);box-shadow:0 6px 0 var(--ink);border-radius:24px}
+.card,.row,.prod,.ach,.dex,.order,.sale{background:#fff;border:3px solid var(--ink);box-shadow:0 5px 0 var(--ink);border-radius:22px}
+.order{border-left:8px solid #45b37a}
+.sale{border-style:dashed}
+.nameRow b{font-weight:900}
+.lv,.stg{background:var(--mint);color:var(--ink);border:2.5px solid var(--ink);border-radius:10px;padding:1px 8px;font-weight:900}
+.bar .tr{height:16px;background:#F2ECFF;border:3px solid var(--ink);border-radius:999px}
+.bar .fi{border-radius:0}
+.bar .num{color:var(--ink)}
+.big{border:3px solid var(--ink)!important;box-shadow:0 5px 0 var(--ink)!important;border-radius:20px;font-weight:900}
+.big:active{transform:translateY(3px);box-shadow:0 2px 0 var(--ink)!important}
+.gold{background:var(--yel)!important;color:var(--ink)!important}
+.actions{gap:10px}
+.ab{border:3px solid var(--ink);box-shadow:0 5px 0 var(--ink);border-radius:22px;color:var(--ink)}
+.ab:active{transform:translateY(3px);box-shadow:0 2px 0 var(--ink)}
+.ab:nth-child(6n+1){background:var(--org)}.ab:nth-child(6n+2){background:var(--pk2)}.ab:nth-child(6n+3){background:var(--blu)}
+.ab:nth-child(6n+4){background:var(--mint)}.ab:nth-child(6n+5){background:var(--lav)}.ab:nth-child(6n){background:var(--yel)}
+.ab .an{font-weight:900}.ab .ac{color:#4d3d68}
+.tip,.hhint{color:#24486b}
+.btn{background:var(--pink);color:#fff;border:2.5px solid var(--ink);box-shadow:0 3px 0 var(--ink);font-weight:900}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+.btn.gray{background:#ECE6F7;color:#7d7296;box-shadow:none}
+.btn.ghost{background:#fff;color:var(--ink)}
+nav{left:10px;right:10px;bottom:10px;background:#fff;border:3px solid var(--ink);border-radius:26px;box-shadow:0 5px 0 var(--ink);padding-bottom:0;max-width:480px;margin:0 auto}
+nav button{color:var(--ink);padding:7px 0 8px}
+nav button.on{color:var(--ink);font-weight:900}
+nav button.on span{background:var(--yel);border:3px solid var(--ink);border-radius:14px;padding:0 8px}
+nav .badge{background:var(--pink);border:2px solid var(--ink)}
+.banner{background:var(--pink);border:3px solid var(--ink);box-shadow:0 5px 0 var(--ink)}
+.cats button{background:#fff;color:var(--ink);border:3px solid var(--ink)}
+.cats button.on{background:var(--yel);color:var(--ink);font-weight:900}
+.prod .pe{background:#FFF4C2;border:2.5px solid var(--ink)}
+.prod .pp{color:#d0306f}
+.fab{background:var(--pink);border:3px solid var(--ink);box-shadow:0 5px 0 var(--ink);bottom:96px}
+.mbox{border:3px solid var(--ink);box-shadow:0 7px 0 var(--ink);border-radius:26px;color:var(--ink)}
+.mbox input{border:3px solid var(--ink)}
+.ship button{border:2.5px solid var(--ink);background:#fff}
+.ship button.on{background:var(--yel);outline:none;color:var(--ink)}
+.sum .tot{color:#d0306f}
+.toast{background:#3B2A55f0;border:3px solid #fff}
+.pw .tg{border:2px solid var(--ink);box-shadow:none}
+.pw.sel .tg{background:var(--yel);color:var(--ink)}
+.say{border:2.5px solid var(--ink);color:var(--ink)}
+.adopt button{border:3px solid var(--ink);background:#fff}
+.adopt button.on{outline:none;background:var(--yel)}
+.dcell{border:3px solid var(--ink)}
+.hd{gap:5px;padding:10px 8px}.hd .day,.hd .coin,.hd .sleep{white-space:nowrap}.hd .day{font-size:13.5px;padding:3px 8px}.hd .coin{padding:5px 9px;font-size:14px}.hd .sleep{padding:6px 9px;font-size:13px}
+.empty{color:#24486b}.sec{color:var(--ink);font-weight:900}
+.rnm{margin:0 6px;background:#fff;color:var(--ink);border:2.5px solid var(--ink);border-radius:12px;padding:2px 8px;font-size:12.5px;font-weight:900;box-shadow:0 2px 0 var(--ink);vertical-align:middle}
+.avb{background:none;padding:0;border-radius:50%;flex:none;display:flex;box-shadow:0 3px 0 var(--ink);border:0}.avb img,.avb span{display:block}
+@media(max-width:420px){.hd .slt{display:none}.hd{gap:4px}}
 </style>
 </head>
 <body>
@@ -403,7 +466,7 @@ function focusPet(i){const p=S.pets[i];const e=ENT[p.id];const hs=document.getEl
 
 /* ---------- render ---------- */
 function render(){
- document.getElementById('hd').innerHTML=`<span class="day">📅 第 ${S.day} 天 <span title="${WX[S.wx||'sun'].n}">${wxIcon()}</span></span><span class="coin">💰 ${S.coins}</span><span class="coin" style="margin-left:0;background:#ffb08a;box-shadow:0 2px 0 #e0784a">🦐 ${S.shrimp||0}</span><button class="sleep" style="background:#fff;color:#4b4a7a;padding:7px 9px;box-shadow:0 2px 0 #e6d6c6" onclick="toggleMusic()">${['🔊','🐾','🔇'][sndMode()]}</button><button class="sleep" onclick="askSleep()">🌙 睡覺</button>`;
+ document.getElementById('hd').innerHTML=`${avBtn()}<span class="day">第 ${S.day} 天 <span title="${WX[S.wx||'sun'].n}">${wxIcon()}</span></span><span class="coin">💰 ${S.coins}</span><span class="coin" style="margin-left:0;background:#ffb08a;box-shadow:0 2px 0 #e0784a">🦐 ${S.shrimp||0}</span><button class="sleep" style="background:#fff;color:#4b4a7a;padding:7px 9px;box-shadow:0 2px 0 #e6d6c6" onclick="toggleMusic()">${['🔊','🐾','🔇'][sndMode()]}</button><button class="sleep" onclick="askSleep()" aria-label="睡覺，進入下一天">🌙<span class="slt"> 睡覺</span></button>`;
  const inTransit=S.orders.length;
  document.getElementById('nav').innerHTML=(()=>{window._cl=claimable();return[['home','🏠','我的家'],['shop','🦐','蝦拼百貨'],['col','🏆','收集'],['fr','👫','朋友'],['bag','🎒','背包']]})().map(([k,e,n])=>
   `<button class="${tab===k?'on':''}" onclick="go('${k}')"><span>${e}</span>${n}${k==='shop'&&inTransit?`<i class="badge">${inTransit}</i>`:''}${k==='col'&&window._cl?`<i class="badge">${window._cl}</i>`:''}${k==='fr'&&typeof FR!=='undefined'&&FR.on&&incoming().length?`<i class="badge">${incoming().length}</i>`:''}</button>`).join('');
@@ -422,6 +485,7 @@ window.G3D={pets:()=>S.pets.map(p=>({name:p.name,breed:p.breed,type:p.type})),cu
  setCoins:n=>{S.coins=Math.max(0,Math.round(n));save();const c=document.querySelector('#hd .coin');if(c)c.textContent='💰 '+S.coins},
  getRoom:()=>S.room3d||null,setRoom:o=>{S.room3d={items:o.items};save()},
  pat:(i,n)=>{const p=S.pets[i];if(!p)return;S.today=S.today||{};const k='p3d_'+p.id;S.today[k]=(S.today[k]||0)+1;if(S.today[k]<=30)addAff(p,n||1);save()},
+ rename:(i,v)=>{const p=S.pets[i];v=String(v||'').trim().slice(0,6);if(!p||!v)return false;if(v!==p.name){diary(`✏️ ${p.name} 改名叫「${v}」`);p.name=v;save()}return true},
  close:()=>close3D()};
 function open3D(){if(document.getElementById('ov3d'))return;beep(660,.06);const d=document.createElement('div');d.id='ov3d';d.style.cssText='position:fixed;inset:0;z-index:9999;background:#f6efe6';
  d.innerHTML='<iframe src="3d/room3d.html" style="border:0;width:100%;height:100%" allow="autoplay"></iframe>';document.body.appendChild(d);document.body.style.overflow='hidden'}
@@ -440,7 +504,7 @@ function homeHTML(){
  <div class="petsw">${S.pets.map((q,i)=>`<button class="chip ${i===S.cur?'on':''}" onclick="selPet(${i})">${face(q)}${esc(q.name)}</button>`).join('')}</div>
  <button class="big" style="background:linear-gradient(90deg,#6ec6e8,#9a86f0);color:#fff;box-shadow:0 3px 0 #6b5fc0" onclick="open3D()">🧊 進入 3D 房間<span style="display:block;font-size:12px;font-weight:normal;opacity:.95">毛孩會自己玩耍・可以移動和購買家具・360° 轉動</span></button>
  <div class="card">
-  <div class="nameRow"><span><b onclick="rename()">${esc(p.name)} ✏️</b><span class="stg">${BR[p.breed].breed}・${stgName(p)}・${ageTxt(p)}</span></span><span class="lv">親密度 Lv.${L} ${'❤️'.repeat(Math.min(L,5))}${L>5?'+':''}</span></div>
+  <div class="nameRow"><span><b>${esc(p.name)}</b><button class="rnm" onclick="rename()" aria-label="幫毛孩改名">✏️ 改名</button><span class="stg">${BR[p.breed].breed}・${stgName(p)}・${ageTxt(p)}</span></span><span class="lv">親密度 Lv.${L} ${'❤️'.repeat(Math.min(L,5))}${L>5?'+':''}</span></div>
   <div style="margin:4px 0 2px">${traitTag(p)}${favTag(p)}</div>
   <div class="bar"><span class="lbl">💞 升級</span><span class="tr"><span class="fi" style="width:${prog}%;background:#d0577a;display:block"></span></span><span class="num">${L>=10?'MAX':prog+'%'}</span></div>
   ${STATS.map(([k,n,c])=>`<div class="bar"><span class="lbl">${n}</span><span class="tr"><span class="fi" style="width:${p[k]}%;background:${p[k]<25?'#e85a5a':c};display:block"></span></span><span class="num">${p[k]}</span></div>`).join('')}
@@ -576,8 +640,9 @@ function equip(id){
  if(i.breed&&i.breed!==p.breed)return toast(`這件是${BR[i.breed].breed}專屬的，${p.name} 穿不下喔`);
  p.acc[i.slot]=id;houseSig='';task('wear');if(i.slot==='body')stat('dress');beep(880,.08);render();toast(`${p.name} 穿上了${i.name} ${i.e}`);
 }
-function rename(){const p=pet();modal(`<h3>✏️ 幫毛孩取名字</h3><input id="nm" maxlength="6" value="${esc(p.name)}"><div class="mbtns"><button class="btn gray" onclick="closeModal()">取消</button><button class="btn" onclick="doRename()">確定</button></div>`);setTimeout(()=>{const e=document.getElementById('nm');if(e)e.focus()},50)}
-function doRename(){const v=document.getElementById('nm').value.trim();if(v)pet().name=v;closeModal();render()}
+function rename(i,isNew){if(i==null)i=S.cur;const p=S.pets[i];if(!p)return;modal(`<h3>✏️ ${isNew?'幫新來的'+esc(BR[p.breed].breed)+'取名字':'幫 '+esc(p.name)+' 改名字'}</h3><p style="margin:2px 0 8px">最多 6 個字，之後隨時可以在名字旁的「改名」再改。</p><input id="nm" maxlength="6" value="${esc(p.name)}" aria-label="毛孩名字"><div class="mbtns"><button class="btn gray" onclick="${isNew?`nextName()`:`closeModal()`}">${isNew?'用這個名字':'取消'}</button><button class="btn" onclick="doRename(${i},${isNew?1:0})">確定</button></div>`);setTimeout(()=>{const e=document.getElementById('nm');if(e){e.focus();e.select()}},50)}
+function doRename(i,isNew){if(i==null)i=S.cur;const v=document.getElementById('nm').value.trim().slice(0,6);const p=S.pets[i];if(v&&p&&v!==p.name){diary(`✏️ ${p.name} 改名叫「${v}」`);p.name=v;toast(`✏️ 以後叫牠「${v}」囉`)}save();if(isNew)return nextName();closeModal();render()}
+function nextName(){const q=window.NAMEQ||[];if(q.length){const i=q.shift();rename(i,1)}else{closeModal();render();if(window.PENDLOGIN){window.PENDLOGIN=0;setTimeout(loginBonus,900)}}}
 
 /* ---------- shop ---------- */
 function addCart(id){S.cart[id]=(S.cart[id]||0)+1;beep(760,.06);render();toast(`${IT[id].e} 已加入購物車`)}
@@ -1256,13 +1321,13 @@ const today8=()=>todayStr();
 }catch(e){FR.err='登入 Claude 後才能和朋友互動'}})();
 const num8=(v,max=1e7)=>{v=Number(v);return isFinite(v)?Math.max(0,Math.min(max,Math.floor(v))):0};
 const str8=(v,n=16)=>String(v==null?'':v).slice(0,n);
-function cleanP(d){d=d||{};return{nick:str8(d.nick,12)||'神秘飼主',day:num8(d.day),best:num8(d.best,9999),champ:num8(d.champ,9999),cards:num8(d.cards,999),aff:num8(d.aff),skin:SK[d.skin]?d.skin:'',
+function cleanP(d){d=d||{};return{nick:str8(d.nick,12)||'神秘飼主',av:okAv(d.av)?d.av:'',day:num8(d.day),best:num8(d.best,9999),champ:num8(d.champ,9999),cards:num8(d.cards,999),aff:num8(d.aff),skin:SK[d.skin]?d.skin:'',
  pets:Array.isArray(d.pets)?d.pets.slice(0,8).filter(p=>p&&BR[p.b]&&['b','a','o'].includes(p.s)).map(p=>({b:p.b,s:p.s,n:str8(p.n,10),lv:num8(p.lv,99),tr:num8(p.tr,9),cl:!!p.cl})):[],
  liked:d.liked&&typeof d.liked==='object'?d.liked:{},lastLike:d.lastLike&&typeof d.lastLike==='object'?d.lastLike:{},
  gifts:Array.isArray(d.gifts)?d.gifts.slice(-40).filter(g=>g&&typeof g.id==='string'&&typeof g.to==='string'&&IT[g.it]).map(g=>({id:str8(g.id,40),to:str8(g.to,200),it:g.it,d:str8(g.d,12)})):[]}}
 function myNick(){return S.nick||(S.pets[0]?S.pets[0].name+'的家':'新手飼主')}
 function meDoc(){const mine=FR.list.find(x=>x.id===FR.uid)||{};S.fr=S.fr||{liked:{},lastLike:{},gifts:[]};
- return{nick:myNick(),day:S.day,best:S.bestScore||0,champ:st('champ'),cards:cardsN(),aff:S.pets.reduce((a,p)=>a+p.aff,0),skin:(S.skin&&S.skin[0])||'',
+ return{nick:myNick(),av:S.avatar||'',day:S.day,best:S.bestScore||0,champ:st('champ'),cards:cardsN(),aff:S.pets.reduce((a,p)=>a+p.aff,0),skin:(S.skin&&S.skin[0])||'',
   pets:S.pets.slice(0,8).map(p=>({b:p.breed,s:stage(p),n:p.name,lv:lvl(p),tr:(p.tricks||[]).length,cl:!!(p.acc&&p.acc.body)})),liked:S.fr.liked,lastLike:S.fr.lastLike,gifts:S.fr.gifts.slice(-40)}}
 async function pushMe(force){if(FR.writing){FR.again=1;return}if(!FR.on||FR.ro||!S||!S.pets.length)return;const d=meDoc();const j=JSON.stringify(d);if(j===FR.lastJSON&&!force)return;FR.writing=true;
  try{await FR.db.doc('players/'+FR.uid).set(d);FR.lastJSON=j}catch(e){if(e&&e.code==='invalid_argument'){FR.ro=true;if(tab==='fr')render()}}FR.writing=false;if(FR.again){FR.again=0;pushMe()}}
@@ -1271,8 +1336,8 @@ function likesIn(id){return FR.list.reduce((a,p)=>a+(p.id!==id?num8(p.liked[id],
 function updNav8(){const n=FR.on?incoming().length:0;const b=document.querySelector('#nav button[onclick="go(\'fr\')"] i');const btn=document.querySelector('#nav button[onclick="go(\'fr\')"]');if(!btn)return;if(n&&!b)btn.insertAdjacentHTML('beforeend',`<i class="badge">${n}</i>`);else if(b){if(n)b.textContent=n;else b.remove()}}
 function claimGifts(){const g=incoming();if(!g.length)return;g.forEach(x=>{S.gotGifts[x.id]=1;S.inv[x.it]=(S.inv[x.it]||0)+1;diary(`📬 收到 ${x.from.nick} 送的 ${IT[x.it].e}${IT[x.it].name}`)});stat('giftin',g.length);
  [784,988,1175].forEach((f,i)=>setTimeout(()=>beep(f,.1,'triangle',.05),i*110));render();modal(`<h3>📬 收到朋友的禮物！</h3>${g.map(x=>`<p>${IT[x.it].e} <b>${IT[x.it].name}</b>　from ${esc(x.from.nick)}</p>`).join('')}<p style="font-size:12px;color:#a08670">已經放進背包了</p><div class="mbtns"><button class="btn" onclick="closeModal()">謝謝！</button></div>`)}
-function setNick(){const n=prompt('你的飼主暱稱（最多 12 字）',myNick());if(n===null)return;S.nick=n.trim().slice(0,12)||'';save();pushMe(true);render()}
-function frRow(p,i,val){const me=p.id===FR.uid;return `<div class="row" style="box-shadow:none;margin:5px 0 0;background:${me?'#fff4e0':'#f8f4f0'};cursor:pointer" onclick="${me?'':`visitFr('${p.id}')`}"><span class="re" style="font-size:18px;width:34px">${i<3?['🥇','🥈','🥉'][i]:i+1}</span><span class="rt">${esc(p.nick)}${me?'（我）':''}<small>${val}・第 ${p.day} 天・${p.pets.length} 隻毛孩</small></span>${me?'':'<span style="color:#ee5a3c;font-weight:800">拜訪 ›</span>'}</div>`}
+function setNick(){openMe()}
+function frRow(p,i,val){const me=p.id===FR.uid;return `<div class="row" style="box-shadow:none;margin:5px 0 0;background:${me?'#fff4e0':'#f8f4f0'};cursor:pointer" onclick="${me?'':`visitFr('${p.id}')`}"><span class="re" style="font-size:18px;width:34px">${i<3?['🥇','🥈','🥉'][i]:i+1}</span>${avImg(p.av,36)}<span class="rt">${esc(p.nick)}${me?'（我）':''}<small>${val}・第 ${p.day} 天・${p.pets.length} 隻毛孩</small></span>${me?'':'<span style="color:#ee5a3c;font-weight:800">拜訪 ›</span>'}</div>`}
 const RANKS={best:['🏅 選美最高分',p=>p.best,v=>v+' 分'],cards:['💌 明信片',p=>p.cards,v=>v+' 張'],aff:['💞 總親密度',p=>p.aff,v=>v+''],like:['❤️ 收到愛心',p=>likesIn(p.id),v=>v+' 顆']};
 function frHTML(){const B=`<div class="banner" style="background:linear-gradient(120deg,#ff8a5c,#ff5c8a);box-shadow:0 3px 0 #d0476a"><h2>👫 朋友廣場</h2><p>和朋友比排行、互相拜訪、送禮物</p></div>`;
  if(!FR.on||FR.err)return B+`<div class="card"><p>${FR.err||'連線中…'}</p><p style="font-size:12.5px;color:#a08670">朋友功能需要用 Claude 帳號登入，並由遊戲主人邀請你加入。</p></div>`;
@@ -1280,14 +1345,14 @@ function frHTML(){const B=`<div class="banner" style="background:linear-gradient
  const inc=incoming();const R=RANKS[FR.rank];const sorted=[...FR.list].filter(p=>p.pets.length).sort((a,b)=>R[1](b)-R[1](a));
  return B+`${FR.ro?`<div class="card" style="background:#fff4e0"><p style="margin:0;font-size:13px">👀 你目前是「只能看」的權限，可以看排行榜和拜訪朋友，但不能上榜、按讚或送禮。請遊戲主人把你的權限改成可以編輯。</p></div>`:''}
  ${inc.length?`<button class="big gold" onclick="claimGifts()">📬 有 ${inc.length} 個朋友送的禮物，點我收下</button>`:''}
- <div class="card"><div class="nameRow"><b onclick="setNick()">🙋 ${esc(myNick())} ✏️</b><span class="lv">❤️ 收到 ${likesIn(FR.uid)}</span></div><p style="font-size:12px;color:#a08670;margin:4px 0 0">點名字可以改暱稱。你的家每 20 秒會自動同步給朋友看。</p></div>
+ <div class="card"><div class="nameRow"><span style="display:flex;align-items:center;gap:8px">${avImg(S.avatar,44)}<b>${esc(myNick())}</b><button class="rnm" onclick="openMe()">✏️ 我的檔案</button></span><span class="lv">❤️ 收到 ${likesIn(FR.uid)}</span></div><p style="font-size:12px;color:#a08670;margin:4px 0 0">按「我的檔案」可以換大頭貼和暱稱。你的家每 20 秒會自動同步給朋友看。</p></div>
  <div class="petsw">${Object.entries(RANKS).map(([k,r])=>`<button class="chip ${FR.rank===k?'on':''}" onclick="FR.rank='${k}';render()">${r[0]}</button>`).join('')}</div>
  <div class="card">${sorted.length?sorted.map((p,i)=>frRow(p,i,R[0].split(' ')[1]+' '+R[2](R[1](p)))).join(''):'<p>還沒有人上榜，邀請朋友一起玩吧！</p>'}</div>
  <p class="tip">每天可以到每位朋友家按 1 次讚（自己得 💰10）、送 1 次禮物（從背包挑食物或玩具，沒有就送元氣小餅乾）。</p>`}
 function visitFr(id){const p=FR.list.find(x=>x.id===id);if(!p)return;const bg=ROOMIMG[p.skin]||ROOMIMG.living;S.fr=S.fr||{liked:{},lastLike:{},gifts:[]};
  const liked=S.fr.lastLike[id]===today8(),gifted=S.fr.gifts.some(g=>g.to===id&&g.d===today8());const n=p.pets.length;
  const pets=p.pets.map((q,i)=>`<div style="position:absolute;bottom:${6+(i%2)*9}%;left:${8+i*(80/Math.max(1,n))}%;text-align:center;transform:scaleX(${i%2?-1:1})">${sprDiv(q.b,q.s,q.s==='b'?54:70,q.cl)}<div style="transform:scaleX(${i%2?-1:1});font-size:10px;background:#0008;color:#fff;border-radius:8px;padding:0 5px;white-space:nowrap">${esc(q.n)} Lv.${q.lv}${q.tr?' 🎓'+q.tr:''}</div></div>`).join('');
- modal(`<h3>🏠 ${esc(p.nick)} 的家</h3><div style="position:relative;height:200px;border-radius:14px;overflow:hidden;background:url(${bg}) center bottom/cover">${pets}</div>
+ modal(`<h3 style="display:flex;align-items:center;gap:8px">${avImg(p.av,40)}${esc(p.nick)} 的家</h3><div style="position:relative;height:200px;border-radius:14px;overflow:hidden;background:url(${bg}) center bottom/cover">${pets}</div>
  <p style="font-size:13px;margin:8px 0 0">📅 第 ${p.day} 天・🏅 選美最高 ${p.best} 分・🥇 冠軍 ${p.champ} 次・💌 明信片 ${p.cards} 張・❤️ ${likesIn(id)}</p>
  <div class="mbtns"><button class="btn gray" onclick="closeModal()">回家</button><button class="btn" style="background:#ff5c8a" ${liked||FR.ro?'disabled':''} onclick="likeFr('${id}')">${liked?'今天按過讚':'❤️ 按讚'}</button><button class="btn" style="background:#7c5cff" ${gifted||FR.ro?'disabled':''} onclick="giftPick('${id}')">${gifted?'今天送過了':'🎁 送禮'}</button></div>`)}
 function likeFr(id){if(FR.ro)return;S.fr.lastLike[id]=today8();S.fr.liked[id]=(S.fr.liked[id]||0)+1;S.coins+=10;stat('like');coinSound();save();pushMe(true);visitFr(id);toast('❤️ 按讚成功！拜訪朋友獎勵 💰10')}
@@ -1329,8 +1394,29 @@ function doAdopt(need,ft){
  if(pick.length!==need)return toast(`請選 ${need} 隻毛孩`);
  if(!ft){if(S.coins<ADOPT)return toast(`領養金不夠，還差 💰${ADOPT-S.coins}`);S.coins-=ADOPT}
  pick.forEach(id=>{const b=BR[id];stat('adopt');S.pets.push({id:'p'+(S.petNo++),breed:id,type:b.type,name:b.def,hunger:60,mood:70,clean:70,energy:90,aff:0,acc:{},born:S.day,stg:'b'})});
- S.pets.forEach(initPet);pick.forEach(id=>diary(`🏡 ${BR[id].def}（${BR[id].breed}）來到我們家`));S.cur=S.pets.length-1;const names=pick.map(id=>BR[id].def).join('、');pick=[];closeModal();tab='home';render();coinSound();toast(`🎉 歡迎 ${names} 回家！`);if(window.PENDLOGIN){window.PENDLOGIN=0;setTimeout(loginBonus,900)}
+ S.pets.forEach(initPet);pick.forEach(id=>diary(`🏡 ${BR[id].def}（${BR[id].breed}）來到我們家`));S.cur=S.pets.length-1;const names=pick.map(id=>BR[id].def).join('、');const n0=S.pets.length-pick.length;window.NAMEQ=pick.map((_,j)=>n0+j);pick=[];closeModal();tab='home';render();coinSound();toast(`🎉 歡迎 ${names} 回家！`);setTimeout(nextName,700)
 }
+
+/* ================= 玩家大頭貼 ================= */
+function okAv(v){return typeof v==='string'&&v.length<24000&&/^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(v)}
+function avImg(src,sz){sz=sz||36;return okAv(src)?`<img src="${src}" alt="大頭貼" style="width:${sz}px;height:${sz}px;border-radius:50%;object-fit:cover;border:2.5px solid #3B2A55;flex:none;background:#fff">`:`<span aria-hidden="true" style="width:${sz}px;height:${sz}px;border-radius:50%;border:2.5px solid #3B2A55;background:#FFD84D;display:inline-flex;align-items:center;justify-content:center;font-size:${Math.round(sz*.5)}px;flex:none">🙋</span>`}
+function avBtn(){return `<button class="avb" onclick="openMe()" aria-label="我的檔案和大頭貼">${avImg(S.avatar,34)}</button>`}
+function openMe(){modal(`<h3>🙋 我的檔案</h3><div style="display:flex;flex-direction:column;align-items:center;gap:10px;margin:6px 0 4px">${avImg(S.avatar,110)}
+ <div style="display:flex;gap:8px"><button class="btn" onclick="pickAv()">📷 上傳照片</button>${S.avatar?'<button class="btn gray" onclick="delAv()">移除照片</button>':''}</div>
+ <p style="font-size:12px;margin:0;text-align:center">照片會自動裁成正方形、縮小，朋友在朋友廣場看得到。</p></div>
+ <label for="nk" style="font-size:13px;font-weight:900">飼主暱稱（最多 12 字）</label><input id="nk" maxlength="12" value="${esc(S.nick||'')}" placeholder="${esc(myNick())}">
+ <div class="mbtns"><button class="btn gray" onclick="closeModal()">取消</button><button class="btn" onclick="saveMe()">儲存</button></div>`)}
+function saveMe(){const e=document.getElementById('nk');if(e){S.nick=e.value.trim().slice(0,12)}save();try{pushMe(true)}catch(x){}closeModal();render();toast('✅ 檔案已更新')}
+function delAv(){S.avatar='';save();try{pushMe(true)}catch(x){}render();openMe()}
+function pickAv(){const i=document.createElement('input');i.type='file';i.accept='image/*';i.style.display='none';document.body.appendChild(i);
+ i.onchange=()=>{const f=i.files&&i.files[0];i.remove();if(!f)return;if(!/^image\//.test(f.type))return toast('請選一張照片');
+  const url=URL.createObjectURL(f);const im=new Image();im.onload=()=>{URL.revokeObjectURL(url);const s=Math.min(im.width,im.height);if(!s)return toast('這張照片讀不到');
+   const c=document.createElement('canvas');c.width=c.height=128;const g=c.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,128,128);g.drawImage(im,(im.width-s)/2,(im.height-s)/2,s,s,0,0,128,128);
+   let q=.82,d=c.toDataURL('image/jpeg',q);while(d.length>22000&&q>.4){q-=.12;d=c.toDataURL('image/jpeg',q)}
+   if(!okAv(d))return toast('照片處理失敗，換一張試試');const nk=document.getElementById('nk');const keep=nk?nk.value:null;S.avatar=d;save();try{pushMe(true)}catch(x){}render();openMe();if(keep!==null){const n2=document.getElementById('nk');if(n2)n2.value=keep}toast('📷 大頭貼換好了！')};
+  im.onerror=()=>{URL.revokeObjectURL(url);toast('這個檔案打不開，請換一張照片（建議 JPG 或 PNG）')};im.src=url};
+ i.click()}
+
 load();S.pets.forEach(initPet);if(!S.wx)newWx();weekly();if(!S.pets.length){S.intro=false}if(!S.tasks)newTasks();render();if(!S.intro||!S.pets.length){window.PENDLOGIN=1;intro()}else loginBonus();
 </script>
 <!-- ☁️ 雲端存檔（Firebase） -->
