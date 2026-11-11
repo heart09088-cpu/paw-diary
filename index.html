@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
+<script>
+/* 網頁版：用 Firebase 取代 Claude 專用的 db/user 功能 */
+(function(){if(window.claude)return;let res;window.__fb=new Promise(r=>res=r);window.__fbResolve=res;
+const wrapSnap=s=>({docs:s.docs.map(d=>({id:d.id,exists:d.exists,data:()=>d.data()}))});
+window.claude={use:async k=>{if(k==='sample')return null;const fb=await Promise.race([window.__fb,new Promise(r=>setTimeout(()=>r(null),15000))]);if(!fb)return null;
+ if(k==='user')return{id:async()=>fb.auth.currentUser&&fb.auth.currentUser.uid,can:async()=>true};
+ if(k==='db')return{collection:n=>({onSnapshot:(cb,er)=>fb.db.collection(n).onSnapshot(s=>cb(wrapSnap(s)),er)}),doc:p=>({set:d=>fb.db.doc(p).set(d)})};
+ return null}};
+try{const r=new URLSearchParams(location.search).get('ref');if(r&&/^[A-Za-z0-9]{10,64}$/.test(r))sessionStorage.setItem('pawRef',r)}catch(e){}
+})();
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@500;700;900&display=swap" rel="stylesheet">
 
 <meta charset="utf-8">
@@ -1312,23 +1324,23 @@ ACH.push(
 const FR={db:null,user:null,uid:null,on:false,ro:false,list:[],loaded:false,err:'',lastJSON:'',writing:false,timer:0,rank:'best'};
 const today8=()=>todayStr();
 (async()=>{try{
- const [db,user]=await Promise.all([claude.use('db'),claude.use('user')]);if(!db||!user){FR.err='登入 Claude 後才能和朋友互動';if(tab==='fr')render();return}
- FR.db=db;FR.user=user;FR.uid=await user.id();if(!FR.uid){FR.err='登入 Claude 後才能和朋友互動';if(tab==='fr')render();return}
+ const [db,user]=await Promise.all([claude.use('db'),claude.use('user')]);if(!db||!user){FR.err='連不上朋友資料，請重新整理';if(tab==='fr')render();return}
+ FR.db=db;FR.user=user;FR.uid=await user.id();if(!FR.uid){FR.err='連不上朋友資料，請重新整理';if(tab==='fr')render();return}
  try{const c=user.can&&await user.can('data.write');if(c===false)FR.ro=true}catch(e){}
  FR.on=true;const to=setTimeout(()=>{if(!FR.loaded){FR.err='暫時連不上朋友資料，稍後再看看';if(tab==='fr')render()}},10000);
  db.collection('players').onSnapshot(s=>{clearTimeout(to);FR.loaded=true;FR.err='';FR.list=s.docs.filter(d=>d.exists).map(d=>({id:d.id,...cleanP(d.data())}));if(tab==='fr')render();else updNav8()},e=>{clearTimeout(to);FR.err='朋友資料暫時無法使用';if(tab==='fr')render()});
  setTimeout(pushMe,1500);setInterval(()=>pushMe(),20000);
-}catch(e){FR.err='登入 Claude 後才能和朋友互動'}})();
+}catch(e){FR.err='連不上朋友資料，請重新整理'}})();
 const num8=(v,max=1e7)=>{v=Number(v);return isFinite(v)?Math.max(0,Math.min(max,Math.floor(v))):0};
 const str8=(v,n=16)=>String(v==null?'':v).slice(0,n);
 function cleanP(d){d=d||{};return{nick:str8(d.nick,12)||'神秘飼主',av:okAv(d.av)?d.av:'',day:num8(d.day),best:num8(d.best,9999),champ:num8(d.champ,9999),cards:num8(d.cards,999),aff:num8(d.aff),skin:SK[d.skin]?d.skin:'',
  pets:Array.isArray(d.pets)?d.pets.slice(0,8).filter(p=>p&&BR[p.b]&&['b','a','o'].includes(p.s)).map(p=>({b:p.b,s:p.s,n:str8(p.n,10),lv:num8(p.lv,99),tr:num8(p.tr,9),cl:!!p.cl})):[],
  liked:d.liked&&typeof d.liked==='object'?d.liked:{},lastLike:d.lastLike&&typeof d.lastLike==='object'?d.lastLike:{},
- gifts:Array.isArray(d.gifts)?d.gifts.slice(-40).filter(g=>g&&typeof g.id==='string'&&typeof g.to==='string'&&IT[g.it]).map(g=>({id:str8(g.id,40),to:str8(g.to,200),it:g.it,d:str8(g.d,12)})):[]}}
+ ref:str8(d.ref,64),gifts:Array.isArray(d.gifts)?d.gifts.slice(-40).filter(g=>g&&typeof g.id==='string'&&typeof g.to==='string'&&IT[g.it]).map(g=>({id:str8(g.id,40),to:str8(g.to,200),it:g.it,d:str8(g.d,12)})):[]}}
 function myNick(){return S.nick||(S.pets[0]?S.pets[0].name+'的家':'新手飼主')}
 function meDoc(){const mine=FR.list.find(x=>x.id===FR.uid)||{};S.fr=S.fr||{liked:{},lastLike:{},gifts:[]};
  return{nick:myNick(),av:S.avatar||'',day:S.day,best:S.bestScore||0,champ:st('champ'),cards:cardsN(),aff:S.pets.reduce((a,p)=>a+p.aff,0),skin:(S.skin&&S.skin[0])||'',
-  pets:S.pets.slice(0,8).map(p=>({b:p.breed,s:stage(p),n:p.name,lv:lvl(p),tr:(p.tricks||[]).length,cl:!!(p.acc&&p.acc.body)})),liked:S.fr.liked,lastLike:S.fr.lastLike,gifts:S.fr.gifts.slice(-40)}}
+  pets:S.pets.slice(0,8).map(p=>({b:p.breed,s:stage(p),n:p.name,lv:lvl(p),tr:(p.tricks||[]).length,cl:!!(p.acc&&p.acc.body)})),liked:S.fr.liked,lastLike:S.fr.lastLike,gifts:S.fr.gifts.slice(-40),ref:S.invitedBy||''}}
 async function pushMe(force){if(FR.writing){FR.again=1;return}if(!FR.on||FR.ro||!S||!S.pets.length)return;const d=meDoc();const j=JSON.stringify(d);if(j===FR.lastJSON&&!force)return;FR.writing=true;
  try{await FR.db.doc('players/'+FR.uid).set(d);FR.lastJSON=j}catch(e){if(e&&e.code==='invalid_argument'){FR.ro=true;if(tab==='fr')render()}}FR.writing=false;if(FR.again){FR.again=0;pushMe()}}
 function incoming(){S.gotGifts=S.gotGifts||{};const out=[];FR.list.forEach(p=>{if(p.id===FR.uid)return;p.gifts.forEach(g=>{if(g.to===FR.uid&&!S.gotGifts[g.id])out.push({...g,from:p})})});return out}
@@ -1339,8 +1351,8 @@ function claimGifts(){const g=incoming();if(!g.length)return;g.forEach(x=>{S.got
 function setNick(){openMe()}
 function frRow(p,i,val){const me=p.id===FR.uid;return `<div class="row" style="box-shadow:none;margin:5px 0 0;background:${me?'#fff4e0':'#f8f4f0'};cursor:pointer" onclick="${me?'':`visitFr('${p.id}')`}"><span class="re" style="font-size:18px;width:34px">${i<3?['🥇','🥈','🥉'][i]:i+1}</span>${avImg(p.av,36)}<span class="rt">${esc(p.nick)}${me?'（我）':''}<small>${val}・第 ${p.day} 天・${p.pets.length} 隻毛孩</small></span>${me?'':'<span style="color:#ee5a3c;font-weight:800">拜訪 ›</span>'}</div>`}
 const RANKS={best:['🏅 選美最高分',p=>p.best,v=>v+' 分'],cards:['💌 明信片',p=>p.cards,v=>v+' 張'],aff:['💞 總親密度',p=>p.aff,v=>v+''],like:['❤️ 收到愛心',p=>likesIn(p.id),v=>v+' 顆']};
-function frHTML(){const B=`<div class="banner" style="background:linear-gradient(120deg,#ff8a5c,#ff5c8a);box-shadow:0 3px 0 #d0476a"><h2>👫 朋友廣場</h2><p>和朋友比排行、互相拜訪、送禮物</p></div>`;
- if(!FR.on||FR.err)return B+`<div class="card"><p>${FR.err||'連線中…'}</p><p style="font-size:12.5px;color:#a08670">朋友功能需要用 Claude 帳號登入，並由遊戲主人邀請你加入。</p></div>`;
+function frHTML(){const B=`<div class="banner" style="background:linear-gradient(120deg,#ff8a5c,#ff5c8a);box-shadow:0 3px 0 #d0476a"><h2>👫 朋友廣場</h2><p>和朋友比排行、互相拜訪、送禮物</p></div><button class="big gold" onclick="inviteFr()">📨 邀請朋友一起玩（每邀 1 位得 💰100）</button>`;
+ if(!FR.on||FR.err)return B+`<div class="card"><p>${FR.err||'連線中…'}</p><p style="font-size:12.5px;color:#a08670">朋友資料連線中，請稍候或重新整理頁面。</p></div>`;
  if(!FR.loaded)return B+'<div class="card"><p>正在讀取朋友資料…</p></div>';
  const inc=incoming();const R=RANKS[FR.rank];const sorted=[...FR.list].filter(p=>p.pets.length).sort((a,b)=>R[1](b)-R[1](a));
  return B+`${FR.ro?`<div class="card" style="background:#fff4e0"><p style="margin:0;font-size:13px">👀 你目前是「只能看」的權限，可以看排行榜和拜訪朋友，但不能上榜、按讚或送禮。請遊戲主人把你的權限改成可以編輯。</p></div>`:''}
@@ -1452,7 +1464,7 @@ async function sync(u){
     ready=true;window.cloudSave();setBtn(label());
   }catch(e){setBtn('☁️ 連不上雲端，先存本機')}
 }
-auth.onAuthStateChanged(u=>{if(u)sync(u);else auth.signInAnonymously().catch(()=>setBtn('☁️ 只存在本機'))});
+auth.onAuthStateChanged(u=>{if(u){window.__fbResolve&&window.__fbResolve({auth,db});sync(u)}else auth.signInAnonymously().catch(()=>setBtn('☁️ 只存在本機'))});
 function show(msg,acts){document.getElementById('cloudMsg').innerHTML=msg;const a=document.getElementById('cloudAct');a.innerHTML='';
   acts.forEach(([t,f,c])=>{const b=document.createElement('button');b.textContent=t;b.style.background=c||'#eee';b.onclick=f;a.appendChild(b)});box.style.display='flex'}
 const close=()=>box.style.display='none';
@@ -1463,6 +1475,22 @@ async function google(){close();const p=new firebase.auth.GoogleAuthProvider();c
 btn.onclick=()=>{const u=auth.currentUser;
   if(u&&!u.isAnonymous)show('已用 Google 帳號 <b>'+(u.email||'')+'</b> 同步存檔。<br>換手機或電腦，用同一個帳號登入就能接著玩。',[['登出',()=>{close();auth.signOut();localStorage.removeItem(SKEY);sessionStorage.clear();location.reload()}],['關閉',close,'#ffd2a8']]);
   else show('進度已自動存到雲端。<br>綁定 Google 帳號後，換手機或電腦也能接著玩。',[['用 Google 綁定',google,'#ffd2a8'],['之後再說',close]])};
+})();
+</script>
+<script>
+/* 網頁版：邀請好友 */
+(function(){
+const BASE='https://heart09088-cpu.github.io/paw-diary/';
+window.inviteFr=async function(){const uid=FR&&FR.uid;const url=uid?BASE+'?ref='+uid:BASE;const text='來玩「毛孩零用錢日記」！一起養貓狗、互相拜訪送禮 🐾';
+ try{if(navigator.share){await navigator.share({title:'毛孩零用錢日記',text,url});return}}catch(e){if(e&&e.name==='AbortError')return}
+ try{await navigator.clipboard.writeText(text+' '+url);toast('邀請連結已複製，貼給朋友就可以了！')}catch(e){modal(`<h3>📨 邀請朋友</h3><p>把這個連結傳給朋友：</p><p style="word-break:break-all;font-size:13px;background:#f8f4f0;padding:8px;border-radius:8px">${url}</p><div class="mbtns"><button class="btn" onclick="closeModal()">好</button></div>`)}};
+function tick(){try{if(!S||!FR)return;
+ const r=sessionStorage.getItem('pawRef');
+ if(r&&!S.invitedBy&&S.pets&&S.pets.length&&FR.uid&&r!==FR.uid){S.invitedBy=r;S.coins+=50;save();diary&&diary('📨 透過朋友邀請加入，拿到見面禮 💰50');toast('🎁 朋友邀請見面禮 💰50！');try{pushMe(true)}catch(e){}}
+ if(FR.loaded&&FR.uid){S.refGot=S.refGot||{};const nw=FR.list.filter(p=>p.ref===FR.uid&&p.id!==FR.uid&&!S.refGot[p.id]);
+  if(nw.length){nw.forEach(p=>{S.refGot[p.id]=1;S.coins+=100;try{diary('📨 '+p.nick+' 接受了你的邀請，獲得 💰100')}catch(e){}});save();render();modal(`<h3>🎉 邀請成功！</h3>${nw.map(p=>`<p>${esc(p.nick)} 加入了遊戲</p>`).join('')}<p>每邀請 1 位朋友得 <b>💰100</b>，共 💰${nw.length*100}</p><div class="mbtns"><button class="btn" onclick="closeModal()">太棒了</button></div>`)}}
+}catch(e){}}
+setInterval(tick,4000);
 })();
 </script>
 </body>
