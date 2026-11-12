@@ -1477,17 +1477,27 @@ async function sync(u){
     ready=true;window.cloudSave();setBtn(label());
   }catch(e){setBtn('☁️ 連不上雲端，先存本機')}
 }
+auth.getRedirectResult().catch(e=>{if(e.code==='auth/credential-already-in-use'&&e.credential){sessionStorage.removeItem('cloudLoaded');sessionStorage.setItem('preferCloud','1');auth.signInWithCredential(e.credential)}});
 auth.onAuthStateChanged(u=>{if(u){window.__fbResolve&&window.__fbResolve({auth,db});sync(u)}else auth.signInAnonymously().catch(()=>setBtn('☁️ 只存在本機'))});
 function show(msg,acts){document.getElementById('cloudMsg').innerHTML=msg;const a=document.getElementById('cloudAct');a.innerHTML='';
   acts.forEach(([t,f,c])=>{const b=document.createElement('button');b.textContent=t;b.style.background=c||'#eee';b.onclick=f;a.appendChild(b)});box.style.display='flex'}
 const close=()=>box.style.display='none';
-async function google(){close();const p=new firebase.auth.GoogleAuthProvider();const u=auth.currentUser;
+async function google(){close();if(window.pawInApp&&pawInApp()){pawOpenExternal(true);return}const p=new firebase.auth.GoogleAuthProvider();const u=auth.currentUser;
   try{if(u&&u.isAnonymous){await u.linkWithPopup(p);setBtn(label())}else await auth.signInWithPopup(p)}
   catch(e){if(e.code==='auth/credential-already-in-use'&&e.credential){sessionStorage.removeItem('cloudLoaded');sessionStorage.setItem('preferCloud','1');ready=false;await auth.signInWithCredential(e.credential)}
-    else if(e.code!=='auth/popup-closed-by-user')show('登入失敗：'+e.code,[['關閉',close]])}}
+    else if(e.code==='auth/popup-blocked'||e.code==='auth/operation-not-supported-in-this-environment'){try{const u2=auth.currentUser;if(u2&&u2.isAnonymous)await u2.linkWithRedirect(p);else await auth.signInWithRedirect(p)}catch(x){show('登入失敗：'+x.code,[['關閉',close]])}}
+    else if(e.code!=='auth/popup-closed-by-user')show('登入失敗：'+e.code+'<br>請改用 Chrome 或 Safari 開啟遊戲再試一次。',[['關閉',close]])}}
+function xfer(){show('📦 <b>轉移進度</b><br>換瀏覽器或換手機時用：<br>舊的地方按「產生轉移碼」，新的地方按「輸入轉移碼」。',[['產生轉移碼',mkCode,'#ffd2a8'],['輸入轉移碼',askCode],['關閉',close]])}
+async function mkCode(){try{const A='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let k='';const r=crypto.getRandomValues(new Uint8Array(8));r.forEach(x=>k+=A[x%A.length]);
+  await db.collection('transfers').doc(k).set({data:JSON.stringify(S),savedAt:Date.now(),exp:Date.now()+86400000});
+  show('你的轉移碼（24 小時內有效、只能用一次）：<div style="font-size:26px;letter-spacing:3px;font-weight:bold;margin:10px 0">'+k+'</div>到新的瀏覽器或手機打開遊戲，按左下「☁️」→「轉移進度」→「輸入轉移碼」。',[['複製',()=>{try{navigator.clipboard.writeText(k)}catch(e){}}],['關閉',close,'#ffd2a8']])}catch(e){show('產生失敗：'+(e.code||e.message),[['關閉',close]])}}
+function askCode(){show('輸入轉移碼：<br><input id="xcode" style="font-size:20px;text-align:center;letter-spacing:2px;width:80%;padding:6px;margin:8px 0;text-transform:uppercase" maxlength="8"><br><span style="font-size:12px;color:#a08670">⚠️ 這台裝置目前的進度會被取代</span>',[['確定',useCode,'#ffd2a8'],['取消',close]])}
+async function useCode(){const k=(document.getElementById('xcode').value||'').trim().toUpperCase();if(!/^[A-Z0-9]{8}$/.test(k))return;try{const ref2=db.collection('transfers').doc(k);const d=await ref2.get();
+  if(!d.exists||d.data().exp<Date.now()){show('找不到這個轉移碼，或已過期。',[['關閉',close]]);return}
+  const data=d.data().data;await ref2.delete().catch(()=>{});const o=JSON.parse(data);o.savedAt=Date.now();localStorage.setItem(SKEY,JSON.stringify(o));sessionStorage.setItem('cloudLoaded','1');ready=false;location.reload()}catch(e){show('轉移失敗：'+(e.code||e.message),[['關閉',close]])}}
 btn.onclick=()=>{const u=auth.currentUser;
-  if(u&&!u.isAnonymous)show('已用 Google 帳號 <b>'+(u.email||'')+'</b> 同步存檔。<br>換手機或電腦，用同一個帳號登入就能接著玩。',[['登出',()=>{close();auth.signOut();localStorage.removeItem(SKEY);sessionStorage.clear();location.reload()}],['關閉',close,'#ffd2a8']]);
-  else show('進度已自動存到雲端。<br>綁定 Google 帳號後，換手機或電腦也能接著玩。',[['用 Google 綁定',google,'#ffd2a8'],['之後再說',close]])};
+  if(u&&!u.isAnonymous)show('已用 Google 帳號 <b>'+(u.email||'')+'</b> 同步存檔。<br>換手機或電腦，用同一個帳號登入就能接著玩。',[['📦 轉移進度',xfer],['登出',()=>{close();auth.signOut();localStorage.removeItem(SKEY);sessionStorage.clear();location.reload()}],['關閉',close,'#ffd2a8']]);
+  else show('進度已自動存到雲端。<br>綁定 Google 帳號後，換手機或電腦也能接著玩。',[['用 Google 綁定',google,'#ffd2a8'],['📦 轉移進度',xfer],['之後再說',close]])};
 })();
 </script>
 <script>
@@ -1504,6 +1514,30 @@ function tick(){try{if(!S||!FR)return;
   if(nw.length){nw.forEach(p=>{S.refGot[p.id]=1;S.coins+=100;try{diary('📨 '+p.nick+' 接受了你的邀請，獲得 💰100')}catch(e){}});save();render();modal(`<h3>🎉 邀請成功！</h3>${nw.map(p=>`<p>${esc(p.nick)} 加入了遊戲</p>`).join('')}<p>每邀請 1 位朋友得 <b>💰100</b>，共 💰${nw.length*100}</p><div class="mbtns"><button class="btn" onclick="closeModal()">太棒了</button></div>`)}}
 }catch(e){}}
 setInterval(tick,4000);
+})();
+</script>
+<script>
+/* 網頁版：偵測 LINE / FB / IG 內建瀏覽器，引導改用 Chrome、Safari */
+(function(){
+const ua=navigator.userAgent||'';
+window.pawInApp=()=>/FBAN|FBAV|FB_IAB|FBIOS|Instagram|Line\/|Messenger|MicroMessenger|; wv\)/i.test(ua);
+const isLine=/Line\//i.test(ua),isAndroid=/Android/i.test(ua),isIOS=/iPhone|iPad|iPod/i.test(ua);
+const url=()=>{const u=new URL(location.href);u.searchParams.delete('openExternalBrowser');return u.toString()};
+window.pawOpenExternal=function(fromLogin){
+ if(isLine){const u=new URL(url());u.searchParams.set('openExternalBrowser','1');location.href=u.toString();return}
+ if(isAndroid){location.href='intent://'+url().replace(/^https?:\/\//,'')+'#Intent;scheme=https;package=com.android.chrome;end';return}
+ const msg=(fromLogin?'<b>這個 App 裡的瀏覽器不能登入 Google。</b><br>':'')+(isIOS?'請按右上（或右下）的「⋯」→ 選「在 Safari 中開啟」。':'請按右上的「⋮」→ 選「用瀏覽器開啟」。')+'<br><span style="font-size:12px;color:#a08670">已經在這裡玩的進度，可以用「☁️ → 📦 轉移進度」帶過去。</span>';
+ const box=document.getElementById('cloudBox');document.getElementById('cloudMsg').innerHTML=msg;const a=document.getElementById('cloudAct');a.innerHTML='';
+ const b1=document.createElement('button');b1.textContent='複製網址';b1.style.background='#ffd2a8';b1.onclick=()=>{try{navigator.clipboard.writeText(url());b1.textContent='已複製 ✓'}catch(e){}};
+ const b2=document.createElement('button');b2.textContent='關閉';b2.style.background='#eee';b2.onclick=()=>box.style.display='none';a.append(b1,b2);box.style.display='flex'};
+if(pawInApp()){
+ if(isLine&&!sessionStorage.getItem('pawTriedExt')){sessionStorage.setItem('pawTriedExt','1');pawOpenExternal(false)}
+ const bar=document.createElement('div');bar.style.cssText='position:fixed;top:0;left:0;right:0;z-index:9998;background:#fff3a0;border-bottom:2px solid #e6a800;padding:6px 10px;font:13px sans-serif;display:flex;align-items:center;gap:8px';
+ bar.innerHTML='<span style="flex:1">📱 建議用 Chrome / Safari 開啟，才能綁定 Google、保存進度</span>';
+ const b=document.createElement('button');b.textContent='用瀏覽器開啟';b.style.cssText='border:0;border-radius:14px;padding:5px 10px;background:#ff8a5c;color:#fff;font-size:13px';b.onclick=()=>pawOpenExternal(false);
+ const x=document.createElement('button');x.textContent='✕';x.style.cssText='border:0;background:none;font-size:15px';x.onclick=()=>bar.remove();bar.append(b,x);
+ document.addEventListener('DOMContentLoaded',()=>document.body.appendChild(bar));if(document.body)document.body.appendChild(bar);
+}
 })();
 </script>
 </body>
