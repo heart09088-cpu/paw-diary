@@ -61,9 +61,15 @@ html,body{background:#8ED8FF;font-family:"Chiron GoRound TC","PingFang TC","Noto
 #wm .wl button{border:3px solid var(--ink);border-radius:16px;background:var(--pk2);padding:8px 6px;font-family:inherit;font-weight:800;font-size:13px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}#wm .wl button b{font-size:22px}
 #wm .bt{display:flex;justify-content:flex-end;margin-top:10px}#wm .bt button{border:3px solid var(--ink);border-radius:14px;background:#eee;padding:6px 14px;font-family:inherit;font-weight:800}
 @media(max-width:420px){#bar{gap:4px}#bar button{padding:6px 7px;font-size:12px;border-radius:15px}}
+
+/* 手機窄螢幕：上排按鈕縮小，家具店一定點得到 */
+@media(max-width:480px){#top{gap:5px;left:6px;right:6px}#top .pill{font-size:13px}#top .sbtn{padding:5px 9px!important}#top .lb{display:none}#top #ttl{display:none}#shopBtn{flex:0 0 auto}}
+@media(max-width:340px){#top .pill{font-size:12px}#top .sbtn{padding:4px 7px!important}}
+
+#shop .stabs{display:flex;gap:6px;margin:0 0 8px}#shop .stabs button{flex:1;border:3px solid var(--ink,#3b2a55);border-radius:14px;background:#fff;padding:6px 2px;font-weight:900;font-size:13px;font-family:inherit;color:var(--ink,#3b2a55)}#shop .stabs button.on{background:var(--yel,#ffd84d)}
 </style></head><body>
 <canvas id="c"></canvas>
-<div id="top"><button class="pill sbtn" id="backBtn" onclick="parent.G3D&&parent.G3D.close()" style="padding:5px 10px;display:none">← 回家</button><span class="pill" id="ttl">🏠 3D 樣品</span><span class="pill" id="coin">💰 0</span><span style="flex:1"></span><button class="pill sbtn" id="rnBtn" onclick="openRename()" style="padding:5px 10px">✏️ 改名</button><button class="pill sbtn" id="edBtn" onclick="toggleEdit()" style="padding:5px 10px">🛋️ 佈置</button><button class="pill sbtn" onclick="openShop()" style="padding:5px 10px">🛒 家具店</button></div>
+<div id="top"><button class="pill sbtn" id="backBtn" onclick="parent.G3D&&parent.G3D.close()" style="padding:5px 10px;display:none">← 回家</button><span class="pill" id="ttl">🏠 3D 樣品</span><span class="pill" id="coin">💰 0</span><span style="flex:1"></span><button class="pill sbtn" id="rnBtn" onclick="openRename()" style="padding:5px 10px" aria-label="改名">✏️<span class="lb"> 改名</span></button><button class="pill sbtn" id="edBtn" onclick="toggleEdit()" style="padding:5px 10px" aria-label="佈置">🛋️<span class="lb"> 佈置</span></button><button class="pill sbtn" id="shopBtn" onclick="openShop()" style="padding:5px 10px">🛒 家具店</button></div>
 <div id="edbar"><span class="pill" id="edtip" style="font-size:12px">點家具拖曳移動</span><button onclick="rotSel()">↻ 轉向</button><button onclick="storeSel()">📦 收起</button><button onclick="toggleEdit()">✔ 完成</button></div>
 <div id="shop"></div>
 <div id="tip"></div>
@@ -181,11 +187,11 @@ const wp=o=>o.getWorldPosition(new THREE.Vector3());
 
 const ray=new THREE.Raycaster(),mp=new THREE.Vector2();let down=null;
 /* ---------- 家具店 / 佈置 ---------- */
-const CAT=[['cactus','🌵','仙人掌',20],['side_table','🪵','木邊桌',30],['ottoman','🟫','皮革腳凳',50],['plant_mid','🪴','盆栽',60],['shelf','📚','木書架',70],['tv','📺','復古電視',80],['coffee_table','🪨','石紋茶几',90],['rocking','🪑','搖椅',110],['plant_big','🌿','大盆栽',120],['armchair','🛋️','皮沙發椅',150],['drawer','🗄️','抽屜櫃',180],['tv_cabinet','🧱','長木櫃',240],['day_bed','🛏️','古董臥榻',300],['doghouse','🏠','狗屋',200],['cattree','🐈','貓跳檯',260],['wand_feather','🪶','羽毛逗貓棒',40],['wand_mouse','🐭','小老鼠逗貓棒',45],['wand_bell','🔔','鈴鐺逗貓棒',50],['wand_fish','🐟','小魚逗貓棒',55],['wand_ribbon','🎀','彩虹緞帶逗貓棒',60]];
+const CAT=[['cactus','🌵','仙人掌',20],['side_table','🪵','木邊桌',30],['ottoman','🟫','皮革腳凳',50],['plant_mid','🪴','盆栽',60],['shelf','📚','木書架',70],['tv','📺','復古電視',80],['coffee_table','🪨','石紋茶几',90],['rocking','🪑','搖椅',110],['plant_big','🌿','大盆栽',120],['armchair','🛋️','皮沙發椅',150],['drawer','🗄️','抽屜櫃',180],['tv_cabinet','🧱','長木櫃',240],['day_bed','🛏️','古董臥榻',300],['doghouse','🏠','狗屋',200],['cattree','🐈','貓跳檯',260],['wand_feather','🪶','羽毛逗貓棒',40],['wand_mouse','🐭','小老鼠逗貓棒',45],['wand_bell','🔔','鈴鐺逗貓棒',50],['wand_fish','🐟','小魚逗貓棒',55],['wand_ribbon','🎀','彩虹緞帶逗貓棒',60],['cathouse_box','📦','紙箱貓屋',60],['cathouse_dome','🛖','毛氈圓頂貓窩',120],['cathouse_tent','⛺','帳篷貓屋',150],['cathouse_wood','🏡','木頭貓小屋',180],['cathouse_castle','🏰','城堡貓塔',260],['litter_tray','🟦','開放式貓砂盆',50],['litter_round','⭕','圓形貓砂盆',60],['litter_toptub','🪣','上入式貓砂桶',90],['litter_hood','🚪','頂罩貓砂屋',120],['litter_auto','🤖','自動貓砂機',300],['ctoy_mouse','🐭','老鼠玩具',15],['ctoy_yarn','🧶','毛線球',15],['ctoy_scratch','🐾','貓抓板',40],['ctoy_track','🎡','轉盤滾球',60],['ctoy_tunnel','🌀','貓隧道',80],['dtoy_bone','🦴','潔牙骨',20],['dtoy_rope','🪢','拔河繩',25],['dtoy_frisbee','🥏','飛盤',30],['dtoy_duck','🐤','啾啾鴨',30],['dtoy_tire','🛞','咬咬圈',35]];
 const NAME=Object.fromEntries(CAT.map(c=>[c[0],c[2]]));Object.entries(ORIG).forEach(([k,v])=>NAME[k]=v[1]);NAME.bowl='食盆';NAME.petbed='寵物床';
 const fcache={};
-async function spawn(type,x,z,r,placed=true){const g0=await(fcache[type]||(fcache[type]=load('f_'+type+'.json','f_'+type)));const g=g0.scene.clone(true);const wrap=new THREE.Group();wrap.add(g);wrap.position.set(x,0,z);wrap.rotation.y=r||0;const it=mkItem(type,wrap,placed);if(type.startsWith('wand_')){g.traverse(o=>{if(!it.swing&&/swing/i.test(o.name))it.swing=o});it.sw=Math.random()*6}return it}
-function recomputeBlock(){blockers.length=0;items.forEach(it=>{if(!it.placed||it.type==='bowl'||it.type==='petbed'||it.type.startsWith('wand_'))return;it.g.updateMatrixWorld(true);const b=new THREE.Box3().setFromObject(it.g);if(b.max.y>0.15)blockers.push(b)})}
+async function spawn(type,x,z,r,placed=true){const g0=await(fcache[type]||(fcache[type]=load('f_'+type+'.json','f_'+type)));const g=g0.scene.clone(true);const wrap=new THREE.Group();wrap.add(g);wrap.position.set(x,0,z);wrap.rotation.y=r||0;const it=mkItem(type,wrap,placed);if(type.startsWith('wand_')){g.traverse(o=>{if(!it.swing&&/swing/i.test(o.name))it.swing=o});it.sw=Math.random()*6}if(type==='ctoy_track'){g.traverse(o=>{if(!it.spinN&&/spin/i.test(o.name))it.spinN=o})}return it}
+function recomputeBlock(){blockers.length=0;items.forEach(it=>{if(!it.placed||it.type==='bowl'||it.type==='petbed'||it.type.startsWith('wand_')||MOVTOY(it.type))return;it.g.updateMatrixWorld(true);const b=new THREE.Box3().setFromObject(it.g);if(b.max.y>0.15)blockers.push(b)})}
 const SAVE='pet3d_room_v1';
 function save(){const o={coins,items:items.map(it=>({t:it.type,x:+it.g.position.x.toFixed(2),z:+it.g.position.z.toFixed(2),r:+it.g.rotation.y.toFixed(3),p:it.placed}))};if(G)return G.setRoom(o);try{localStorage.setItem(SAVE,JSON.stringify({coins,items:items.map(it=>({t:it.type,x:+it.g.position.x.toFixed(2),z:+it.g.position.z.toFixed(2),r:+it.g.rotation.y.toFixed(3),p:it.placed}))}))}catch(e){}}
 async function restore(){let st=null;if(G)st=G.getRoom();else try{st=JSON.parse(localStorage.getItem(SAVE)||'null')}catch(e){}
@@ -203,8 +209,9 @@ window.toggleEdit=()=>{EDIT=!EDIT;closeShop();document.getElementById('edbar').s
 window.rotSel=()=>{if(!selIt)return say('先點一件家具');selIt.g.rotation.y+=Math.PI/4;showSel()};
 window.storeSel=()=>{if(!selIt)return say('先點一件家具');if(selIt.type==='bowl'||selIt.type==='petbed')return say('食盆和寵物床要留在房間喔');selIt.placed=false;selIt.g.visible=false;say('📦 '+NAME[selIt.type]+' 收進倉庫（家具店裡可以再擺出來）');selIt=null;showSel();recomputeBlock();save()};
 const shopEl=document.getElementById('shop');
-window.openShop=()=>{if(shopEl.style.display==='block')return closeShop();const store=items.filter(i=>!i.placed);
- shopEl.innerHTML='<h3><span style="flex:1">🛒 家具店　💰 '+coins+'</span><button class="sbtn" onclick="closeShop()">✕</button></h3><div class="grid">'+CAT.map(([k,e,n,p])=>'<div class="it"><b>'+e+'</b>'+n+'<br>💰'+p+'<br><button '+(coins<p?'disabled':'')+' onclick="buy(\''+k+'\')">購買</button></div>').join('')+'</div>'+
+window.shopTab='furn';window.openShop=()=>{if(shopEl.style.display==='block')return closeShop();const store=items.filter(i=>!i.placed);
+ const SC=k=>/^(cathouse_|litter_|ctoy_|wand_)/.test(k)||k==='cattree'?'cat':/^(dtoy_)/.test(k)||k==='doghouse'?'dog':'furn';
+ shopEl.innerHTML='<h3><span style="flex:1">🛒 家具店　💰 '+coins+'</span><button class="sbtn" onclick="closeShop()">✕</button></h3><div class="stabs">'+[['furn','🛋️ 家具'],['cat','🐱 貓咪用品'],['dog','🐶 狗狗用品']].map(([t,n])=>'<button class="'+(shopTab===t?'on':'')+'" onclick="shopTab=\''+t+'\';document.getElementById(\'shop\').style.display=\'none\';openShop()">'+n+'</button>').join('')+'</div><div class="grid">'+CAT.filter(c=>SC(c[0])===shopTab).map(([k,e,n,p])=>'<div class="it"><b>'+e+'</b>'+n+'<br>💰'+p+'<br><button '+(coins<p?'disabled':'')+' onclick="buy(\''+k+'\')">購買</button></div>').join('')+'</div>'+
  (store.length?'<h3>📦 倉庫</h3><div class="grid">'+store.map(it=>'<div class="it"><b>📦</b>'+(NAME[it.type]||it.type)+'<br><button onclick="putOut('+it.id+')">擺出來</button></div>').join('')+'</div>':'')+'<div style="font-size:11px;color:#a08a78;text-align:center">家具模型：Poly Haven（CC0）｜摸摸、餵食、丟球可以賺拼幣</div>';shopEl.style.display='block'};
 window.closeShop=()=>{shopEl.style.display='none'};
 function freeSpot(){for(let i=0;i<80;i++){const x=THREE.MathUtils.randFloat(-2.2,2.2),z=THREE.MathUtils.randFloat(-1.2,2.2);if(free(x,z,.6))return [x,z]}return [0,1]}
@@ -283,14 +290,14 @@ Promise.all([roomReady.then(restore),...START.map(k=>toggle(k))]).then(()=>{docu
 const rot=(b,x,y,z)=>{if(!b)return;const r=b.userData.r0;b.rotation.set(r.x+x,r.y+y,r.z+z)};
 const QX=new THREE.Quaternion(),AXX=new THREE.Vector3(1,0,0),AXY=new THREE.Vector3(0,1,0);
 function clipAnim(p,dt){// 新骨架：播 Blender 做好的 待機/走路/坐下/睡覺 動畫
- const want=(p.state==='sleep'||(p.state==='house'&&p.energy<60))?'sleep':(p.state==='sit'||p.state==='perch'||p.state==='house')?'sit':(p.speed>0.06?'walk':'idle');
+ const want=(p.state==='sleep'||(p.state==='house'&&p.energy<60))?'sleep':(p.state==='sit'||p.state==='perch'||p.state==='house'||p.state==='potty')?'sit':(p.speed>0.06?'walk':'idle');
  if(want!==p.cur&&p.acts[want]){const a=p.acts[want],b=p.acts[p.cur];a.reset();a.setEffectiveWeight(1);a.play();if(b)a.crossFadeFrom(b,want==='walk'||p.cur==='walk'?.25:.45,false);p.cur=want}
  if(p.acts.walk)p.acts.walk.timeScale=THREE.MathUtils.clamp(p.speed/p.d.spd,.5,2.4)*1.1;
- if(p.acts.idle)p.acts.idle.timeScale=(p.state==='happy'||p.state==='play'||p.state==='wait'||p.state==='wand'||p.state==='hwand'||p.state==='withYou')?1.8:1;
+ if(p.acts.idle)p.acts.idle.timeScale=(p.state==='happy'||p.state==='play'||p.state==='wait'||p.state==='wand'||p.state==='hwand'||p.state==='withYou'||p.state==='bat'||p.state==='bury')?1.8:1;
  p.mix.update(dt);
- const hd=p.B.head;if(hd){if(p.state==='eat'){QX.setFromAxisAngle(AXX,.5+Math.sin(p.t*9)*.08);hd.quaternion.multiply(QX)}
+ const hd=p.B.head;if(hd){if(p.state==='eat'||p.state==='chew'){QX.setFromAxisAngle(AXX,.5+Math.sin(p.t*9)*.08);hd.quaternion.multiply(QX)}
   else if(p.state==='idle'&&p.cur==='idle'){}}
- const hop=p.hop>0?Math.sin((1-p.hop)*Math.PI)*0.22*p.d.len/.5:0;p.m.position.y=p.y0+hop;p.m.rotation.x=0}
+ const hop=p.hop>0?Math.sin((1-p.hop)*Math.PI)*0.22*p.d.len/.5:0;const sc=p.state==='scratch'?.42+Math.sin(p.t*14)*.05:0;p.m.position.y=p.y0+hop+Math.sin(sc)*p.d.len*.45;p.m.rotation.x=-sc}
 function animBones(p,dt){const B=p.B,map=p.d.bones||{},g=n=>B[map[n]];const w=p.phase;const amp=Math.min(1,p.speed/p.d.spd)*0.55;
  const lying=p.state==='sleep';
  const sw=Math.sin(w),sw2=Math.sin(w+Math.PI);
@@ -360,7 +367,7 @@ const jerky=new THREE.Group();{const m1=new THREE.MeshStandardMaterial({color:'#
  const b=new THREE.Mesh(new THREE.CapsuleGeometry(.013,.1,3,8),m2);b.rotation.z=Math.PI/2;b.position.set(0,.014,.01);jerky.add(b)}
 jerky.visible=false;scene.add(jerky);
 const TOYS={ball:{o:ball,r:.06,st:'idle'},jerky:{o:jerky,r:.026,st:'idle'}};
-const NOFETCH=['sleep','eat','climb','perch','jumpdown','house','fetch','carry','toYou','withYou'];
+const NOFETCH=['sleep','eat','climb','perch','jumpdown','house','fetch','carry','toYou','withYou','potty','bury','tunnel'];
 function playerSpot(){const c=cam.position,t=ctl.target;return new THREE.Vector3(THREE.MathUtils.clamp(c.x+(t.x-c.x)*.62,WALK.x0+.25,WALK.x1-.25),0,THREE.MathUtils.clamp(c.z+(t.z-c.z)*.62,WALK.z0+.25,WALK.z1-.25))}
 function mouth(p){if(!p.mo){const ry=p.holder.rotation.y,py=p.holder.position.y;p.holder.rotation.y=0;p.holder.updateMatrixWorld(true);const bx=new THREE.Box3().setFromObject(p.m);
   p.mo={f:Math.max(.05,bx.max.z-p.holder.position.z)*.86,h:Math.max(.05,bx.max.y-p.holder.position.y)*.55};p.holder.rotation.y=ry;p.holder.updateMatrixWorld(true)}
@@ -438,7 +445,7 @@ function hwUpdate(p,dt){if(HW.on&&p.state!=='hwand'&&Math.random()<dt*.8)joinWan
  p.hwT+=dt;if(p.hwT>5){p.hwT=0;addCoin(1);hearts(p,'🧶');p.mood=Math.min(100,p.mood+4);if(G&&p.d.idx>=0)G.pat(p.d.idx,1)}
  return true}
 
-function update(p,dt){p.t+=dt;if(p.hop>0)p.hop=Math.max(0,p.hop-dt*1.6);
+function update(p,dt){p.t+=dt;if(p.hop>0)p.hop=Math.max(0,p.hop-dt*1.6);catNeeds(p,dt);
  p.hunger=Math.min(100,p.hunger+dt*.4);p.energy=Math.max(0,p.energy-dt*(p.state==='sleep'?-4:.25));
  if(fetchUpdate(p,dt)||hwUpdate(p,dt)||playUpdate(p,dt)){}
  else if(p.state==='sleep'){p.speed=0;if(p.energy>=99){p.state='idle';say(`☀️ ${p.d.name} 睡飽起床了`)}}
@@ -458,11 +465,11 @@ function update(p,dt){p.t+=dt;if(p.hop>0)p.hop=Math.max(0,p.hop-dt*1.6);
    else{p.state='idle';p.wait=1.5+Math.random()*3}}}
  else{p.speed*=0.85;p.wait-=dt;
   if(p.state==='eat'&&p.wait<=0){if(p.snack){p.snack=false;p.hunger=Math.max(0,p.hunger-30);p.state='happy';p.wait=1.2;p.hop=1;hearts(p,'🦴');addCoin(4);if(G&&p.d.idx>=0)G.pat(p.d.idx,1);say(`🦴 ${p.d.name} 吃到肉乾了，好好吃！+4`)}else{p.hunger=0;food.visible=false;p.state='happy';p.wait=1.2;addCoin(5);say(`😋 ${p.d.name} 吃飽了！+5`)}}
-  else if(p.wait<=0){if(p.state==='happy')p.state='idle';else if(p.state==='sit'){p.state='idle';p.wait=.6+Math.random()}else if(p.mix&&p.state==='idle'&&Math.random()<.25){p.state='sit';p.wait=4+Math.random()*5}else if(trySpot(p)){}else if(Math.random()<.35&&PLAYABLE(p)&&pets.filter(q=>q!==p&&PLAYABLE(q)).length){const o=pets.filter(q=>q!==p&&PLAYABLE(q));startPlay(p,o[Math.floor(Math.random()*o.length)])}else if(p.energy<20&&!(isDog(p)&&goSpot(p,'house'))){p.state='toBed';p.tgt=new THREE.Vector3(bedG.position.x+(Math.random()-.5)*.2,0,bedG.position.z)}else{p.state='walk';p.tgt=randPt(.3)}}}
+  else if(p.wait<=0){if(p.state==='happy')p.state='idle';else if(p.state==='sit'){p.state='idle';p.wait=.6+Math.random()}else if(p.mix&&p.state==='idle'&&Math.random()<.25){p.state='sit';p.wait=4+Math.random()*5}else if(trySpot(p)){}else if(Math.random()<.35&&PLAYABLE(p)&&pets.filter(q=>q!==p&&PLAYABLE(q)).length){const o=pets.filter(q=>q!==p&&PLAYABLE(q));startPlay(p,o[Math.floor(Math.random()*o.length)])}else if(p.energy<20&&!goSpot(p,'house')){p.state='toBed';p.tgt=new THREE.Vector3(bedG.position.x+(Math.random()-.5)*.2,0,bedG.position.z)}else{p.state='walk';p.tgt=randPt(.3)}}}
  if(p.d.kind==='spr'){sprAnim(p,dt)}else{p.holder.rotation.y=p.yaw;
  if(p.mix)clipAnim(p,dt);else{if(Object.keys(p.B).length&&p.d.bones)animBones(p,dt);procAnim(p);}}
  const hp=p.holder.position.clone();hp.y+=p.d.len*0.75;hp.project(cam);p.tag.style.left=((hp.x+1)/2*innerWidth)+'px';p.tag.style.top=((-hp.y+1)/2*innerHeight)+'px';
- p.tag.textContent=p.d.name+(p.state==='play'?' '+PLAYS[p.playKind][0]:p.state==='sleep'||(p.state==='house'&&p.energy<60)?' 💤':p.state==='eat'?' 😋':p.state==='wand'||p.state==='hwand'?' 🧶':p.state==='carry'?' 🎾':p.state==='withYou'?' 🤝':p.state==='perch'?' 👑':p.hunger>80?' 🍖?':'')}
+ p.tag.textContent=p.d.name+(p.state==='play'?' '+PLAYS[p.playKind][0]:p.state==='sleep'||(p.state==='house'&&p.energy<60)?' 💤':p.state==='eat'?' 😋':p.state==='wand'||p.state==='hwand'?' 🧶':p.state==='carry'?' 🎾':p.state==='withYou'?' 🤝':p.state==='perch'?' 👑':p.state==='potty'||p.state==='bury'?' 🚽':p.state==='chew'?' 🦴':p.state==='tunnel'?' 🌀':p.state==='scratch'?' 🐾':p.state==='toyplay'||p.state==='bat'?' 🎈':p.hunger>80?' 🍖?':'')}
 
 function hearts(p,e='💖'){const hp=p.holder.position.clone();hp.y+=p.d.len*0.6;hp.project(cam);for(let i=0;i<5;i++){const h=document.createElement('div');h.className='heart';h.textContent=e;h.style.left=((hp.x+1)/2*innerWidth+(Math.random()-.5)*60)+'px';h.style.top=((-hp.y+1)/2*innerHeight)+'px';h.style.animationDelay=i*.1+'s';document.body.appendChild(h);setTimeout(()=>h.remove(),1600)}}
 let sel=0;
@@ -477,38 +484,84 @@ cv.addEventListener('pointerup',e=>{if(HW.on){HW.drag=false;ctl.enabled=true;ret
  for(const p of pets){if(!p.off&&ray.intersectObject(p.holder,true).length){sel=pets.indexOf(p);act('pet',p);return}}
  const it=pickItem();if(it&&it.type.startsWith('wand_')){it.boost=3;const cats=pets.filter(q=>!q.off&&!isDog(q)&&q.state!=='sleep');if(!cats.length)return say('🧶 房間裡沒有醒著的貓咪');cats.forEach(q=>goSpot(q,'wand',true,it));say('🧶 甩甩'+NAME[it.type]+'！貓咪衝過來了')}});
 window.__dbg={cam,ctl,pets,items,blockers};window.__sp=startPlay;const clk=new THREE.Clock();
-R.setAnimationLoop(()=>{const dt=Math.min(.05,clk.getDelta());pets.forEach(p=>{if(!p.off)update(p,dt)});toyFrame(dt);handFrame(dt);swingWands(dt);ctl.update();cutWalls();if(MODE===0){comp.render(dt);perfCheck(dt)}else R.render(scene,cam)});
+R.setAnimationLoop(()=>{const dt=Math.min(.05,clk.getDelta());pets.forEach(p=>{if(!p.off)update(p,dt)});toyFrame(dt);handFrame(dt);swingWands(dt);goodsUpdate(dt);ctl.update();cutWalls();if(MODE===0){comp.render(dt);perfCheck(dt)}else R.render(scene,cam)});
 let pf={n:0,t:0,lv:0};function perfCheck(dt){if(pf.lv>=2)return;pf.n++;pf.t+=dt;if(pf.n<90)return;const avg=pf.t/pf.n;pf.n=0;pf.t=0;if(avg>1/26){pf.lv++;if(pf.lv===1){gtao.updateGtaoMaterial({samples:6});gtao.updatePdMaterial({samples:6});comp.setPixelRatio(1);comp.setSize(innerWidth,innerHeight)}else{gtao.enabled=false}}}
 
 
+/* ---------- 貓屋・貓砂盆・貓玩具・狗玩具 ---------- */
+const isCH=t=>t.startsWith('cathouse_'),isLit=t=>t.startsWith('litter_'),isCT=t=>t.startsWith('ctoy_'),isDT=t=>t.startsWith('dtoy_');
+const MOVTOY=t=>/^(ctoy_(mouse|yarn)|dtoy_)/.test(t);
+const ROLLTOY=t=>/ctoy_yarn|dtoy_tire/.test(t);
+const CHEWTOY=t=>/dtoy_(bone|rope|duck)/.test(t);
+let pottyWarn=0;
+function toyTarget(p,it){const t=it.type,P=p.holder.position,c=it.g.position;
+ if(t==='ctoy_tunnel'){const a=locOf(it,-0.62,0,0),b=locOf(it,0.62,0,0);return a.distanceTo(P)<b.distanceTo(P)?[a,b]:[b,a]}
+ if(t==='ctoy_scratch'){const a=locOf(it,0,0,0.16+p.d.len*0.42),b=locOf(it,0,0,-(0.16+p.d.len*0.42));return [a.distanceTo(P)<b.distanceTo(P)?a:b]}
+ const d=new THREE.Vector3(P.x-c.x,0,P.z-c.z);if(d.length()<1e-3)d.set(0,0,1);d.normalize().multiplyScalar((t==='ctoy_track'?0.24:0.06)+p.d.len*0.42);return [c.clone().add(d)]}
+function goodsUpdate(dt){for(const it of items){if(!it.placed)continue;
+  if(it.spinN){it.boost=Math.max(0,(it.boost||0)-dt);it.spinN.rotation.y+=dt*(it.boost>0?7:0.25)}
+  if(it.v&&MOVTOY(it.type)){const g=it.g,sp=it.v.length();if(sp<0.02){it.v=null;recomputeBlock();save();continue}
+   g.position.addScaledVector(it.v,dt);it.v.multiplyScalar(Math.pow(.18,dt));
+   if(g.position.x<WALK.x0||g.position.x>WALK.x1)it.v.x*=-1;if(g.position.z<WALK.z0||g.position.z>WALK.z1)it.v.z*=-1;
+   g.position.x=THREE.MathUtils.clamp(g.position.x,WALK.x0,WALK.x1);g.position.z=THREE.MathUtils.clamp(g.position.z,WALK.z0,WALK.z1);
+   if(ROLLTOY(it.type)){g.rotation.y=Math.atan2(it.v.x,it.v.z);it.roll=(it.roll||0)+sp*dt/0.06;g.children[0].rotation.x=it.roll}else g.rotation.y+=sp*dt*6}}}
+function kickToy(p,it){const a=p.yaw+(Math.random()-.5)*1.4;it.v=new THREE.Vector3(Math.sin(a),0,Math.cos(a)).multiplyScalar((isDog(p)?1.1:0.8)+Math.random()*.6);p.hop=1}
+function goodsArrive(p,it,k){const t=it.type;
+ if(k==='litter'){p.state='potty';p.wait=3.5+Math.random()*1.5;p.yaw=it.g.rotation.y+Math.PI;say(`🚽 ${p.d.name} 在${NAME[t]}上廁所…`);return true}
+ if(k!=='toy')return false;
+ if(t==='ctoy_tunnel'){p.state='tunnel';p.jt=0;p.j0=p.holder.position.clone();p.j1=p.tunEnd;p.paused=0;say(`🌀 ${p.d.name} 鑽進貓隧道！`);return true}
+ if(t==='ctoy_scratch'){p.state='scratch';p.wait=3.5+Math.random()*2;const c=it.g.position;p.yaw=Math.atan2(c.x-p.holder.position.x,c.z-p.holder.position.z);say(`🐾 ${p.d.name} 在磨爪子`);return true}
+ if(t==='ctoy_track'){p.state='bat';p.wait=4+Math.random()*2;it.boost=p.wait;const c=it.g.position;p.yaw=Math.atan2(c.x-p.holder.position.x,c.z-p.holder.position.z);say(`🎡 ${p.d.name} 在撥轉盤上的球`);return true}
+ p.state=isDog(p)&&CHEWTOY(t)?'chew':'toyplay';p.wait=p.state==='chew'?3+Math.random()*2:6;p.kicks=0;p.maxK=2+Math.floor(Math.random()*3);
+ const c=it.g.position;p.yaw=Math.atan2(c.x-p.holder.position.x,c.z-p.holder.position.z);
+ say(p.state==='chew'?`🦴 ${p.d.name} 抱著${NAME[t]}咬咬咬`:`${isDog(p)?'🐶':'🐱'} ${p.d.name} 在玩${NAME[t]}`);return true}
+function goodsDone(p,coin,e){p.state='happy';p.wait=1;p.mood=Math.min(100,p.mood+8);hearts(p,e);addCoin(coin);if(G&&p.d.idx>=0)G.pat(p.d.idx,1);p.spot=null}
+function goodsUpdateP(p,dt){const P=p.holder.position,st=p.state,it=p.spot;
+ if(st==='potty'){p.speed=0;p.wait-=dt;if(p.wait<=0){p.state='bury';p.wait=1.4}return true}
+ if(st==='bury'){p.speed=0;p.wait-=dt;if(p.hop<=0&&Math.random()<dt*4)p.hop=.55;if(p.wait<=0){p.potty=0;p.state='walk';p.tgt=it?locOf(it,0,0,0.62):randPt(.3);p.spot=null;hearts(p,'✨');addCoin(2);say(`✨ ${p.d.name} 上完廁所還自己埋好了，好乖！+2`)}return true}
+ if(st==='tunnel'){p.jt=Math.min(1,p.jt+dt*(p.paused>0?0:0.55));if(p.jt>0.45&&p.jt<0.5&&p.paused===0){p.paused=1.2+Math.random()}if(p.paused>0){p.paused-=dt;if(p.paused<=0){p.paused=-1;p.jt=0.5}}
+  P.lerpVectors(p.j0,p.j1,p.jt);P.y=0;p.yaw=Math.atan2(p.j1.x-p.j0.x,p.j1.z-p.j0.z);p.speed=p.paused>0?0:p.d.spd*0.7;p.phase+=dt*p.speed*p.d.stride;
+  if(p.jt>=1){p.hop=1;goodsDone(p,3,'🌀');say(`🌀 ${p.d.name} 從隧道另一頭鑽出來了！+3`)}return true}
+ if(st==='scratch'||st==='bat'){p.speed=0;p.wait-=dt;if(st==='bat'){if(it)it.boost=Math.max(it.boost||0,.5);if(p.hop<=0&&Math.random()<dt*1.6)p.hop=.6}
+  if(p.wait<=0)goodsDone(p,2,st==='bat'?'🎡':'🐾');return true}
+ if(st==='chew'){p.speed=0;p.wait-=dt;if(p.wait<=0){if(it)kickToy(p,it);p.state='toyplay';p.wait=6;p.kicks=1}return true}
+ if(st==='toyplay'){if(!it||!it.placed){p.state='idle';p.spot=null;return true}p.wait-=dt;const c=it.g.position;const d=moveTo(p,c,dt,isDog(p)?1.5:1.6);
+  if(d<p.d.len*0.42+0.08&&(!it.v||it.v.length()<0.25)){if(p.kicks>=p.maxK||p.wait<=0){goodsDone(p,3,isDog(p)?'🐶':'🧶');say(`${isDog(p)?'🐶':'🐱'} ${p.d.name} 玩${NAME[it.type]}玩得好開心！+3`)}else{kickToy(p,it);p.kicks++}}
+  return true}
+ return false}
+function catNeeds(p,dt){if(isDog(p))return;p.potty=(p.potty==null?Math.random()*60:p.potty)+dt*0.28;
+ if(p.potty>100&&PLAYABLE(p)){if(goSpot(p,'litter',false))return;if(p.potty>125){p.potty=70;if(performance.now()-pottyWarn>60000){pottyWarn=performance.now();say(`😿 ${p.d.name} 想上廁所，可是家裡沒有貓砂盆，去家具店買一個吧！`)}}}}
 /* ---------- 狗屋・貓跳檯・逗貓棒 ---------- */
 const isDog=p=>(p.d.key[0]==='p'?(GP[p.d.idx]&&GP[p.d.idx].type==='dog'):p.d.key[0]==='d');
 const placedOf=t=>items.filter(i=>i.placed&&(typeof t==='string'?i.type===t:t(i.type)));
 const busyBy=(it,st)=>pets.some(q=>q.spot===it&&q.state!=='idle'&&q.state!=='walk');
 function locOf(it,x,y,z){const v=new THREE.Vector3(x,y,z);it.g.updateMatrixWorld(true);return v.applyMatrix4(it.g.matrixWorld)}
 function goSpot(p,kind,force,it0){if(p.off||(p.state==='sleep'&&!force)||(p.holder.position.y>0.01&&p.state==='perch'))return false;
- let list=kind==='house'?placedOf('doghouse'):kind==='tree'?placedOf('cattree'):placedOf(t=>t.startsWith('wand_'));if(!list.length)return false;
+ let list=kind==='house'?(isDog(p)?placedOf('doghouse'):placedOf(isCH)):kind==='tree'?placedOf('cattree'):kind==='litter'?placedOf(isLit):kind==='toy'?placedOf(isDog(p)?isDT:isCT):placedOf(t=>t.startsWith('wand_'));if(!list.length)return false;
  let it=it0||list.filter(i=>!busyBy(i)).sort((a,b)=>a.g.position.distanceTo(p.holder.position)-b.g.position.distanceTo(p.holder.position))[0];if(!it)return false;
  let tgt;
  if(kind==='house')tgt=locOf(it,0,0,0.05);
  else if(kind==='tree')tgt=locOf(it,0.18,0,0.42);
+ else if(kind==='litter')tgt=locOf(it,0,0,0.02);
+ else if(kind==='toy'){const tt=toyTarget(p,it);tgt=tt[0];p.tunEnd=tt[1]||null}
  else{const toy=locOf(it,0.32,0,0);const c=new THREE.Vector3(-toy.x,0,-toy.z).normalize().multiplyScalar(0.3+p.d.len*0.35);tgt=toy.clone().add(c);tgt.y=0;p.toy=toy}
  tgt.x=THREE.MathUtils.clamp(tgt.x,WALK.x0,WALK.x1);tgt.z=THREE.MathUtils.clamp(tgt.z,WALK.z0,WALK.z1);
  if(p.friend)endPlay(p);p.state='toSpot';p.spot=it;p.spotKind=kind;p.tgt=tgt;return true}
 function trySpot(p){if(!PLAYABLE(p))return false;const r=Math.random();
- if(isDog(p))return (p.energy<50?r<.5:r<.16)&&goSpot(p,'house');
- if(r<.22&&goSpot(p,'wand'))return true;if(r>.78&&goSpot(p,'tree'))return true;return false}
-function arriveSpot(p){const it=p.spot,k=p.spotKind;
- if(k==='house'){p.state='house';p.wait=8+Math.random()*8;p.yaw=it.g.rotation.y;say(`🏠 ${p.d.name} 鑽進狗屋${p.energy<60?'睡午覺':'休息'}了`)}
+ if(isDog(p)){if((p.energy<50?r<.5:r<.16)&&goSpot(p,'house'))return true;return r>.72&&goSpot(p,'toy')}
+ if(p.energy<50&&r<.4&&goSpot(p,'house'))return true;
+ if(r<.18&&goSpot(p,'wand'))return true;if(r>.82&&goSpot(p,'tree'))return true;if(r>.5&&r<.72&&goSpot(p,'toy'))return true;if(r>.42&&r<.5&&goSpot(p,'house'))return true;return false}
+function arriveSpot(p){const it=p.spot,k=p.spotKind;if(goodsArrive(p,it,k))return;
+ if(k==='house'){p.state='house';p.wait=8+Math.random()*8;p.yaw=it.g.rotation.y;say(`🏠 ${p.d.name} 鑽進${NAME[it.type]||'狗屋'}${p.energy<60?'睡午覺':'休息'}了`)}
  else if(k==='tree'){p.state='climb';p.jt=0;p.j0=p.holder.position.clone();p.j1=locOf(it,0.18,1.14,-0.05);p.yaw=it.g.rotation.y}
  else{p.state='wand';p.wait=5+Math.random()*3;say(`🧶 ${p.d.name} 在玩${NAME[it.type]}`)}}
-function spotUpdate(p,dt){const P=p.holder.position;
+function spotUpdate(p,dt){const P=p.holder.position;if(goodsUpdateP(p,dt))return true;
  if(p.state!=='climb'&&p.state!=='perch'&&p.state!=='jumpdown'&&P.y>0.001){P.y=Math.max(0,P.y-dt*2.5)}
  if(p.state==='climb'||p.state==='jumpdown'){p.jt=Math.min(1,p.jt+dt*1.5);const a=p.state==='climb'?p.j0:p.j1,b=p.state==='climb'?p.j1:p.j0;
   P.lerpVectors(a,b,p.jt);P.y+=Math.sin(p.jt*Math.PI)*0.35;p.speed=0;
   if(p.jt>=1){if(p.state==='climb'){p.state='perch';p.wait=6+Math.random()*6;p.hop=1;say(`👑 ${p.d.name} 跳上貓跳檯了`);addCoin(2)}else{P.y=0;p.state='idle';p.wait=1+Math.random()*2;p.spot=null}}return true}
  if(p.state==='perch'){p.speed=0;p.wait-=dt;if(p.wait<=0){p.state='jumpdown';p.jt=0;p.j1=P.clone()}return true}
- if(p.state==='house'){p.speed=0;p.wait-=dt;if(p.energy<60)p.energy=Math.min(100,p.energy+dt*3);if(p.wait<=0){p.state='walk';p.tgt=locOf(p.spot,0,0,0.75);p.spot=null}return true}
+ if(p.state==='house'){p.speed=0;p.wait-=dt;if(p.energy<60)p.energy=Math.min(100,p.energy+dt*3);if(p.wait<=0){p.state='walk';p.tgt=locOf(p.spot,0,0,isCH(p.spot.type)?0.6:0.75);p.spot=null}return true}
  if(p.state==='wand'){p.speed=0;p.wait-=dt;if(p.toy){const da0=Math.atan2(p.toy.x-P.x,p.toy.z-P.z)-p.yaw;p.yaw+=Math.atan2(Math.sin(da0),Math.cos(da0))*Math.min(1,dt*6)}
   if(Math.random()<dt*1.4)p.hop=1;if(p.wait<=0){p.state='happy';p.wait=1;p.mood=Math.min(100,p.mood+8);hearts(p,'🧶');addCoin(3);if(G&&p.d.idx>=0)G.pat(p.d.idx,1);p.spot=null}return true}
  return false}
