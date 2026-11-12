@@ -281,6 +281,18 @@ nav .badge{background:var(--pink);border:2px solid var(--ink)}
 .rnm{margin:0 6px;background:#fff;color:var(--ink);border:2.5px solid var(--ink);border-radius:12px;padding:2px 8px;font-size:12.5px;font-weight:900;box-shadow:0 2px 0 var(--ink);vertical-align:middle}
 .avb{background:none;padding:0;border-radius:50%;flex:none;display:flex;box-shadow:0 3px 0 var(--ink);border:0}.avb img,.avb span{display:block}
 @media(max-width:420px){.hd .slt{display:none}.hd{gap:4px}}
+
+/* 領養中心：一頁看完，確認鍵固定在下方 */
+.mbox.adm{max-width:440px;max-height:calc(100vh - 40px);max-height:calc(100dvh - 40px);padding:12px 10px 0;display:flex;flex-direction:column;overflow:hidden}
+.mbox.adm .adbody{overflow-y:auto;flex:1 1 auto;min-height:0;-webkit-overflow-scrolling:touch}
+.mbox.adm h3{margin:0 0 2px;font-size:17px}.mbox.adm p{margin:2px 0 4px;line-height:1.45}
+.mbox.adm .sec{margin:6px 0 0}
+.mbox.adm .adopt{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-top:4px}
+.mbox.adm .adopt button{padding:4px 2px 5px;font-size:11.5px;min-width:0;overflow:hidden;border-radius:12px;line-height:1.25}
+.mbox.adm .adopt button small{font-size:10px}
+.mbox.adm .adt{height:54px;width:100%;display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
+.mbox.adm .mbtns{flex:0 0 auto;margin:0 -10px;padding:10px 12px 12px;background:#fff;border-top:2px dashed #e6d8f0}
+@media(max-height:640px){.mbox.adm .adt{height:44px}}
 </style>
 </head>
 <body>
@@ -515,15 +527,15 @@ function homeHTML(){
  return `
  <div class="petsw">${S.pets.map((q,i)=>`<button class="chip ${i===S.cur?'on':''}" onclick="selPet(${i})">${face(q)}${esc(q.name)}</button>`).join('')}</div>
  <button class="big" style="background:linear-gradient(90deg,#6ec6e8,#9a86f0);color:#fff;box-shadow:0 3px 0 #6b5fc0" onclick="open3D()">🧊 進入 3D 房間<span style="display:block;font-size:12px;font-weight:normal;opacity:.95">毛孩會自己玩耍・可以移動和購買家具・360° 轉動</span></button>
+ <div class="actions">${acts}</div>
+ ${(S.petTicket||0)>0?`<button class="big" style="background:linear-gradient(90deg,#ff8ab0,#ffb36b);color:#fff" onclick="usePetTicket()">🐾 打開神秘毛孩領養券（${S.petTicket} 張）</button>`:''}${visitBtn()}${sickCard(p)}
+ ${!S.checked?`<button class="big gold" onclick="checkin()">💰 領今日零用金 +${allowance()}</button>`:''}
  <div class="card">
   <div class="nameRow"><span><b>${esc(p.name)}</b><button class="rnm" onclick="rename()" aria-label="幫毛孩改名">✏️ 改名</button><span class="stg">${BR[p.breed].breed}・${stgName(p)}・${ageTxt(p)}</span></span><span class="lv">親密度 Lv.${L} ${'❤️'.repeat(Math.min(L,5))}${L>5?'+':''}</span></div>
   <div style="margin:4px 0 2px">${traitTag(p)}${favTag(p)}</div>
   <div class="bar"><span class="lbl">💞 升級</span><span class="tr"><span class="fi" style="width:${prog}%;background:#d0577a;display:block"></span></span><span class="num">${L>=10?'MAX':prog+'%'}</span></div>
   ${STATS.map(([k,n,c])=>`<div class="bar"><span class="lbl">${n}</span><span class="tr"><span class="fi" style="width:${p[k]}%;background:${p[k]<25?'#e85a5a':c};display:block"></span></span><span class="num">${p[k]}</span></div>`).join('')}
  </div>
- ${(S.petTicket||0)>0?`<button class="big" style="background:linear-gradient(90deg,#ff8ab0,#ffb36b);color:#fff" onclick="usePetTicket()">🐾 打開神秘毛孩領養券（${S.petTicket} 張）</button>`:''}${visitBtn()}${sickCard(p)}
- ${!S.checked?`<button class="big gold" onclick="checkin()">💰 領今日零用金 +${allowance()}</button>`:''}
- <div class="actions">${acts}</div>
  ${f6Home(p)}
  ${tasksHTML()}
  <p class="tip">${TIPS[(S.day+S.cur)%TIPS.length]}<br>互動賺錢倍率 ×${mult(p).toFixed(1)}　🏠 舒適度 ${comfort()}　🐾 名額 ${S.pets.length}/${cap()}${nextTxt(p)?'<br>🌱 '+esc(p.name)+' '+nextTxt(p):''}</p>`;
@@ -597,7 +609,7 @@ function loginBonus(){const t=todayStr();if(S.lastLogin===t)return false;S.strea
 function toast(t){const box=document.getElementById('toasts');while(box.children.length>=3)box.firstChild.remove();const d=document.createElement('div');d.className='toast';d.textContent=t;box.appendChild(d);setTimeout(()=>d.remove(),2400)}
 function floatText(t,delay=0){setTimeout(()=>{const w=document.querySelector(`.pw[data-id="${pet().id}"] .bw`);if(!w)return;const f=document.createElement('div');f.className='float';f.textContent=t;w.appendChild(f);setTimeout(()=>f.remove(),f.className==='say'?3200:1300)},delay)}
 function jump(){const w=document.querySelector(`.pw[data-id="${pet().id}"]`);if(!w)return;w.classList.remove('jump');void w.offsetWidth;w.classList.add('jump')}
-function modal(h){document.getElementById('mbox').innerHTML=h;document.getElementById('modal').classList.remove('hidden')}
+function modal(h){const mb=document.getElementById('mbox');mb.classList.remove('adm');mb.innerHTML=h;document.getElementById('modal').classList.remove('hidden')}
 function closeModal(){document.getElementById('modal').classList.add('hidden')}
 
 /* ---------- actions ---------- */
@@ -1395,11 +1407,12 @@ function openAdopt(free){
  pick=pick.filter(x=>BR[x]);
  const need=firstTime?2:1;
  const owned=new Set(S.pets.map(p=>p.breed));
- const grp=t=>BREEDS.filter(b=>b.type===t).map(b=>`<button class="${pick.includes(b.id)?'on':''}" ${owned.has(b.id)?'disabled':''} onclick="togglePick('${b.id}',${need},${firstTime})"><span style="height:90px;display:flex;align-items:flex-end">${thumb(b.id,'b',78)}</span>${b.breed}${owned.has(b.id)?'<small>已在家</small>':''}</button>`).join('');
- modal(`<h3>🏡 毛孩領養中心</h3><p style="font-size:13px">${firstTime?'挑 2 隻免費帶回家（貓狗都可以）。牠們會從幼貓、幼犬開始長大':`挑 1 隻，領養金 💰${ADOPT}（你有 💰${S.coins}）`}</p>
+ const grp=t=>BREEDS.filter(b=>b.type===t).map(b=>`<button class="${pick.includes(b.id)?'on':''}" ${owned.has(b.id)?'disabled':''} onclick="togglePick('${b.id}',${need},${firstTime})"><span class="adt">${thumb(b.id,'b',50)}</span>${b.breed}${owned.has(b.id)?'<small>已在家</small>':''}</button>`).join('');
+ modal(`<div class="adbody"><h3>🏡 毛孩領養中心</h3><p style="font-size:13px">${firstTime?'挑 2 隻免費帶回家（貓狗都可以）。牠們會從幼貓、幼犬開始長大':`挑 1 隻，領養金 💰${ADOPT}（你有 💰${S.coins}）`}</p>
  <div class="sec" style="margin-top:4px">🐱 貓咪</div><div class="adopt">${grp('cat')}</div>
- <div class="sec">🐶 狗狗</div><div class="adopt">${grp('dog')}</div>
+ <div class="sec">🐶 狗狗</div><div class="adopt">${grp('dog')}</div></div>
  <div class="mbtns">${firstTime?'':'<button class="btn gray" onclick="pick=[];closeModal()">再想想</button>'}<button class="btn ${pick.length===need?'':'gray'}" onclick="doAdopt(${need},${firstTime})">${pick.length===need?'帶回家 🏠':`已選 ${pick.length}/${need}`}</button></div>`);
+ document.getElementById('mbox').classList.add('adm');
 }
 function togglePick(id,need,ft){if(pick.includes(id))pick=pick.filter(x=>x!==id);else{if(pick.length>=need)pick.shift();pick.push(id)}beep(640,.05);openAdopt(ft)}
 function doAdopt(need,ft){
