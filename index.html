@@ -494,7 +494,7 @@ function focusPet(i){const p=S.pets[i];const e=ENT[p.id];const hs=document.getEl
 
 /* ---------- render ---------- */
 function render(){
- document.getElementById('hd').innerHTML=`${avBtn()}<span class="day">第 ${S.day} 天 <span title="${WX[S.wx||'sun'].n}">${wxIcon()}</span></span><span class="coin">💰 ${S.coins}</span><span class="coin" style="margin-left:0;background:#ffb08a;box-shadow:0 2px 0 #e0784a">🦐 ${S.shrimp||0}</span><button class="sleep" style="background:#fff;color:#4b4a7a;padding:7px 9px;box-shadow:0 2px 0 #e6d6c6" onclick="toggleMusic()">${['🔊','🐾','🔇'][sndMode()]}</button><button class="sleep" onclick="askSleep()" aria-label="睡覺，進入下一天">🌙<span class="slt"> 睡覺</span></button>`;
+ document.getElementById('hd').innerHTML=`${avBtn()}<span class="day">第 ${S.day} 天 <span title="${WX[S.wx||'sun'].n}">${wxIcon()}</span></span><span class="coin">💰 ${S.coins}</span><span class="coin" style="margin-left:0;background:#ffb08a;box-shadow:0 2px 0 #e0784a">🦐 ${S.shrimp||0}</span><button class="sleep" style="background:#fff;color:#4b4a7a;padding:7px 9px;box-shadow:0 2px 0 #e6d6c6" onclick="toggleMusic()">${['🔊','🐾','🔇'][sndMode()]}</button><button class="sleep" onclick="askSleep()" aria-label="讓毛孩睡覺補精力">🌙<span class="slt"> 睡覺</span></button>`;
  const inTransit=S.orders.length;
  document.getElementById('nav').innerHTML=(()=>{window._cl=claimable();return[['home','🏠','我的家'],['shop','🦐','蝦拼百貨'],['col','🏆','收集'],['fr','👫','朋友'],['bag','🎒','背包']]})().map(([k,e,n])=>
   `<button class="${tab===k?'on':''}" onclick="go('${k}')"><span>${e}</span>${n}${k==='shop'&&inTransit?`<i class="badge">${inTransit}</i>`:''}${k==='col'&&window._cl?`<i class="badge">${window._cl}</i>`:''}${k==='fr'&&typeof FR!=='undefined'&&FR.on&&incoming().length?`<i class="badge">${incoming().length}</i>`:''}</button>`).join('');
@@ -512,6 +512,8 @@ function selPet(i){S.cur=i;beep(600,.05);render();if(tab==='home')focusPet(i)}
 window.G3D={pets:()=>S.pets.map(p=>({name:p.name,breed:p.breed,type:p.type})),cur:()=>S.cur,coins:()=>S.coins,
  setCoins:n=>{S.coins=Math.max(0,Math.round(n));save();const c=document.querySelector('#hd .coin');if(c)c.textContent='💰 '+S.coins},
  getRoom:()=>S.room3d||null,setRoom:o=>{S.room3d={items:o.items};save()},
+ earned:()=>{S.today=S.today||{};return S.today.r3d||0},
+ earn:n=>{S.today=S.today||{};const e=S.today.r3d||0,g=Math.max(0,Math.min(n,R3CAP-e));S.today.r3d=e+g;S.coins+=g;save();const c=document.querySelector('#hd .coin');if(c)c.textContent='💰 '+S.coins;return g},
  pat:(i,n)=>{const p=S.pets[i];if(!p)return;S.today=S.today||{};const k='p3d_'+p.id;S.today[k]=(S.today[k]||0)+1;if(S.today[k]<=30)addAff(p,n||1);save()},
  rename:(i,v)=>{const p=S.pets[i];v=String(v||'').trim().slice(0,6);if(!p||!v)return false;if(v!==p.name){diary(`✏️ ${p.name} 改名叫「${v}」`);p.name=v;save()}return true},
  close:()=>close3D()};
@@ -700,30 +702,42 @@ function checkout(){
  if(c.shrimp>(S.shrimp||0))return toast(`拼幣不夠買衣服喔！還差 🦐${c.shrimp-(S.shrimp||0)}。在蝦拼用零用金買東西可回饋拼幣`);
  stat('spend',c.total);S.coins-=c.total;S.shrimp=(S.shrimp||0)-c.shrimp+c.back;if(c.back)setTimeout(()=>toast(`🎁 回饋 ${c.back} 拼幣！`),1200);const items={...S.cart};S.cart={};task('buy');
  if(S.ship==='exp'){for(const k in items)S.inv[k]=(S.inv[k]||0)+items[k];closeModal();render();coinSound();toast('⚡ 閃電到貨！東西已經放進背包了')}
- else{S.orders.push({no:S.orderNo++,items,arrive:S.day+1});closeModal();render();coinSound();toast('✅ 下單成功！睡一覺明天就到貨📦')}
+ else{S.orders.push({no:S.orderNo++,items,arrive:S.day+1});closeModal();render();coinSound();toast('✅ 下單成功！明天就到貨📦')}
 }
 
 /* ---------- day cycle ---------- */
 function askSleep(){
  const left=S.pets.map(p=>{const n=['pet','play','bath',p.type==='dog'?'walk':'brush'].reduce((a,k)=>a+Math.max(0,ACT[k].lim-cnt(p.id,k)),0);return n?`${esc(p.name)} 還有 ${n} 次互動沒做`:''}).filter(Boolean);
- modal(`<h3>🌙 今天辛苦了</h3><p>要讓毛孩們睡覺，進入第 ${S.day+1} 天嗎？</p>${left.length||!S.checked?`<p style="color:#c0703a;font-size:13px">${left.join('<br>')}${!S.checked?'<br>今天的零用金還沒領喔！':''}</p>`:''}${S.pets.some(p=>p.hunger<20)?'<p style="color:#e85a5a;font-size:13px">⚠️ 有毛孩肚子很餓，睡前先餵一下比較好</p>':''}<div class="mbtns"><button class="btn gray" onclick="closeModal()">再玩一下</button><button class="btn" style="background:#4b4a7a" onclick="sleepNow()">晚安 💤</button></div>`);
+ modal(`<h3>🌙 讓毛孩睡一下</h3><p>遊戲時間跟現實同步：現在 ${new Date().toTimeString().slice(0,5)}，再過 <b>${untilMidnight()}</b>（半夜 12 點）就是第 ${S.day+1} 天。</p><p>要讓毛孩先睡個午覺，把精力補滿嗎？</p>${left.length||!S.checked?`<p style="color:#c0703a;font-size:13px">${left.join('<br>')}${!S.checked?'<br>今天的零用金還沒領喔！':''}</p>`:''}${S.pets.some(p=>p.hunger<20)?'<p style="color:#e85a5a;font-size:13px">⚠️ 有毛孩肚子很餓，睡前先餵一下比較好</p>':''}<div class="mbtns"><button class="btn gray" onclick="closeModal()">再玩一下</button><button class="btn" style="background:#4b4a7a" onclick="sleepNow()">睡午覺 💤</button></div>`);
 }
-function sleepNow(){closeModal();const n=document.createElement('div');n.id='night';n.innerHTML='<div>🌙</div>Zzz… 晚安';document.body.appendChild(n);beep(392,.3,'sine',.05);setTimeout(doSleep,900);setTimeout(()=>n.remove(),1650)}
-function doSleep(){
- S.day++;const rep=[];
- S.pets.forEach(p=>{const hungry=p.hunger<20;p.energy=100;p.mood=clamp(p.mood-8-(hungry?12:0)-(p.clean<20?6:0));p.hunger=clamp(p.hunger-(p.trait==='food'?28:22));p.clean=clamp(p.clean-(p.trait==='neat'?6:12));
+function sleepNow(){closeModal();const n=document.createElement('div');n.id='night';n.innerHTML='<div>🌙</div>Zzz… 毛孩睡午覺中';document.body.appendChild(n);beep(392,.3,'sine',.05);
+ setTimeout(()=>{S.pets.forEach(p=>{p.energy=100});S.napAt=Date.now();save();render();toast('😴 毛孩睡飽了，精力全滿！')},900);setTimeout(()=>n.remove(),1650)}
+/* 遊戲天數跟現實同步：過了半夜 12 點就是新的一天 */
+const R3CAP=120;
+function midnightMs(d){const x=new Date(d);x.setHours(0,0,0,0);return x.getTime()}
+function realDay(){if(!S.day0){S.day0=midnightMs(Date.now())-(S.day-1)*86400000}return Math.round((midnightMs(Date.now())-S.day0)/86400000)+1}
+function dayTick(rep,decay){S.day++;
+ if(decay)S.pets.forEach(p=>{const hungry=p.hunger<20;p.energy=100;p.mood=clamp(p.mood-8-(hungry?12:0)-(p.clean<20?6:0));p.hunger=clamp(p.hunger-(p.trait==='food'?28:22));p.clean=clamp(p.clean-(p.trait==='neat'?6:12));
   if(hungry)rep.push(`😿 ${esc(p.name)} 昨晚餓著肚子睡，心情變差了`)});
- anniv(rep);newWx();S.pets.forEach(p=>{if(sickCheck(p))rep.push(`🤒 ${esc(p.name)} 好像生病了，帶牠去看獸醫吧`)});newVisit();if(S.visit)rep.push('🔔 門口好像有人來了，去看看吧！');
+ anniv(rep);
  S.pets.forEach(p=>{const ns=stage(p);if(p.stg!==ns){p.stg=ns;diary(ns==='a'?`🎉 ${p.name} 長大成${STG.a[p.type]}`:`🧓 ${p.name} 成為${STG.o[p.type]}`);rep.push(ns==='a'?`🎉 ${esc(p.name)} 長大了，變成${stgName(p)}！`:`🧓 ${esc(p.name)} 成為${stgName(p)}了，動作慢慢的，更黏人了`)}});
  const arrived=S.orders.filter(o=>o.arrive<=S.day);S.orders=S.orders.filter(o=>o.arrive>S.day);
- arrived.forEach(o=>{for(const k in o.items)S.inv[k]=(S.inv[k]||0)+o.items[k];rep.push(`📦 蝦拼包裹到了！${Object.keys(o.items).map(k=>IT[k].e+IT[k].name).join('、')}`)});
+ arrived.forEach(o=>{for(const k in o.items)S.inv[k]=(S.inv[k]||0)+o.items[k];rep.push(`📦 蝦拼包裹到了！${Object.keys(o.items).map(k=>IT[k].e+IT[k].name).join('、')}`)})}
+function syncDay(show){const rd=realDay();if(rd<=S.day)return false;const n=rd-S.day,rep=[];
+ for(let i=0;i<n;i++)dayTick(rep,i<3);
+ if(n>1)rep.unshift(`🗓️ 你離開了 ${n} 天，毛孩們好想你！`);
+ newWx();S.pets.forEach(p=>{if(sickCheck(p))rep.push(`🤒 ${esc(p.name)} 好像生病了，帶牠去看獸醫吧`)});newVisit();if(S.visit)rep.push('🔔 門口好像有人來了，去看看吧！');
  S.today={};S.gameToday=0;S.checked=false;newSale();newTasks();tripReturn(rep);
- if(Math.random()<.35){const p=S.pets[Math.floor(Math.random()*S.pets.length)],n=5+Math.floor(Math.random()*11),where=['沙發底下','門口腳踏墊下','玩具箱裡','窗簾後面'][Math.floor(Math.random()*4)];S.coins+=n;rep.push(`🍀 ${esc(p.name)} 在${where}找到 💰${n}！`)}
- render();
- modal(`<h3>☀️ 第 ${S.day} 天，早安！</h3>${rep.map(r=>`<p>${r}</p>`).join('')||'<p>毛孩們睡得很好，精力全滿！⚡</p>'}<p>${WX[S.wx].e} 今天${WX[S.wx].n}${S.wx==='rain'?'，狗狗不能出門散步':S.wx==='sun'?'，散步零用金 ×1.5':''}</p><p>⚡ 今日限時特賣：${IT[S.sale.id].e} ${IT[S.sale.id].name} 7 折！</p><div class="mbtns"><button class="btn" onclick="closeModal()">開始新的一天！</button></div>`);
-}
+ if(Math.random()<.35&&S.pets.length){const p=S.pets[Math.floor(Math.random()*S.pets.length)],m=5+Math.floor(Math.random()*11),where=['沙發底下','門口腳踏墊下','玩具箱裡','窗簾後面'][Math.floor(Math.random()*4)];S.coins+=m;rep.push(`🍀 ${esc(p.name)} 在${where}找到 💰${m}！`)}
+ save();render();const rp=[...new Set(rep)];
+ if(show!==false)modal(`<h3>☀️ 第 ${S.day} 天，早安！</h3>${rp.map(r=>`<p>${r}</p>`).join('')||'<p>毛孩們睡得很好，精力全滿！⚡</p>'}<p>${WX[S.wx].e} 今天${WX[S.wx].n}${S.wx==='rain'?'，狗狗不能出門散步':S.wx==='sun'?'，散步零用金 ×1.5':''}</p><p>⚡ 今日限時特賣：${IT[S.sale.id].e} ${IT[S.sale.id].name} 7 折！</p><div class="mbtns"><button class="btn" onclick="closeModal();afterMorning()">開始新的一天！</button></div>`);
+ return true}
+function afterMorning(){const f=window.AFTERM;window.AFTERM=null;if(f)f()}
+function untilMidnight(){const ms=midnightMs(Date.now())+86400000-Date.now();const h=Math.floor(ms/3600000),m=Math.floor(ms%3600000/60000);return h?`${h} 小時 ${m} 分`:`${m} 分鐘`}
+setInterval(()=>{if(S&&S.pets&&S.pets.length&&syncDay())window.AFTERM=()=>loginBonus()},30000);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&S&&S.pets&&S.pets.length&&syncDay())window.AFTERM=()=>loginBonus()});
 function askReset(){modal(`<h3>重新開始？</h3><p>所有進度、零用金和買的東西都會清空喔。</p><div class="mbtns"><button class="btn gray" onclick="closeModal()">取消</button><button class="btn" onclick="S=defaultState();newSale();tab='home';closeModal();render();intro()">重新開始</button></div>`)}
-function intro(){modal(`<h3>🐾 歡迎來到毛孩零用錢日記！</h3><p>先從 ${BREEDS.length} 種貓狗裡 <b>免費領養 2 隻</b>。</p><p>🤲 每天陪牠們摸摸、玩耍、洗澡、散步、玩接零食，就能賺 <b>零用金 💰</b>。</p><p>🎁 每天登入送 💰100 零用金，每日 5 個任務每完成一個再送 💰50。</p><p>🦐 在蝦拼用零用金買東西會回饋 20% <b>拼幣</b>，5 個任務全完成再送 🦐20。</p><p>👕 毛孩剛來時沒有衣服，衣服和配件要到「毛孩服飾館」用拼幣買。</p><p>💰 拿零用金去 <b>蝦拼寵物百貨</b> 買食物、玩具、衣服和家具。</p><p>🐣 毛孩要養滿 365 天才會長大成貓／成犬，養到 7 歲才會變老。每按一次「睡覺」就過 1 天。</p><p>🧬 每隻毛孩有自己的個性和最愛的食物，多餵幾種就會發現；📔 收集頁會記錄你們的日記。</p><p>🏗️ 存錢擴建房子，就能養更多毛孩。</p><p>🎮 4 種小遊戲、🎰 扭蛋、🏆 成就和圖鑑等你收集；白天黑夜、天氣、訪客和生病也會發生喔。</p><p>💞 越親密賺越多；🌙 按「睡覺」進入下一天。</p><p style="font-size:12.5px;color:#a08670">點毛孩的名字可以改名喔！</p><div class="mbtns"><button class="btn" onclick="S.intro=true;openAdopt(true)">去挑毛孩！</button></div>`)}
+function intro(){modal(`<h3>🐾 歡迎來到毛孩零用錢日記！</h3><p>先從 ${BREEDS.length} 種貓狗裡 <b>免費領養 2 隻</b>。</p><p>🤲 每天陪牠們摸摸、玩耍、洗澡、散步、玩接零食，就能賺 <b>零用金 💰</b>。</p><p>🎁 每天登入送 💰100 零用金，每日 5 個任務每完成一個再送 💰50。</p><p>🦐 在蝦拼用零用金買東西會回饋 20% <b>拼幣</b>，5 個任務全完成再送 🦐20。</p><p>👕 毛孩剛來時沒有衣服，衣服和配件要到「毛孩服飾館」用拼幣買。</p><p>💰 拿零用金去 <b>蝦拼寵物百貨</b> 買食物、玩具、衣服和家具。</p><p>🐣 毛孩要養滿 365 天才會長大成貓／成犬，養到 7 歲才會變老。遊戲天數跟現實同步，每過一個晚上 12 點就是新的一天。</p><p>🧬 每隻毛孩有自己的個性和最愛的食物，多餵幾種就會發現；📔 收集頁會記錄你們的日記。</p><p>🏗️ 存錢擴建房子，就能養更多毛孩。</p><p>🎮 4 種小遊戲、🎰 扭蛋、🏆 成就和圖鑑等你收集；白天黑夜、天氣、訪客和生病也會發生喔。</p><p>💞 越親密賺越多；🌙 遊戲時間跟現實同步，過了半夜 12 點就是新的一天。</p><p style="font-size:12.5px;color:#a08670">點毛孩的名字可以改名喔！</p><div class="mbtns"><button class="btn" onclick="S.intro=true;openAdopt(true)">去挑毛孩！</button></div>`)}
 
 /* ---------- mini game ---------- */
 let G=null;
@@ -1225,9 +1239,9 @@ const TRIPS=[
  ['orchid','蘭嶼','🐟',81,['看到拼板舟','吃到飛魚乾','看到天空的飛魚季']]];
 const RAR=[['普通','#f4efe9','#6b5040'],['稀有','#e6f0ff','#3d6fb5'],['閃亮','#fff0c2','#c77a00']];
 function cardsN(){return Object.keys(S.cards||{}).length}
-function openTrip(){const p=pet();if(S.trip){const q=S.pets.find(x=>x.id===S.trip.pid),L=TRIPS.find(t=>t[0]===S.trip.loc);return modal(`<h3>🎒 今晚的旅行</h3><p>${esc(q?q.name:'')} 已經準備好今晚去 ${L[2]} ${L[1]} 了！</p><p style="font-size:13px;color:#a08670">按「🌙 睡覺」就會出發，明天早上帶明信片回來。</p><div class="mbtns"><button class="btn gray" onclick="S.trip=null;save();closeModal();render()">取消</button><button class="btn" onclick="closeModal()">好</button></div>`)}
+function openTrip(){const p=pet();if(S.trip){const q=S.pets.find(x=>x.id===S.trip.pid),L=TRIPS.find(t=>t[0]===S.trip.loc);return modal(`<h3>🎒 今晚的旅行</h3><p>${esc(q?q.name:'')} 已經準備好今晚去 ${L[2]} ${L[1]} 了！</p><p style="font-size:13px;color:#a08670">半夜 12 點出發，明天早上帶明信片回來（還有 ${untilMidnight()}）。</p><div class="mbtns"><button class="btn gray" onclick="S.trip=null;save();closeModal();render()">取消</button><button class="btn" onclick="closeModal()">好</button></div>`)}
  if(p.sick)return toast(`${p.name} 生病了，不能出門旅行`);const tr=S.trips||0;
- modal(`<h3>🎒 帶 ${esc(p.name)} 去旅行</h3><p style="font-size:13px;color:#a08670;margin:0 0 4px">選好目的地，今晚睡覺時出發，明早帶回明信片和紀念品。旅行回來會比較累（精力 60）。每次只能 1 隻去。</p>
+ modal(`<h3>🎒 帶 ${esc(p.name)} 去旅行</h3><p style="font-size:13px;color:#a08670;margin:0 0 4px">選好目的地，今晚 12 點出發，明早帶回明信片和紀念品。旅行回來會比較累（精力 60）。每次只能 1 隻去。</p>
  ${TRIPS.filter((t,i)=>tr>=t[3]||i===TRIPS.findIndex(x=>tr<x[3])).map(t=>{const lock=tr<t[3];const got=[0,1,2].filter(r=>S.cards&&S.cards[t[0]+r]).length;return `<div class="row" style="box-shadow:none;margin:5px 0 0;${lock?'opacity:.5':'cursor:pointer'}" ${lock?'':`onclick="setTrip('${t[0]}')"`}><span class="re" style="width:64px;height:40px;border-radius:8px;background:url(${SPOTIMG[t[0]]}) center/cover;flex:none;${lock?'filter:grayscale(1) blur(2px)':''}"></span><span class="rt">${t[2]} ${t[1]}<small>${lock?`🔒 旅行 ${t[3]} 次後開放（目前 ${tr} 次）`:`明信片 ${got}/3`}</small></span></div>`}).join('')}
  ${TRIPS.filter(t=>tr<t[3]).length>1?`<p style="font-size:12px;color:#a08670;text-align:center;margin:8px 0 0">🗺️ 還有 ${TRIPS.filter(t=>tr<t[3]).length-1} 個神秘景點等你解鎖</p>`:''}
  <div class="mbtns"><button class="btn gray" onclick="closeModal()">關閉</button></div>`)}
@@ -1447,7 +1461,7 @@ function pickAv(){const i=document.createElement('input');i.type='file';i.accept
   im.onerror=()=>{URL.revokeObjectURL(url);toast('這個檔案打不開，請換一張照片（建議 JPG 或 PNG）')};im.src=url};
  i.click()}
 
-load();S.pets.forEach(initPet);if(!S.wx)newWx();weekly();if(!S.pets.length){S.intro=false}if(!S.tasks)newTasks();render();if(!S.intro||!S.pets.length){window.PENDLOGIN=1;intro()}else loginBonus();
+load();S.pets.forEach(initPet);if(!S.wx)newWx();weekly();if(!S.pets.length){S.intro=false}if(!S.tasks)newTasks();render();if(!S.intro||!S.pets.length){window.PENDLOGIN=1;realDay();intro()}else if(syncDay()){window.AFTERM=()=>loginBonus()}else loginBonus();
 </script>
 <!-- ☁️ 雲端存檔（Firebase） -->
 <style>

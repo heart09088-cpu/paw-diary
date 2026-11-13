@@ -116,11 +116,16 @@ comp.addPass(look);comp.addPass(new OutputPass());
 
 function resize(){const w=innerWidth,h=innerHeight;R.setSize(w,h,false);cam.aspect=w/h;cam.fov=w<h?58:46;cam.updateProjectionMatrix();if(typeof comp!=='undefined'){comp.setPixelRatio(Math.min(devicePixelRatio,1.6));comp.setSize(w,h)}}addEventListener('resize',resize);resize();
 
-const tip=document.getElementById('tip');let tipT=0;function say(s){tip.textContent=s;tip.style.opacity=1;clearTimeout(tipT);tipT=setTimeout(()=>tip.style.opacity=0,2400)}
+const tip=document.getElementById('tip');let tipT=0;function say(s){if(performance.now()-capT<60){s=String(s).replace(/[！!]?\s*\+\d+\s*$/,'！')+'（今天在 3D 房間賺的零用金已滿 '+R3CAP+'，明天再來）'}tip.textContent=s;tip.style.opacity=1;clearTimeout(tipT);tipT=setTimeout(()=>tip.style.opacity=0,2400)}
 const G=(()=>{try{return window.parent!==window&&window.parent.G3D?window.parent.G3D:null}catch(e){return null}})();
 let coins=G?G.coins():0;const coinEl=document.getElementById('coin');coinEl.textContent='💰 '+coins;if(G){document.getElementById('backBtn').style.display='';document.getElementById('ttl').style.display='none'}
-function setCoins(n){coins=n;coinEl.textContent='💰 '+coins;if(G)G.setCoins(coins)}
-function addCoin(n){setCoins(coins+n);try{save()}catch(e){}}
+function setCoins(n){coins=n;coinEl.textContent='💰 '+coins;if(G)G.setCoins(coins);try{updCap()}catch(e){}}
+const R3CAP=120;let capT=-1e9;
+function r3Earned(){if(G&&G.earned)return G.earned();try{const o=JSON.parse(localStorage.getItem('r3cap')||'{}');return o.d===new Date().toDateString()?o.n:0}catch(e){return 0}}
+function addCoin(n){let g=n;if(G&&G.earn){g=G.earn(n);coins=G.coins();coinEl.textContent='💰 '+coins}else{const e=r3Earned();g=Math.max(0,Math.min(n,R3CAP-e));try{localStorage.setItem('r3cap',JSON.stringify({d:new Date().toDateString(),n:e+g}))}catch(x){}setCoins(coins+g)}
+ if(g<n)capT=performance.now();updCap();try{save()}catch(e){}}
+function updCap(){const e=r3Earned();let b=document.getElementById('capB');if(!b){b=document.createElement('span');b.id='capB';b.style.cssText='font-size:11px;font-weight:800;margin-left:4px;opacity:.75';coinEl.appendChild(b)}b.textContent=' 今日 '+Math.min(e,R3CAP)+'/'+R3CAP}
+setTimeout(()=>{try{updCap()}catch(e){}},800);
 
 /* ---------- 房間 ---------- */
 const lb=document.getElementById('lb');const prog={};function setP(k,v){prog[k]=v;const a=Object.values(prog);lb.style.width=(a.reduce((x,y)=>x+y,0)/a.length*100)+'%'}
@@ -196,7 +201,7 @@ const SAVE='pet3d_room_v1';
 function save(){const o={coins,items:items.map(it=>({t:it.type,x:+it.g.position.x.toFixed(2),z:+it.g.position.z.toFixed(2),r:+it.g.rotation.y.toFixed(3),p:it.placed}))};if(G)return G.setRoom(o);try{localStorage.setItem(SAVE,JSON.stringify({coins,items:items.map(it=>({t:it.type,x:+it.g.position.x.toFixed(2),z:+it.g.position.z.toFixed(2),r:+it.g.rotation.y.toFixed(3),p:it.placed}))}))}catch(e){}}
 async function restore(){let st=null;if(G)st=G.getRoom();else try{st=JSON.parse(localStorage.getItem(SAVE)||'null')}catch(e){}
  if(G&&!st){recomputeBlock();return}
- if(!st){coins=150;coinEl.textContent='💰 '+coins;setTimeout(()=>say('🎁 送你 150 拼幣，去 🛒 家具店逛逛吧'),2600);recomputeBlock();return}
+ if(!st){coins=150;coinEl.textContent='💰 '+coins;setTimeout(()=>say('🎁 送你 150 零用金，去 🛒 家具店逛逛吧'),2600);recomputeBlock();return}
  if(!G){coins=st.coins||0;coinEl.textContent='💰 '+coins}const used=new Set();
  for(const s0 of st.items){let it=items.find(i=>i.type===s0.t&&!used.has(i.id)&&(s0.t[0]==='o'&&s0.t[1]==='_'||s0.t==='bowl'||s0.t==='petbed'));
   if(!it){if(!NAME[s0.t]||!CAT.find(c=>c[0]===s0.t))continue;try{it=await spawn(s0.t,s0.x,s0.z,s0.r,s0.p)}catch(e){continue}}
@@ -212,10 +217,10 @@ const shopEl=document.getElementById('shop');
 window.shopTab='furn';window.openShop=()=>{if(shopEl.style.display==='block')return closeShop();const store=items.filter(i=>!i.placed);
  const SC=k=>/^(cathouse_|litter_|ctoy_|wand_)/.test(k)||k==='cattree'?'cat':/^(dtoy_)/.test(k)||k==='doghouse'?'dog':'furn';
  shopEl.innerHTML='<h3><span style="flex:1">🛒 家具店　💰 '+coins+'</span><button class="sbtn" onclick="closeShop()">✕</button></h3><div class="stabs">'+[['furn','🛋️ 家具'],['cat','🐱 貓咪用品'],['dog','🐶 狗狗用品']].map(([t,n])=>'<button class="'+(shopTab===t?'on':'')+'" onclick="shopTab=\''+t+'\';document.getElementById(\'shop\').style.display=\'none\';openShop()">'+n+'</button>').join('')+'</div><div class="grid">'+CAT.filter(c=>SC(c[0])===shopTab).map(([k,e,n,p])=>'<div class="it"><b>'+e+'</b>'+n+'<br>💰'+p+'<br><button '+(coins<p?'disabled':'')+' onclick="buy(\''+k+'\')">購買</button></div>').join('')+'</div>'+
- (store.length?'<h3>📦 倉庫</h3><div class="grid">'+store.map(it=>'<div class="it"><b>📦</b>'+(NAME[it.type]||it.type)+'<br><button onclick="putOut('+it.id+')">擺出來</button></div>').join('')+'</div>':'')+'<div style="font-size:11px;color:#a08a78;text-align:center">家具模型：Poly Haven（CC0）｜摸摸、餵食、丟球可以賺拼幣</div>';shopEl.style.display='block'};
+ (store.length?'<h3>📦 倉庫</h3><div class="grid">'+store.map(it=>'<div class="it"><b>📦</b>'+(NAME[it.type]||it.type)+'<br><button onclick="putOut('+it.id+')">擺出來</button></div>').join('')+'</div>':'')+'<div style="font-size:11px;color:#a08a78;text-align:center">家具模型：Poly Haven（CC0）｜摸摸、餵食、丟球可以賺零用金（每天最多 120）</div>';shopEl.style.display='block'};
 window.closeShop=()=>{shopEl.style.display='none'};
 function freeSpot(){for(let i=0;i<80;i++){const x=THREE.MathUtils.randFloat(-2.2,2.2),z=THREE.MathUtils.randFloat(-1.2,2.2);if(free(x,z,.6))return [x,z]}return [0,1]}
-window.buy=async k=>{const c=CAT.find(x=>x[0]===k);if(coins<c[3])return say('拼幣不夠，多陪毛孩玩賺拼幣吧');closeShop();say('🚚 '+c[2]+' 送貨中…');const [x,z]=freeSpot();try{const it=await spawn(k,x,z,0);setCoins(coins-c[3]);if(!EDIT)toggleEdit();selIt=it;showSel();recomputeBlock();save();say('🎉 買了 '+c[2]+'！拖曳它擺到喜歡的位置')}catch(e){say('送貨失敗：'+e.message)}};
+window.buy=async k=>{const c=CAT.find(x=>x[0]===k);if(coins<c[3])return say('零用金不夠，多陪毛孩玩賺零用金吧');closeShop();say('🚚 '+c[2]+' 送貨中…');const [x,z]=freeSpot();try{const it=await spawn(k,x,z,0);setCoins(coins-c[3]);if(!EDIT)toggleEdit();selIt=it;showSel();recomputeBlock();save();say('🎉 買了 '+c[2]+'！拖曳它擺到喜歡的位置')}catch(e){say('送貨失敗：'+e.message)}};
 window.putOut=id=>{const it=items.find(i=>i.id===id);if(!it)return;const [x,z]=freeSpot();it.g.position.set(x,0,z);it.placed=true;it.g.visible=true;closeShop();if(!EDIT)toggleEdit();selIt=it;showSel();recomputeBlock();save()};
 const plane0=new THREE.Plane(new THREE.Vector3(0,1,0),0);const hitP=new THREE.Vector3();
 function ptr(e){mp.set(e.clientX/innerWidth*2-1,-e.clientY/innerHeight*2+1);ray.setFromCamera(mp,cam)}
