@@ -333,7 +333,7 @@ function sprAnim(p,dt){// 2.5D：只轉向鏡頭的照片毛孩
 /* ---------- 毛孩互相玩耍 ---------- */
 const PLAYABLE=q=>q&&!q.off&&['idle','walk','happy'].includes(q.state)&&q.energy>15;
 const PLAYS={sniff:['👃','互相聞聞'],chase:['💨','玩追逐'],circle:['🌀','轉圈圈玩'],wrestle:['🤼','滾來滾去']};
-function startPlay(a,b,kind){if(!a||!b||a===b)return false;kind=kind||Object.keys(PLAYS)[Math.floor(Math.random()*4)];
+function startPlay(a,b,kind){setTimeout(()=>{vox(a,false,true);setTimeout(()=>vox(b,false,true),450)},300);if(!a||!b||a===b)return false;kind=kind||Object.keys(PLAYS)[Math.floor(Math.random()*4)];
  a.state='toFriend';a.friend=b;a.playKind=kind;a.lead=true;b.state='wait';b.friend=a;b.wait=6;b.speed=0;b.playKind=kind;b.lead=false;return true}
 function beginPlay(a){const b=a.friend;if(!b||b.friend!==a){a.state='idle';a.wait=1;return}const k=a.playKind;
  const mid=a.holder.position.clone().add(b.holder.position).multiplyScalar(.5);
@@ -400,10 +400,10 @@ function fetchUpdate(p,dt){const st=p.state;
   const tgt=T.st==='fly'?T.b:T.o.position;const d=moveTo(p,tgt,dt,1.9);
   if(T.st!=='fly'&&d<(mouth(p),p.mo.f)+T.r+.04){
    if(p.fk==='jerky'){T.st='idle';jerky.visible=false;p.state='eat';p.snack=true;p.wait=1.8;p.speed=0;pets.forEach(q=>{if(q!==p&&q.state==='fetch'&&q.fk==='jerky'){q.state='idle';q.wait=1}})}
-   else if(isDog(p)){T.st='held';T.by=p;p.state='carry';p.speed*=.5;pets.forEach(q=>{if(q!==p&&q.state==='fetch'&&q.fk==='ball'){q.state='happy';q.wait=.8}});say(`🐶 ${p.d.name} 咬到球了，正在拿回來`)}
+   else if(isDog(p)){T.st='held';T.by=p;p.state='carry';p.speed*=.5;pets.forEach(q=>{if(q!==p&&q.state==='fetch'&&q.fk==='ball'){q.state='happy';q.wait=.8}});say(`🐶 ${p.d.name} 咬到球了，正在拿回來`);vox(p,false,true)}
    else{T.bats++;const a=p.yaw+(Math.random()-.5)*1.6;T.v=new THREE.Vector3(Math.sin(a),0,Math.cos(a)).multiplyScalar(.9+Math.random()*.8);T.st='roll';p.hop=1;
     if(T.bats>=T.maxBats){p.state='happy';p.wait=1.5;hearts(p,'🎾');addCoin(5);p.mood=Math.min(100,p.mood+6);if(G&&p.d.idx>=0)G.pat(p.d.idx,1);say(`🐱 ${p.d.name} 把球拍來拍去玩得好開心！+5`);pets.forEach(q=>{if(q!==p&&q.state==='fetch'&&q.fk==='ball'&&!isDog(q)){q.state='idle';q.wait=1}})}
-    else say(`🐾 ${p.d.name} 一掌把球拍走了！`)}}
+    else say(`🐾 ${p.d.name} 一掌把球拍走了！`);vox(p)}}
   return true}
  // carry：叼著球跑回你面前
  const d=moveTo(p,T.home,dt,1.35);
@@ -446,14 +446,14 @@ function hwUpdate(p,dt){if(HW.on&&p.state!=='hwand'&&Math.random()<dt*.8)joinWan
  const tgt=new THREE.Vector3(HW.cur.x-v3.x/d*keep,0,HW.cur.z-v3.z/d*keep);
  pets.forEach(q=>{if(q!==p&&q.state==='hwand'){const dx=P.x-q.holder.position.x,dz=P.z-q.holder.position.z,dd=Math.hypot(dx,dz),gp=(p.d.len+q.d.len)*.45;if(dd<gp&&dd>1e-3){tgt.x+=dx/dd*(gp-dd);tgt.z+=dz/dd*(gp-dd)}}});
  const dist=moveTo(p,tgt,dt,dog?1.3:1.75);if(dist<.05){let da=Math.atan2(v3.x,v3.z)-p.yaw;da=Math.atan2(Math.sin(da),Math.cos(da));p.yaw+=da*Math.min(1,dt*6)}
- if(d<keep+.18&&p.hop<=0&&Math.random()<dt*(dog?.9:(HW.toyH>.15?3.2:1.8)))p.hop=1;
+ if(d<keep+.18&&p.hop<=0&&Math.random()<dt*(dog?.9:(HW.toyH>.15?3.2:1.8))){p.hop=1;if(Math.random()<.25)vox(p)}
  p.hwT+=dt;if(p.hwT>5){p.hwT=0;addCoin(1);hearts(p,'🧶');p.mood=Math.min(100,p.mood+4);if(G&&p.d.idx>=0)G.pat(p.d.idx,1)}
  return true}
 
 function update(p,dt){p.t+=dt;if(p.hop>0)p.hop=Math.max(0,p.hop-dt*1.6);catNeeds(p,dt);
  p.hunger=Math.min(100,p.hunger+dt*.4);p.energy=Math.max(0,p.energy-dt*(p.state==='sleep'?-4:.25));
  if(fetchUpdate(p,dt)||hwUpdate(p,dt)||playUpdate(p,dt)){}
- else if(p.state==='sleep'){p.speed=0;if(p.energy>=99){p.state='idle';say(`☀️ ${p.d.name} 睡飽起床了`)}}
+ else if(p.state==='sleep'){p.speed=0;if(p.energy>=99){p.state='idle';say(`☀️ ${p.d.name} 睡飽起床了`);vox(p,true)}}
  else if(spotUpdate(p,dt)){}
  else if(p.state==='walk'||p.state==='toBall'||p.state==='toBowl'||p.state==='toBed'||p.state==='toSpot'){
   const tgt=p.state==='toBall'?ball.position:p.tgt;v3.subVectors(tgt,p.holder.position);v3.y=0;const dist=v3.length();
@@ -476,7 +476,9 @@ function update(p,dt){p.t+=dt;if(p.hop>0)p.hop=Math.max(0,p.hop-dt*1.6);catNeeds
  const hp=p.holder.position.clone();hp.y+=p.d.len*0.75;hp.project(cam);p.tag.style.left=((hp.x+1)/2*innerWidth)+'px';p.tag.style.top=((-hp.y+1)/2*innerHeight)+'px';
  p.tag.textContent=p.d.name+(p.state==='play'?' '+PLAYS[p.playKind][0]:p.state==='sleep'||(p.state==='house'&&p.energy<60)?' 💤':p.state==='eat'?' 😋':p.state==='wand'||p.state==='hwand'?' 🧶':p.state==='carry'?' 🎾':p.state==='withYou'?' 🤝':p.state==='perch'?' 👑':p.state==='potty'||p.state==='bury'?' 🚽':p.state==='chew'?' 🦴':p.state==='tunnel'?' 🌀':p.state==='scratch'?' 🐾':p.state==='toyplay'||p.state==='bat'?' 🎈':p.hunger>80?' 🍖?':'')}
 
-function hearts(p,e='💖'){const hp=p.holder.position.clone();hp.y+=p.d.len*0.6;hp.project(cam);for(let i=0;i<5;i++){const h=document.createElement('div');h.className='heart';h.textContent=e;h.style.left=((hp.x+1)/2*innerWidth+(Math.random()-.5)*60)+'px';h.style.top=((-hp.y+1)/2*innerHeight)+'px';h.style.animationDelay=i*.1+'s';document.body.appendChild(h);setTimeout(()=>h.remove(),1600)}}
+function vox(p,soft,force){if(!G||!G.voice||!p||p.d.idx<0)return;const t=performance.now();if(!force&&t-(p.vt||0)<2500)return;p.vt=t;
+ const d=cam.position.distanceTo(p.holder.position);G.voice(p.d.idx,soft,Math.max(.55,Math.min(1,1.45-d/8)))}
+function hearts(p,e='💖'){vox(p,e==='💖');const hp=p.holder.position.clone();hp.y+=p.d.len*0.6;hp.project(cam);for(let i=0;i<5;i++){const h=document.createElement('div');h.className='heart';h.textContent=e;h.style.left=((hp.x+1)/2*innerWidth+(Math.random()-.5)*60)+'px';h.style.top=((-hp.y+1)/2*innerHeight)+'px';h.style.animationDelay=i*.1+'s';document.body.appendChild(h);setTimeout(()=>h.remove(),1600)}}
 let sel=0;
 window.act=(k,pp)=>{const on=pets.filter(q=>!q.off);if(!on.length)return;const p=pp||on[sel%on.length];if(!p)return;sel++;
  if(k==='pet'){if(p.state==='sleep')return say(`🤫 ${p.d.name} 在睡覺，讓牠休息吧`);p.state='happy';p.wait=1.8;p.speed=0;p.hop=1;p.mood=Math.min(100,p.mood+10);hearts(p);addCoin(3);if(G&&p.d.idx>=0)G.pat(p.d.idx,1);say(`💖 摸摸 ${p.d.name}！+3`)}
@@ -510,7 +512,7 @@ function goodsUpdate(dt){for(const it of items){if(!it.placed)continue;
    if(g.position.x<WALK.x0||g.position.x>WALK.x1)it.v.x*=-1;if(g.position.z<WALK.z0||g.position.z>WALK.z1)it.v.z*=-1;
    g.position.x=THREE.MathUtils.clamp(g.position.x,WALK.x0,WALK.x1);g.position.z=THREE.MathUtils.clamp(g.position.z,WALK.z0,WALK.z1);
    if(ROLLTOY(it.type)){g.rotation.y=Math.atan2(it.v.x,it.v.z);it.roll=(it.roll||0)+sp*dt/0.06;g.children[0].rotation.x=it.roll}else g.rotation.y+=sp*dt*6}}}
-function kickToy(p,it){const a=p.yaw+(Math.random()-.5)*1.4;it.v=new THREE.Vector3(Math.sin(a),0,Math.cos(a)).multiplyScalar((isDog(p)?1.1:0.8)+Math.random()*.6);p.hop=1}
+function kickToy(p,it){if(Math.random()<.5)vox(p);const a=p.yaw+(Math.random()-.5)*1.4;it.v=new THREE.Vector3(Math.sin(a),0,Math.cos(a)).multiplyScalar((isDog(p)?1.1:0.8)+Math.random()*.6);p.hop=1}
 function goodsArrive(p,it,k){const t=it.type;
  if(k==='litter'){p.state='potty';p.wait=3.5+Math.random()*1.5;p.yaw=it.g.rotation.y+Math.PI;say(`🚽 ${p.d.name} 在${NAME[t]}上廁所…`);return true}
  if(k!=='toy')return false;
