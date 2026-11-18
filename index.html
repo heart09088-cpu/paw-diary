@@ -104,6 +104,22 @@ main{padding:0 12px}
 .pw.sleeping .spr:not(.walk){filter:brightness(.92)}
 .gshake{animation:gshake .25s infinite}@keyframes gshake{25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}
 .gpopin{animation:gpop .5s cubic-bezier(.3,1.6,.5,1)}@keyframes gpop{from{transform:scale(.2)}}
+/* 2026-11-17 觸摸部位反應＋待機小動作 */
+.pw.t-head .bw{animation:tHead .6s ease}@keyframes tHead{30%{transform:scale(1.04,.93)}60%{transform:scale(.98,1.03)}}
+.pw.t-chin .bw{animation:tChin .9s ease}@keyframes tChin{25%,75%{transform:rotate(-5deg) translateY(-2px)}50%{transform:rotate(5deg) translateY(-2px)}}
+.pw.t-belly .bw{animation:tBelly .7s ease}@keyframes tBelly{20%{transform:translateY(-10px) scale(.95,1.06)}45%{transform:rotate(-8deg)}70%{transform:rotate(8deg)}}
+.pw.t-back .bw{animation:tBack .8s ease}@keyframes tBack{40%{transform:scale(1.05,.95)}}
+.pw.t-tail .bw{animation:tTail .8s ease}@keyframes tTail{50%{transform:scaleX(-1) translateY(-6px)}}
+.pw.t-no .bw{animation:tNo .45s ease}@keyframes tNo{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.pw.i-stretch .bw{animation:iStretch 1.8s ease-in-out}@keyframes iStretch{35%,65%{transform:scale(1.1,.86)}}
+.pw.i-yawn .bw{animation:iYawn 1.6s ease}@keyframes iYawn{30%,60%{transform:rotate(-4deg) scale(1,1.04)}}
+.pw.i-groom .bw{animation:iGroom .5s ease-in-out 3}@keyframes iGroom{50%{transform:translateY(3px) rotate(4deg)}}
+.pw.i-sniff .bw{animation:iSniff .35s ease-in-out 4}@keyframes iSniff{50%{transform:translateX(4px) translateY(2px)}}
+.pw.i-scratch .bw{animation:iScratch .12s linear 8}@keyframes iScratch{50%{transform:rotate(2deg) translateY(1px)}}
+.pw.i-look .bw{animation:iLook 1.4s ease}@keyframes iLook{30%,70%{transform:translateY(-4px) scale(1.02)}}
+.thp{position:absolute;font-size:15px;pointer-events:none;z-index:7;animation:thp 1s ease-out forwards}
+@keyframes thp{0%{opacity:0;transform:translate(-50%,0) scale(.5)}20%{opacity:1;transform:translate(-50%,-6px) scale(1.1)}100%{opacity:0;transform:translate(calc(-50% + var(--dx)),-46px) scale(.9)}}
+.spotg{background:#ffe8f2;color:#c2417a}
 .track{position:relative;margin:30px 10px 10px;background:#bfe3a8;border-radius:14px;padding:6px 0;border:3px solid #fff}
 .lane{position:relative;height:68px;border-bottom:2px dashed #fff8}.lane:last-child{border:none}
 .lane.me{background:#fff3}.lname{position:absolute;left:6px;top:2px;font-size:11px;font-weight:800;color:#3d6b2b;z-index:2}
@@ -513,7 +529,7 @@ function decoLayout(){
 }
 function buildHouse(){
  const box=document.getElementById('housebox');
- if(!box.firstChild){box.innerHTML='<div class="house" id="house"><div class="hin" id="hin"></div></div><p class="hhint">← 左右滑動看整間房子・點毛孩來照顧牠 →</p>'}
+ if(!box.firstChild){box.innerHTML='<div class="house" id="house"><div class="hin" id="hin"></div></div><p class="hhint">← 左右滑動看整間房子・點毛孩的頭、下巴、肚子、尾巴有不同反應 →</p>'}
  RW=Math.min(480,document.getElementById('app').clientWidth)-24;
  const sig=JSON.stringify([phase(),S.wx,RW,S.rooms,S.cur,S.pets.map(p=>[p.id,p.breed,stage(p),p.acc,p.name,p.clean<30,p.mood<35,p.energy<20,p.hunger<25,!!p.sick]),ITEMS.filter(i=>i.c==='deco'&&has(i.id)).map(i=>i.id),S.skin]);
  if(sig===houseSig)return;houseSig=sig;
@@ -533,7 +549,7 @@ function buildHouse(){
   const sp=SP(p);const H=sprH(p),W=Math.round(H*sp.fw/sp.fh);
   let bb='';if(p.sick)bb='🤒';else if(p.energy<20)bb='💤';else if(p.hunger<25)bb='🍗？';else if(p.clean<30)bb='🫧？';else if(p.mood<35)bb='💔';
   const cls=p.clean<30?'dirty':p.mood<35?'sad':'';
-  h+=`<div class="pw ${i===S.cur?'sel':''}" data-id="${p.id}" data-i="${i}" onclick="tapPet(${i})" style="left:${e.x}px;bottom:${e.y}%"><div class="bw"><div class="sh"></div><div class="flipper ${e.dir<0?'l':''}"><div class="spr ${cls} ${e.st==='walk'?'walk':''}" style="width:${W}px;height:${H}px;background-image:url(${sp.img});background-size:${W*sp.n}px ${H}px;--w:${W}px;--d:${STG[stage(p)].d}s"></div>${accHTML(p,W,H)}</div><span class="tg">${esc(p.name)}</span>${bb?`<span class="bb">${bb}</span>`:''}</div></div>`;
+  h+=`<div class="pw ${i===S.cur?'sel':''}" data-id="${p.id}" data-i="${i}" onclick="tapPet(${i},event)" style="left:${e.x}px;bottom:${e.y}%"><div class="bw"><div class="sh"></div><div class="flipper ${e.dir<0?'l':''}"><div class="spr ${cls} ${e.st==='walk'?'walk':''}" style="width:${W}px;height:${H}px;background-image:url(${sp.img});background-size:${W*sp.n}px ${H}px;--w:${W}px;--d:${STG[stage(p)].d}s"></div>${accHTML(p,W,H)}</div><span class="tg">${esc(p.name)}</span>${bb?`<span class="bb">${bb}</span>`:''}</div></div>`;
  });
  document.getElementById('hin').innerHTML=h+overlayHTML();
  placePets();
@@ -552,7 +568,8 @@ function petLoop(t){
    const spr=el.querySelector('.spr'),fl=el.querySelector('.flipper');
    if(e.st==='eat'||e.st==='sleep'){e.t-=dt;if(e.t<=0){e.st='idle';e.t=1+Math.random()*3;setMode(p,'idle')}}
    else if(e.st==='idle'){e.t-=dt;if(e.t<=0&&(phase()==='night'||p.energy<20||p.sick||(p.trait==='lazy'&&Math.random()<.25))&&Math.random()<.55){e.st='sleep';e.t=18+Math.random()*30;setMode(p,'sleep')}
-    else if(e.t<=0&&p.energy>=20){e.st='walk';e.tx=30+Math.random()*(HW-60);e.ty=4+Math.random()*13;e.dir=e.tx>e.x?1:-1;fl.classList.toggle('l',e.dir<0);spr.classList.add('walk')}}
+    else if(e.t>.5&&!e.ia&&Math.random()<dt*.12){e.ia=1;idleAct(p)}
+    else if(e.t<=0&&p.energy>=20){e.ia=0;e.st='walk';e.tx=30+Math.random()*(HW-60);e.ty=4+Math.random()*13;e.dir=e.tx>e.x?1:-1;fl.classList.toggle('l',e.dir<0);spr.classList.add('walk')}}
    else if(e.st==='walk'){const sp=STG[stage(p)].sp*(p.energy<40?.75:1);const dx=e.tx-e.x;const step=sp*dt;
     if(Math.abs(dx)<=step){e.x=e.tx;e.st='idle';e.t=2+Math.random()*5;spr.classList.remove('walk')}
     else{e.x+=Math.sign(dx)*step;e.y+=(e.ty-e.y)*Math.min(1,dt*.8)}}
@@ -612,7 +629,7 @@ function homeHTML(){
  ${!S.checked?`<button class="big gold" onclick="checkin()">💰 領今日零用金 +${allowance()}</button>`:''}
  <div class="card">
   <div class="nameRow"><span><b>${esc(p.name)}</b><button class="rnm" onclick="rename()" aria-label="幫毛孩改名">✏️ 改名</button><span class="stg">${BR[p.breed].breed}・${stgName(p)}・${ageTxt(p)}</span></span><span class="lv">親密度 Lv.${L} ${'❤️'.repeat(Math.min(L,5))}${L>5?'+':''}</span></div>
-  <div style="margin:4px 0 2px">${traitTag(p)}${favTag(p)}</div>
+  <div style="margin:4px 0 2px">${traitTag(p)}${favTag(p)}${spotTag(p)}</div>
   ${wishLine(p)}
   <div class="bar"><span class="lbl">💞 升級</span><span class="tr"><span class="fi" style="width:${prog}%;background:#d0577a;display:block"></span></span><span class="num">${L>=10?'MAX':prog+'%'}</span></div>
   ${STATS.map(([k,n,c])=>`<div class="bar"><span class="lbl">${n}</span><span class="tr"><span class="fi" style="width:${p[k]}%;background:${p[k]<25?'#e85a5a':c};display:block"></span></span><span class="num">${p[k]}</span></div>`).join('')}
@@ -719,7 +736,60 @@ function act(k){
  render();jump();coinSound();
  floatText(`+${coins} 💰`);if(msg)floatText(msg,350);
 }
-function tapPet(i){if(i!==undefined&&i!==S.cur){S.cur=i;render()}const p=pet();if(S.calls!==false){voice(p,.8,true)}{const e=ENT[p.id];if(e&&e.st==='sleep'){e.st='idle';e.t=2;setMode(p,'idle');floatText('醒來了…🥱')}}task('tap');jump();const s=p.type==='cat'?['喵～','喵喵？','呼嚕～','(蹭蹭)']:['汪！','汪汪！','(搖尾巴)','嗚～'];floatText(s[Math.floor(Math.random()*s.length)])}
+function tapPet(i,ev){let zone=null;try{zone=touchZone(i,ev)}catch(e){zone=null}
+ if(i!==undefined&&i!==S.cur){S.cur=i;render()}const p=pet();if(S.calls!==false){voice(p,.8,true)}
+ {const e=ENT[p.id];if(e&&e.st==='sleep'){e.st='idle';e.t=2;setMode(p,'idle');floatText('醒來了…🥱');task('tap');return}}
+ task('tap');
+ if(zone){touchReact(p,zone);return}
+ jump();const s=p.type==='cat'?['喵～','喵喵？','呼嚕～','(蹭蹭)']:['汪！','汪汪！','(搖尾巴)','嗚～'];floatText(s[Math.floor(Math.random()*s.length)])}
+/* ---------- 觸摸部位：摸頭、搔下巴、戳肚子、摸背、碰尾巴（2026-11-17） ---------- */
+const SPOTS={head:'頭頂',chin:'下巴',belly:'肚子',back:'背'};
+function petSpot(p){if(!p.spot){const k=Object.keys(SPOTS);p.spot=k[Math.floor(Math.random()*k.length)]}return p.spot}
+function touchZone(i,ev){
+ const p=S.pets[i];if(!p||!ev||ev.clientX===undefined)return null;const e=ENT[p.id];if(e&&(e.st==='eat'||e.st==='sleep'))return null;
+ const el=document.querySelector(`.pw[data-i="${i}"] .spr`);if(!el)return null;const a=SP(p).anc;if(!a||!a.head)return null;
+ const r=el.getBoundingClientRect();if(!r.width)return null;
+ let x=(ev.clientX-r.left)/r.width*100;const y=(ev.clientY-r.top)/r.height*100;
+ if(el.closest('.flipper').classList.contains('l'))x=100-x;
+ const [hx,hy]=a.head,fy=a.face?a.face[1]:hy+11,ny=a.neck?a.neck[1]:fy+11;
+ const right=hx>50,dx=right?hx-x:x-hx;// dx>0 = 往身體方向
+ const ad=Math.abs(x-hx);
+ let z;
+ if(ad<20&&y<fy-1)z='head';
+ else if(ad<20&&y<ny+12)z='chin';
+ else if(dx>62)z='tail';
+ else if(y>55&&dx>8)z='belly';
+ else z=ad<24?'chin':'back';
+ return {z,x:right?x:x,y,lx:(ev.clientX-r.left)/r.width*100,ly:y};
+}
+function touchPop(p,emo,lx,ly){const w=document.querySelector(`.pw[data-id="${p.id}"] .bw`);if(!w)return;emo.forEach((t,k)=>{const f=document.createElement('div');f.className='thp';f.textContent=t;f.style.left=Math.max(5,Math.min(95,lx))+'%';f.style.top=Math.max(-10,Math.min(80,ly-14))+'%';f.style.setProperty('--dx',((k-(emo.length-1)/2)*16)+'px');f.style.animationDelay=(k*.08)+'s';w.appendChild(f);setTimeout(()=>f.remove(),1300)})}
+function touchAnim(p,cls){const w=document.querySelector(`.pw[data-id="${p.id}"]`);if(!w)return;w.classList.remove('t-head','t-chin','t-belly','t-back','t-tail','t-no','jump');void w.offsetWidth;w.classList.add(cls);clearTimeout(w._tt);w._tt=setTimeout(()=>w.classList.remove(cls),1000)}
+function touchReact(p,zn){
+ const z=zn.z,cat=p.type==='cat',tr=p.trait,fav=petSpot(p)===z;
+ S.today.touch=S.today.touch||{};const n=S.today.touch[p.id]||0;
+ let good=true,line,emo,cls='t-'+z;
+ if(z==='head'){line=cat?tpick(['(瞇眼)咕嚕～','喵～再摸一下','(用頭頂你的手)']):tpick(['(耳朵往後貼)嘿嘿','汪～好舒服','(閉眼享受)']);emo=['💕','✨']}
+ else if(z==='chin'){line=cat?tpick(['呼嚕呼嚕呼嚕…','(抬起下巴)這裡這裡','(陶醉)喵～']):tpick(['(脖子伸長長)','嗯～就是那裡！','(腳在空中踢)']);emo=cat?['🎶','💗']:['💗','🐾']}
+ else if(z==='belly'){
+  if(cat&&!fav&&tr!=='cling'&&tr!=='lazy'&&Math.random()<.55){good=false;line=tpick(['哈！不准摸肚子！','(輕輕咬你一下)','(後腳踢踢)']);emo=['💢'];cls='t-no'}
+  else{line=cat?tpick(['(翻成一團)喵嗚','(抱住你的手)','(露出軟軟肚子)']):tpick(['(翻肚肚！)','汪汪！肚子給你摸','(尾巴狂搖)']);emo=['💞','🤍']}}
+ else if(z==='back'){line=cat?tpick(['(背拱起來)喵～','(尾巴豎直直)','咕嚕咕嚕']):tpick(['(靠在你身上)','嗚～好放鬆','(尾巴慢慢搖)']);emo=['💛','✨']}
+ else{if(cat){good=tr==='cling';line=good?'(尾巴繞住你的手指)':tpick(['尾巴不能碰啦！','(尾巴用力甩一下)','喵！(瞪)']);emo=good?['💗']:['💢'];cls=good?'t-back':'t-no'}
+  else{line=tpick(['(追著自己的尾巴轉圈圈)','汪？尾巴在哪！','(轉一圈又一圈)']);emo=['🌀','💫']}}
+ if(fav&&good){line=tpick(['最喜歡你摸這裡了！','就是這裡！再來再來～','(幸福到融化)']);emo=['💖','💖','✨']}
+ touchAnim(p,cls);touchPop(p,emo,zn.lx,zn.ly);floatOn(p,'💬 '+line);
+ if(good&&n<12){S.today.touch[p.id]=n+1;p.mood=clamp(p.mood+(fav?3:2));if(fav&&n<6)addAff(p,1)}
+ else if(!good){p.mood=clamp(p.mood-1)}
+ if(fav&&good&&!p.spotFound){p.spotFound=1;setTimeout(()=>{toast(`💖 發現了！${p.name} 最喜歡被摸「${SPOTS[z]}」`);diary(`💖 發現 ${p.name} 最喜歡被摸${SPOTS[z]}`);[660,880,1175].forEach((f,k)=>setTimeout(()=>beep(f,.09,'triangle',.05),k*90));if(tab==='home')render()},600)}
+ else if(good)beep(fav?880:700,.05,'triangle',.03);else beep(240,.08,'square',.03);
+ save();
+}
+function tpick(a){return a[Math.floor(Math.random()*a.length)]}
+function spotTag(p){return p.spotFound&&p.spot?`<span class="stg spotg" onclick="toast('💖 牠最喜歡被摸${SPOTS[p.spot]}，摸那裡親密度會增加')">💖 愛被摸${SPOTS[p.spot]}</span>`:`<span class="stg spotg" style="opacity:.75" onclick="toast('在房間裡點毛孩的頭、下巴、肚子、背，找出牠最喜歡被摸哪裡！')">💖 最愛部位：？</span>`}
+/* ---------- 待機小動作：伸懶腰、打哈欠、理毛、聞聞、抓癢（2026-11-17） ---------- */
+function idleAct(p){const w=document.querySelector(`.pw[data-id="${p.id}"]`);if(!w||w.classList.contains('jump')||[...w.classList].some(c=>c.startsWith('t-')))return;
+ const cat=p.type==='cat';const L=cat?[['i-stretch','(伸懶腰～)'],['i-yawn','🥱'],['i-groom','(舔舔毛)'],['i-scratch','(抓抓癢)'],['i-look','👀？']]:[['i-stretch','(伸懶腰～)'],['i-yawn','🥱'],['i-sniff','(聞聞聞)'],['i-scratch','(抓抓耳朵)'],['i-look','👂？']];
+ const [c,t]=tpick(L);w.classList.remove('i-stretch','i-yawn','i-groom','i-sniff','i-scratch','i-look');void w.offsetWidth;w.classList.add(c);if(Math.random()<.6)floatOn(p,t);setTimeout(()=>w.classList.remove(c),2000)}
 function checkin(){const n=allowance();S.coins+=n;S.checked=true;task('allow');render();coinSound();toast(`💰 領到今日零用金 ${n} 元！`)}
 function openFeed(){
  const p=pet();const foods=ITEMS.filter(i=>i.c==='food'&&fits(i,p)&&has(i.id));
