@@ -133,7 +133,7 @@ main{padding:0 12px}
 .track{position:relative;margin:30px 10px 10px;background:#bfe3a8;border-radius:14px;padding:6px 0;border:3px solid #fff}
 .lane{position:relative;height:68px;border-bottom:2px dashed #fff8}.lane:last-child{border:none}
 .lane.me{background:#fff3}.lname{position:absolute;left:6px;top:2px;font-size:11px;font-weight:800;color:#3d6b2b;z-index:2}
-.runner{position:absolute;left:0;bottom:4px;transition:none}
+.runner{position:absolute;left:0;bottom:4px;transition:none;will-change:transform}
 .finish{position:absolute;right:8px;top:0;bottom:0;width:10px;background:repeating-linear-gradient(#222 0 10px,#fff 10px 20px);border-radius:3px}
 .rcnt{position:absolute;left:0;right:0;top:42%;text-align:center;font-size:72px;font-weight:900;color:#ee5a3c;text-shadow:0 3px 0 #fff;pointer-events:none}
 .dash{display:block;margin:16px auto;width:70%;padding:22px;font-size:26px;border-radius:50px;box-shadow:0 6px 0 #c9432a;user-select:none;touch-action:manipulation}
@@ -457,6 +457,69 @@ nav .badge{background:var(--pink);border:2px solid var(--ink)}
 .mbox.adm .adt{height:46px;width:100%;display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
 .mbox.adm .mbtns{flex:0 0 auto;margin:0 -10px;padding:10px 12px 12px;background:#fff;border-top:2px dashed #e6d8f0}
 @media(max-height:640px){.mbox.adm .adt{height:40px}}
+</style>
+<style>/* moved from artifact wrapper */
+#game{background:var(--gbg,linear-gradient(#bfe6ff,#fff4e8))}
+#game[data-g=catch]{--gbg:linear-gradient(#aee0ff,#fff3dc 70%,#ffe2b8)}
+#game[data-g=fly]{--gbg:linear-gradient(#bdf0ff,#e9ffd9 65%,#bfe8a0)}
+#game[data-g=race]{--gbg:linear-gradient(#9fdcff,#dff7c8 55%,#a8dc84)}
+#game[data-g=dig]{--gbg:linear-gradient(#ffe7b8,#e8c08a 60%,#c99a62)}
+#game[data-g=mem]{--gbg:linear-gradient(#ffe0ef,#fff2f8)}
+#game[data-g=shell]{--gbg:linear-gradient(#ffeccf,#fff7ec)}
+#game[data-g=beat]{--gbg:linear-gradient(#e7dcff,#fff0f7)}
+#game[data-g=jump]{--gbg:linear-gradient(#9fdcff,#e8f8ff 60%,#bfe8a0)}
+#game[data-g=bath]{--gbg:linear-gradient(#d4f1ff,#f3fbff)}
+#game[data-g=shop]{--gbg:linear-gradient(#fff0d8,#ffe2c2)}
+#game[data-g=stack]{--gbg:linear-gradient(#ffd6e8,#fff3e0)}
+#game[data-g=fish]{--gbg:linear-gradient(#bfe6ff,#7cc7ef)}
+#game::before{content:'';position:absolute;inset:0 -50% auto -50%;height:46%;pointer-events:none;opacity:.55;
+ background:radial-gradient(60px 26px at 12% 30%,#fff 60%,#0000 62%),radial-gradient(80px 30px at 38% 18%,#fff 60%,#0000 62%),radial-gradient(54px 22px at 66% 36%,#fff 60%,#0000 62%),radial-gradient(70px 26px at 88% 14%,#fff 60%,#0000 62%);
+ animation:gcloud 40s linear infinite;will-change:transform}
+#game[data-g=beat]::before,#game[data-g=dig]::before,#game[data-g=mem]::before,#game[data-g=shop]::before{display:none}
+@keyframes gcloud{to{transform:translate3d(33%,0,0)}}
+#game .ghd{position:relative;z-index:6;padding:10px 12px 14px;gap:8px;align-items:center;font-size:17px}
+#game .ghd>span{background:#fffc;border-radius:999px;padding:5px 14px;box-shadow:0 2px 0 #0001;min-width:64px;text-align:center;font-variant-numeric:tabular-nums}
+#game .ghd>span:empty{visibility:hidden}
+#gs.bump{animation:gbump .28s}
+@keyframes gbump{40%{transform:scale(1.22)}}
+#gt.hurry{background:#ff5c6c;color:#fff;animation:ghurry 1s infinite}
+@keyframes ghurry{50%{transform:scale(1.1)}}
+#gbar{position:absolute;left:12px;right:12px;bottom:4px;height:6px;border-radius:9px;background:#0000001a;overflow:hidden}
+#gbar i{display:block;height:100%;width:100%;border-radius:9px;background:linear-gradient(90deg,#ffb020,#ff6b8a);transform-origin:left;will-change:transform;transition:transform .25s linear}
+#game .ghd{justify-content:flex-start}#game #gt{margin-left:auto}#gquit{flex:none;border:none;background:#fff9;border-radius:50%;width:32px;height:32px;font-size:15px;cursor:pointer;z-index:7;margin-left:4px}
+#garea{contain:layout paint}
+.gfx{position:absolute;width:9px;height:9px;border-radius:50%;pointer-events:none;z-index:4;will-change:transform,opacity;animation:gfx .5s ease-out forwards}
+@keyframes gfx{to{transform:translate3d(var(--dx),var(--dy),0) scale(.2);opacity:0}}
+.gring{position:absolute;width:16px;height:16px;margin:-8px 0 0 -8px;border:3px solid #fff;border-radius:50%;pointer-events:none;z-index:4;animation:gring .35s ease-out forwards}
+@keyframes gring{to{transform:scale(3.2);opacity:0}}
+.gcd{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:8;pointer-events:none}
+.gcd b{font-size:96px;font-weight:900;color:#fff;-webkit-text-stroke:3px #ee5a3c;text-shadow:0 6px 0 #ee5a3c55;animation:gcd .7s ease-out forwards}
+@keyframes gcd{0%{transform:scale(2.2);opacity:0}30%{transform:scale(1);opacity:1}80%{opacity:1}100%{transform:scale(.8);opacity:0}}
+.gconf{position:absolute;top:-20px;width:10px;height:14px;z-index:6;opacity:.9;pointer-events:none;will-change:transform;animation:gconf linear forwards}
+@keyframes gconf{to{transform:translate3d(var(--dx),110vh,0) rotate(var(--r))}}
+.gstars{font-size:34px;letter-spacing:4px}.gstars span{display:inline-block;opacity:.25;transform:scale(.6);transition:.3s}.gstars span.on{opacity:1;transform:scale(1)}
+#garea>.gstart{z-index:5}
+
+/* 小遊戲插畫背景（ComfyUI 生成，進遊戲才載入） */
+#game[data-g=catch]{background:linear-gradient(#ffffff38,#ffffff38),url(a/mg_catch.webp) center/cover no-repeat,var(--gbg)}
+#game[data-g=fly]{background:linear-gradient(#ffffff38,#ffffff38),url(a/mg_fly.webp) center/cover no-repeat,var(--gbg)}
+#game[data-g=race]{background:linear-gradient(#ffffff38,#ffffff38),url(a/mg_race.webp) center/cover no-repeat,var(--gbg)}
+#game[data-g=dig]{background:linear-gradient(#ffffff38,#ffffff38),url(a/mg_dig.webp) center/cover no-repeat,var(--gbg)}
+#game[data-g=mem]{background:linear-gradient(#ffffff38,#ffffff38),url(a/mg_mem.webp) center/cover no-repeat,var(--gbg)}
+#game[data-g=shell]{background:linear-gradient(#ffffff38,#ffffff38),url(a/mg_shell.webp) center/cover no-repeat,var(--gbg)}
+#game[data-g=beat]{background:linear-gradient(#ffffff38,#ffffff38),url(a/mg_beat.webp) center/cover no-repeat,var(--gbg)}
+#game[data-g=jump]{background:linear-gradient(#ffffff38,#ffffff38),url(a/mg_jump.webp) center/cover no-repeat,var(--gbg)}
+#game[data-g=bath]{background:linear-gradient(#ffffff38,#ffffff38),url(a/mg_bath.webp) center/cover no-repeat,var(--gbg)}
+#game[data-g=shop]{background:linear-gradient(#ffffff38,#ffffff38),url(a/mg_shop.webp) center/cover no-repeat,var(--gbg)}
+#game[data-g=stack]{background:linear-gradient(#ffffff38,#ffffff38),url(a/mg_stack.webp) center/cover no-repeat,var(--gbg)}
+#game[data-g=fish]{background:linear-gradient(#ffffff38,#ffffff38),url(a/mg_fish.webp) center/cover no-repeat,var(--gbg)}
+#game[data-g]::before{display:none}
+#game .gi{text-shadow:0 4px 6px #0000004d}
+#game .gstart{background:radial-gradient(ellipse at center,#fffaf2f0 0 55%,#fffaf2b0 80%,#fffaf200)}
+#game .track{background:#bfe3a8d9;box-shadow:0 6px 18px #0002}
+#game .bt{background:linear-gradient(#fff7fbd9,#e9f3ffd9)}
+#game[data-g=catch] #garea::after{content:'';position:absolute;left:0;right:0;bottom:0;height:18%;background:linear-gradient(#0000,#fff4dc99);pointer-events:none}
+@media (prefers-reduced-motion:reduce){#game::before,.gfx,.gring,.gconf{animation:none;display:none}}
 </style>
 </head>
 <body>
@@ -1373,9 +1436,9 @@ function startGame(){
  if(p.energy<10)return toast(`${p.name} 太累了😪 先吃元氣小餅乾或睡一覺吧`);
  const ov=document.createElement('div');ov.id='game';
  ov.innerHTML=`<div class="ghd"><span id="gs">得分 0</span><span id="gt">⏱ 15</span></div><div id="garea"><div class="gstart">${thumb(p.breed,stage(p),130,p.acc.body)}<b style="font-size:20px">幫 ${esc(p.name)} 接零食！</b><div>點掉下來的 ${p.type==='cat'?'🐟🍤🧀':'🦴🍖🥩'} 得 1 分<br>⭐ 得 3 分，點到 🌶️🧅 扣 2 分<br>（洋蔥和辣椒對毛孩不好！）</div><button class="btn" id="ggo">開始！</button><button class="btn gray" id="gx">不玩了</button></div></div>`;
- document.body.appendChild(ov);
+ document.body.appendChild(ov);mgDecor(ov);
  ov.querySelector('#gx').onclick=()=>ov.remove();
- ov.querySelector('#ggo').onclick=()=>{ov.querySelector('.gstart').remove();runGame(ov,p)};
+ ov.querySelector('#ggo').onclick=()=>{ov.querySelector('.gstart').remove();mgCount(ov,()=>runGame(ov,p))};
 }
 function runGame(ov,p){
  const area=ov.querySelector('#garea');
@@ -1387,7 +1450,7 @@ function gSpawn(){
  if(r<.08){e='⭐';val=3}else if(r<.28){e=Math.random()<.5?'🌶️':'🧅';val=-2}else{e=G.good[Math.floor(Math.random()*3)];val=1}
  const el=document.createElement('div');el.className='gi';el.textContent=e;
  const W=G.area.clientWidth;const it={el,val,x:Math.random()*(W-60),y:-60,v:150+Math.random()*130+(15-G.t)*8};
- el.style.left=it.x+'px';el.style.transform=`translateY(${it.y}px)`;
+ el.style.left=it.x+'px';el.style.transform=`translate3d(0,${it.y}px,0)`;
  el.addEventListener('pointerdown',ev=>{ev.preventDefault();gHit(it)});
  G.area.appendChild(el);G.items.push(it);
 }
@@ -1402,10 +1465,10 @@ function gLoop(ts){
  if(!G||!G.on)return;
  const dt=Math.min(.05,(ts-G.last)/1000);G.last=ts;
  G.spawn-=dt;if(G.spawn<=0){gSpawn();G.spawn=.36+Math.random()*.26}
- const H=G.area.clientHeight;
- G.items.forEach(it=>{if(it.dead)return;it.y+=it.v*dt;it.el.style.transform=`translateY(${it.y}px)`;if(it.y>H){it.dead=true;it.el.remove()}});
+ const H=G.H||(G.H=G.area.clientHeight);
+ G.items.forEach(it=>{if(it.dead)return;it.y+=it.v*dt;it.el.style.transform=`translate3d(0,${it.y}px,0)`;if(it.y>H){it.dead=true;it.el.remove()}});
  G.items=G.items.filter(it=>!it.dead);
- G.t-=dt;document.getElementById('gt').textContent='⏱ '+Math.max(0,Math.ceil(G.t));
+ G.t-=dt;mgT(G.t);
  if(G.t<=0)return gEnd();
  requestAnimationFrame(gLoop);
 }
@@ -1415,8 +1478,9 @@ function gEnd(){
  S.coins+=reward;p.energy=clamp(p.energy-10);p.mood=clamp(p.mood+10);S.gameToday++;addAff(p,3);task('game');stat('mg');wishHit(p,'game');
  const ov=G.ov;
  const box=document.createElement('div');box.className='gstart';
- box.innerHTML=`<div style="font-size:60px">${G.score>=15?'🏆':G.score>=8?'🎉':'😺'}</div><b style="font-size:22px">接到 ${G.score} 分！</b><div>${esc(p.name)} 玩得很開心，心情 +10</div>${window._mgNB||''}<div style="font-size:20px;font-weight:800;color:#ee5a3c">獲得零用金 💰${reward}</div><button class="btn" id="gok">收下零用金</button>`;
- G.area.appendChild(box);coinSound();
+ box.innerHTML=`<div style="font-size:60px">${G.score>=15?'🏆':G.score>=8?'🎉':'😺'}</div><b style="font-size:22px">接到 ${G.score} 分！</b><div>${esc(p.name)} 玩得很開心，心情 +10</div>${window._mgNB||''}<div style="font-size:20px;font-weight:800;color:#ee5a3c">獲得零用金 💰<span id="gcoin">0</span></div><button class="btn" id="gok">收下零用金</button>`;
+ const stars=G.score>=15?3:G.score>=8?2:1;box.querySelector('b').insertAdjacentHTML('afterend',`<div class="gstars">${[1,2,3].map(()=>'<span>⭐</span>').join('')}</div>`);
+ G.area.appendChild(box);coinSound();mgCountUp(box.querySelector('#gcoin'),reward);box.querySelectorAll('.gstars span').forEach((e,k)=>{if(k<stars)setTimeout(()=>{e.classList.add('on');beep(784+k*196,.08,'triangle',.05)},250+k*220)});if(stars>=2)mgConfetti(G.area,stars===3?48:24);['gquit','gbar'].forEach(i=>{const e=document.getElementById(i);if(e)e.remove()});
  box.querySelector('#gok').onclick=()=>{ov.remove();G=null;render();jump();floatText(`+${reward} 💰`)};
 }
 
@@ -1550,7 +1614,7 @@ const FSH=[['🐟','小魚',1,40],['🐠','熱帶魚',2,25],['🦐','小蝦',1,1
 function fishGame(p){
  mgOpen(p,`陪 ${esc(p.name)} 釣魚！`,'浮標出現 <b>❗</b> 時快點池塘<br>太早點會把魚嚇跑・30 秒',(ov,area)=>{
   G={on:true,score:0,t:30,last:performance.now(),bite:0,next:0,caught:[]};
-  area.style.background='linear-gradient(#bfe6ff 0 28%,#7cc7ef 28%,#4aa3d8)';
+  area.style.background='linear-gradient(#bfe6ff00 0 28%,#7cc7ef40 28%,#4aa3d855)';
   area.innerHTML=`<div style="position:absolute;left:8px;top:6%;font-size:64px">${p.type==='cat'?'🐱':'🐶'}</div><div style="position:absolute;left:58px;top:9%;font-size:30px;transform:rotate(25deg)">🎣</div>
   <svg style="position:absolute;inset:0;pointer-events:none" width="100%" height="100%"><line id="fline" x1="96" y1="60" x2="60%" y2="52%" stroke="#333" stroke-width="1.5"/></svg>
   <div id="fbob" style="position:absolute;left:60%;top:52%;font-size:30px;transform:translate(-50%,-50%);transition:top .15s">🔴</div><div id="fex" style="position:absolute;left:60%;top:40%;font-size:46px;transform:translate(-50%,-50%);display:none">❗</div>
@@ -1562,25 +1626,37 @@ function fishGame(p){
   area.addEventListener('pointerdown',ev=>{ev.preventDefault();if(!G.on)return;const now=performance.now();
    if(G.bite&&now<G.bite){const f=pick();G.score+=f[2];G.caught.push(f[0]);bag.textContent=G.caught.slice(-12).join('');msg.textContent=f[2]?`釣到 ${f[0]} ${f[1]}！+${f[2]}`:`釣到 ${f[0]} ${f[1]}…`;beep(f[2]>=3?988:784,.1,'triangle',.06);document.getElementById('gs').textContent='得分 '+G.score;arm(1000+Math.random()*1800)}
    else if(!G.bite){msg.textContent='太早了！魚被嚇跑了 💦';beep(200,.12);arm(1800+Math.random()*1500)}});
-  const loop=now=>{if(!G||!G.on)return;const dt=(now-G.last)/1000;G.last=now;G.t-=dt;document.getElementById('gt').textContent='⏱ '+Math.max(0,Math.ceil(G.t));
+  const loop=now=>{if(!G||!G.on)return;const dt=(now-G.last)/1000;G.last=now;G.t-=dt;mgT(G.t);
    if(!G.bite&&now>=G.next){G.bite=now+Math.max(550,900-G.caught.length*25);ex.style.display='block';bob.style.top='55%';msg.textContent='❗ 上鉤了！快點！';beep(660,.05,'square',.04)}
    else if(G.bite&&now>G.bite){msg.textContent='魚溜走了…';arm(1200+Math.random()*1500)}
    else if(!G.bite)bob.style.top=(52+Math.sin(now/300)*1.2)+'%';
    if(G.t<=0){G.on=false;const big=G.caught.includes('🐋');stat('fish');if(big)stat('whale');
     setTimeout(()=>mgFinish(p,ov,area,`<div style="font-size:56px">${big?'🐋':'🎣'}</div><b style="font-size:22px">釣到 ${G.caught.filter(x=>x!=='👢').length} 條・${G.score} 分</b><div style="font-size:20px">${G.caught.join('')}</div>`,Math.min(40,G.score*2+4),G.score>=12||big?3:0,big?'<div style="color:#3a7ad8;font-weight:900">✨ 傳說鯨魚！超稀有！</div>':''),400);return}
    requestAnimationFrame(loop)};requestAnimationFrame(loop)})}
+
+/* ---------- 🎮 小遊戲共用手感：倒數、計時條、點擊特效、分數彈跳、結算彩帶 ---------- */
+let MGX={t0:0,last:-1};
+function mgDecor(ov){if(!ov||ov._dec)return;ov._dec=1;ov.dataset.g=window._mgId||'catch';const hd=ov.querySelector('.ghd');if(hd){hd.insertAdjacentHTML('beforeend','<div id="gbar"><i></i></div><button id="gquit" title="不玩了">✕</button>');hd.querySelector('#gquit').onclick=()=>{const now=Date.now();if(G&&G.on&&!(ov._q&&now-ov._q<2200)){ov._q=now;toast('再按一次 ✕ 就離開（這次不會有獎勵）');return}if(G)G.on=false;G=null;ov.remove();render()}}
+ MGX={t0:0,last:-1};const gs=ov.querySelector('#gs');if(gs&&window.MutationObserver){let pv=gs.textContent;new MutationObserver(()=>{if(gs.textContent===pv)return;pv=gs.textContent;gs.classList.remove('bump');void gs.offsetWidth;gs.classList.add('bump')}).observe(gs,{childList:true,characterData:true,subtree:true})}
+ const ar=ov.querySelector('#garea');if(ar)ar.addEventListener('pointerdown',e=>{if(!G||!G.on)return;const r=ar.getBoundingClientRect();mgFx(e.clientX-r.left,e.clientY-r.top,ar)},true)}
+function mgFx(x,y,ar,cols){if(!ar)return;const C=cols||['#ffd84d','#ff8ab4','#7be3b5','#6fcbff','#fff'];const ring=document.createElement('div');ring.className='gring';ring.style.left=x+'px';ring.style.top=y+'px';ar.appendChild(ring);setTimeout(()=>ring.remove(),360);
+ for(let k=0;k<6;k++){const d=document.createElement('div'),a=k/6*6.283+Math.random()*.6,r=26+Math.random()*22;d.className='gfx';d.style.cssText=`left:${x-4}px;top:${y-4}px;background:${C[k%C.length]};--dx:${Math.cos(a)*r}px;--dy:${Math.sin(a)*r}px`;ar.appendChild(d);setTimeout(()=>d.remove(),520)}}
+function mgT(v){const t=Math.max(0,Math.ceil(v));if(!MGX.t0||v>MGX.t0)MGX.t0=v;const b=document.querySelector('#gbar i');if(b)b.style.transform=`scaleX(${Math.max(0,v/MGX.t0).toFixed(3)})`;if(t===MGX.last)return;MGX.last=t;const el=document.getElementById('gt');if(!el)return;el.textContent='⏱ '+t;const h=t<=5&&t>0;el.classList.toggle('hurry',h);if(h)beep(t<=3?880:660,.05,'square',.03)}
+function mgCount(ov,go){const ar=ov.querySelector('#garea');const box=document.createElement('div');box.className='gcd';ar.appendChild(box);let n=3;const step=()=>{if(!document.body.contains(ov))return;box.innerHTML=`<b>${n||'GO!'}</b>`;beep(n?520:1046,.12,'triangle',.05);if(n===0){setTimeout(()=>box.remove(),600);go();return}n--;setTimeout(step,650)};step()}
+function mgConfetti(ar,n=36){const C=['#ffd84d','#ff8ab4','#7be3b5','#6fcbff','#b49aff','#ff9f5a'];for(let k=0;k<n;k++){const c=document.createElement('div');c.className='gconf';c.style.cssText=`left:${Math.random()*100}%;background:${C[k%C.length]};--dx:${(Math.random()-.5)*160}px;--r:${(Math.random()-.5)*900}deg;animation-duration:${1.6+Math.random()*1.4}s;animation-delay:${Math.random()*.4}s;border-radius:${Math.random()<.4?'50%':'2px'}`;ar.appendChild(c);setTimeout(()=>c.remove(),3600)}}
+function mgCountUp(el,to){if(!el)return;const t0=performance.now(),D=Math.min(900,300+to*12);const f=now=>{const k=Math.min(1,(now-t0)/D),v=Math.round(to*(1-Math.pow(1-k,3)));el.textContent=v;if(k<1)requestAnimationFrame(f)};requestAnimationFrame(f)}
 function mgOpen(p,title,hint,start,timer=true){
  const ov=document.createElement('div');ov.id='game';
  ov.innerHTML=`<div class="ghd"><span id="gs">${timer?'得分 0':''}</span><span id="gt">${timer?'⏱':''}</span></div><div id="garea"><div class="gstart">${thumb(p.breed,stage(p),120,p.acc.body)}<b style="font-size:20px">${title}</b><div>${hint}</div><button class="btn" id="ggo">開始！</button><button class="btn gray" id="gx">不玩了</button></div></div>`;
- document.body.appendChild(ov);ov.querySelector('#gx').onclick=()=>ov.remove();
- ov.querySelector('#ggo').onclick=()=>{ov.querySelector('.gstart').remove();start(ov,ov.querySelector('#garea'))};
+ document.body.appendChild(ov);mgDecor(ov);ov.querySelector('#gx').onclick=()=>ov.remove();
+ ov.querySelector('#ggo').onclick=()=>{ov.querySelector('.gstart').remove();const go=()=>start(ov,ov.querySelector('#garea'));timer?mgCount(ov,go):go()};
 }
 function mgFinish(p,ov,area,head,coins,shrimp=0,extra=''){
  G={on:false};const nb=mgRec(coins);if(nb)extra+=nb;const lk=luckT();coins=Math.round(coins*mult(p)*(p.trait==='brave'?1.3:1)*(lk&&LUCK[lk.i][1]==='mg'?1.3:1));if(lk&&LUCK[lk.i][1]==='mg')extra+='<div style="font-size:12px;color:#8a5cff">🔮 今日運勢大吉：金幣 +30%</div>';
  S.coins+=coins;S.shrimp=(S.shrimp||0)+shrimp;p.energy=clamp(p.energy-10);p.mood=clamp(p.mood+10);S.gameToday++;addAff(p,3);task('game');stat('mg');wishHit(p,'game');
- const box=document.createElement('div');box.className='gstart';box.style.background='rgba(255,250,244,.96)';box.style.zIndex=5;
- box.innerHTML=`${head}<div>${esc(p.name)} 玩得很開心，心情 +10</div>${extra}<div style="font-size:20px;font-weight:800;color:#ee5a3c">獲得 💰${coins}${shrimp?`　🦐${shrimp}`:''}</div><button class="btn" id="gok">收下</button>`;
- area.appendChild(box);coinSound();
+ const box=document.createElement('div');box.className='gstart';box.style.background='radial-gradient(ellipse at center,#fffaf4f5 0 50%,#fffaf4d0 85%)';box.style.zIndex=5;
+ const stars=coins>=30?3:coins>=15?2:1;box.innerHTML=`${head}<div class="gstars">${[1,2,3].map(k=>`<span>⭐</span>`).join('')}</div><div>${esc(p.name)} 玩得很開心，心情 +10</div>${extra}<div style="font-size:20px;font-weight:800;color:#ee5a3c">獲得 💰<span id="gcoin">0</span>${shrimp?`　🦐${shrimp}`:''}</div><button class="btn" id="gok">收下</button>`;
+ area.appendChild(box);coinSound();mgCountUp(box.querySelector('#gcoin'),coins);box.querySelectorAll('.gstars span').forEach((e,k)=>{if(k<stars)setTimeout(()=>{e.classList.add('on');beep(784+k*196,.08,'triangle',.05)},250+k*220)});if(stars>=2)mgConfetti(area,stars===3?48:24);const q=document.getElementById('gquit');if(q)q.remove();const tb=document.querySelector('#gbar');if(tb)tb.remove();
  box.querySelector('#gok').onclick=()=>{ov.remove();G=null;render();jump();floatText(`+${coins} 💰`)};
 }
 function flyGame(p){
@@ -1596,7 +1672,7 @@ function flyGame(p){
    area.appendChild(el);G.items.push(it)};
   const loop=ts=>{if(!G||!G.on)return;const dt=Math.min(.05,(ts-G.last)/1000);G.last=ts;G.spawn-=dt;if(G.spawn<=0){spawn();G.spawn=.45+Math.random()*.4}
    G.items.forEach(it=>{if(it.dead)return;it.x+=it.dir*it.sp*dt;it.ph+=dt*it.f;it.cy=it.by+Math.sin(it.ph)*it.amp;it.el.style.transform=`translate(${it.x}px,${it.cy}px) scaleX(${-it.dir})`;if(it.x<-70||it.x>W+70){it.dead=true;it.el.remove()}});
-   G.items=G.items.filter(i=>!i.dead);G.t-=dt;document.getElementById('gt').textContent='⏱ '+Math.max(0,Math.ceil(G.t));
+   G.items=G.items.filter(i=>!i.dead);G.t-=dt;mgT(G.t);
    if(G.t<=0){G.items.forEach(i=>i.el.remove());return mgFinish(p,ov,area,`<div style="font-size:56px">${G.score>=15?'🏆':'🦋'}</div><b style="font-size:22px">抓到 ${G.score} 分！</b>`,G.score*1.2)}
    requestAnimationFrame(loop)};
   requestAnimationFrame(loop);
@@ -1608,13 +1684,13 @@ function raceGame(p){
   const others=BREEDS.filter(b=>b.id!==p.breed).sort(()=>Math.random()-.5).slice(0,3);
   const R=[{me:1,name:p.name,html:sprDiv(p.breed,stage(p),56,p.acc.body),x:0,v:0},...others.map(b=>({name:b.def,html:sprDiv(b.id,'a',56),x:0,v:0,base:8.5+Math.random()*3.5}))].sort(()=>Math.random()-.5);
   area.innerHTML=`<div class="track">${R.map((r,i)=>`<div class="lane ${r.me?'me':''}"><span class="lname">${esc(r.name)}</span><div class="runner" id="rn${i}">${r.html}</div></div>`).join('')}<div class="finish"></div></div><div id="rcnt" class="rcnt">3</div><button class="btn dash" id="dash" disabled>衝！🐾</button>`;
-  const tw=area.querySelector('.track').clientWidth-80;let boost=0,order=[],go=false,t0=0;
+  const tw=area.querySelector('.track').clientWidth-80,RN=R.map((r,i)=>area.querySelector('#rn'+i));let boost=0,order=[],go=false,t0=0;
   const dash=area.querySelector('#dash');dash.addEventListener('pointerdown',e=>{e.preventDefault();if(go){boost=Math.min(11,boost+1.6);beep(400+boost*30,.03,'square',.02)}});
   let c=3;const cd=setInterval(()=>{c--;const el=area.querySelector('#rcnt');beep(c?520:1046,.15);if(c>0)el.textContent=c;else{el.textContent='GO!';setTimeout(()=>el.remove(),500);clearInterval(cd);go=true;dash.disabled=false;G.last=performance.now();t0=G.last;requestAnimationFrame(loop)}},700);
   G={on:true,last:0};
   const loop=ts=>{if(!G||!G.on)return;const dt=Math.min(.05,(ts-G.last)/1000);G.last=ts;
    R.forEach((r,i)=>{if(r.done)return;if(r.me){boost*=Math.pow(.35,dt);r.v=3+boost}else{r.v=r.base+Math.sin(ts/600+i)*1.5}
-    r.x=Math.min(100,r.x+r.v*dt);area.querySelector('#rn'+i).style.left=(r.x/100*tw)+'px';if(r.x>=100){r.done=1;order.push(r)}});
+    r.x=Math.min(100,r.x+r.v*dt);RN[i].style.transform=`translate3d(${(r.x/100*tw).toFixed(1)}px,${Math.abs(Math.sin(ts/90+i*1.3))*-5}px,0)`;if(r.x>=100){r.done=1;order.push(r)}});
    if(order.some(r=>r.me)){
     const place=order.findIndex(r=>r.me)+1;if(!place){requestAnimationFrame(loop);return}
     dash.disabled=true;const prize=[[40,5],[25,2],[15,0],[8,0]][place-1];const medal=['🥇','🥈','🥉','🎽'][place-1];
@@ -1747,7 +1823,7 @@ function memGame(p){
    if(open.length<2)return;const [a,c]=open;open=[];
    if(cards[a.dataset.i]===cards[c.dataset.i]){a.classList.add('ok');c.classList.add('ok');pairs++;document.getElementById('gs').textContent='配對 '+pairs+'/6';beep(1175,.08,'triangle',.05);if(pairs===6)done()}
    else{lock=true;setTimeout(()=>{a.classList.remove('up');c.classList.remove('up');lock=false},650)}}));
-  const loop=ts=>{if(!G||!G.on)return;G.t-=Math.min(.1,(ts-G.last)/1000);G.last=ts;document.getElementById('gt').textContent='⏱ '+Math.max(0,Math.ceil(G.t));if(G.t<=0)return done();requestAnimationFrame(loop)};
+  const loop=ts=>{if(!G||!G.on)return;G.t-=Math.min(.1,(ts-G.last)/1000);G.last=ts;mgT(G.t);if(G.t<=0)return done();requestAnimationFrame(loop)};
   requestAnimationFrame(loop);
  });
 }
@@ -2768,7 +2844,7 @@ function jumpGame(p){
     const px0=46+pw*.2,px1=46+pw*.8,py0=y,py1=y+ph*.75,ox0=o.x+6,ox1=o.x+28,oy0=o.y,oy1=o.y+28;
     if(ox1>px0&&ox0<px1&&oy1>py0&&oy0<py1){o.dead=1;o.el.remove();if(o.good){const v=o.e==='⭐'?5:2;score+=v;eaten++;beep(988,.06,'triangle',.05)}else{hits++;t=Math.max(0,t-2);score=Math.max(0,score-1);beep(200,.12,'sawtooth',.04);pe.style.opacity=.4;setTimeout(()=>pe.style.opacity=1,300)}hd()}
     else if(o.x<-40){o.dead=1;o.el.remove()}});
-   document.getElementById('gt').textContent='⏱ '+Math.max(0,Math.ceil(t));if(t<=0)return end();requestAnimationFrame(loop)};
+   mgT(t);if(t<=0)return end();requestAnimationFrame(loop)};
   requestAnimationFrame(loop);
  });
 }
@@ -2793,7 +2869,7 @@ function shopGame(p){
    mgFinish(p,ov,area,`<div style="font-size:56px">${served>=12?'🏆':'🏪'}</div><b style="font-size:22px">服務了 ${served} 位客人</b><div style="font-size:13px">${angry?`有 ${angry} 位客人等太久走掉了`:'每位客人都很滿意！'}</div>`,Math.min(40,score*.9),served>=12?3:0)};
   const loop=ts=>{if(!G||!G.on||ended)return;const dt=Math.min(.05,(ts-last)/1000);last=ts;t-=dt;spawnT-=dt;if(spawnT<=0){spawn();spawnT=Math.max(.9,2-served*.06)}
    let ch=false;slots.forEach((c,i)=>{if(c&&!c.leave){c.pt-=dt;if(c.pt<=0){c.leave='bad';angry++;combo=0;beep(200,.12,'sawtooth',.04);setTimeout(()=>{slots[i]=null;draw()},400)}ch=true}});if(ch)draw();
-   document.getElementById('gt').textContent='⏱ '+Math.max(0,Math.ceil(t));if(t<=0)return end();requestAnimationFrame(loop)};
+   mgT(t);if(t<=0)return end();requestAnimationFrame(loop)};
   requestAnimationFrame(loop);
  });
 }
@@ -2820,7 +2896,7 @@ function bathGame(p){
   const loop=ts=>{if(!G||!G.on||ended)return;const dt=Math.min(.05,(ts-last)/1000);last=ts;t-=dt*(p.type==='cat'?1.1:1);
    msp-=dt;if(msp<=0&&muds.length<4){addMud();msp=.9+Math.random()*.8}
    dsp-=dt;if(dsp<=0){duck();dsp=3+Math.random()*3}
-   document.getElementById('gt').textContent='⏱ '+Math.max(0,Math.ceil(t));if(t<=0)return end();requestAnimationFrame(loop)};
+   mgT(t);if(t<=0)return end();requestAnimationFrame(loop)};
   requestAnimationFrame(loop);
  });
 }
@@ -2847,7 +2923,7 @@ function stackGame(p){
    mgFinish(p,ov,area,`<div style="font-size:56px">${score>=15?'🏆':'🍰'}</div><b style="font-size:22px">疊了 ${score} 層</b><div style="font-size:13px">完美對齊 ${perfect} 次</div>`,Math.min(40,score*1.6+perfect),score>=15?3:0)};
   const loop=ts=>{if(!G||!G.on||ended)return;const dt=Math.min(.05,(ts-last)/1000);last=ts;t-=dt;
    if(cur){cur.x+=dir*sp*dt;if(cur.x>W-cur.w*.2){cur.x=W-cur.w*.2;dir=-1}if(cur.x<-cur.w*.8){cur.x=-cur.w*.8;dir=1}cur.el.style.left=cur.x+'px'}
-   document.getElementById('gt').textContent='⏱ '+Math.max(0,Math.ceil(t));if(t<=0)return end();requestAnimationFrame(loop)};
+   mgT(t);if(t<=0)return end();requestAnimationFrame(loop)};
   requestAnimationFrame(loop);
  });
 }
@@ -2883,7 +2959,7 @@ function beatGame(p){
     if(!n.el){n.el=document.createElement('div');n.el.className='nt'+(n.gold?' gold':'');n.el.textContent=n.gold?'⭐':em[n.l];n.el.style.left=(n.l*lw+lw/2)+'px';n.el.style.top='0px';bt.appendChild(n.el)}
     const y=hitY-dt/FALL*(hitY+30);n.el.style.transform=`translateY(${y}px)`;
     if(dt<-.2){n.done=1;n.el.remove();n.el=null;miss++;combo=0;cmbEl.textContent='';show('漏掉','#a08670',n.l)}});
-   document.getElementById('gt').textContent='⏱ '+Math.max(0,Math.ceil(DUR-now));
+   mgT(DUR-now);
    if(now>DUR+.3||notes.every(n=>n.done)&&now>notes[notes.length-1].t+.3)return end();requestAnimationFrame(loop)};
   requestAnimationFrame(loop);
  });
