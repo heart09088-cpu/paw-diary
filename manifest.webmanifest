@@ -1,0 +1,17 @@
+{
+  "name": "毛孩零用錢日記",
+  "short_name": "毛孩日記",
+  "description": "養小貓小狗、玩小遊戲、和朋友一起玩的寵物養成遊戲",
+  "lang": "zh-Hant",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fff4e8",
+  "theme_color": "#ffd580",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
