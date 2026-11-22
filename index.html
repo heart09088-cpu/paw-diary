@@ -4230,6 +4230,39 @@ function pickAv(){const i=document.createElement('input');i.type='file';i.accept
 
 load();S.pets.forEach(initPet);if(!S.wx)newWx();weekly();if(!S.pets.length){S.intro=false}if(!S.tasks)newTasks();render();if(!S.intro||!S.pets.length){window.PENDLOGIN=1;realDay();intro()}else if(syncDay()){window.AFTERM=()=>loginBonus()}else loginBonus();
 </script>
+<script>
+/* ---------- 小遊戲場加強：今日推薦（金幣 ×1.5）＋練習模式（次數用完也能玩，不拿獎勵、可刷新紀錄） ---------- */
+(function(){
+ const FEAT_BONUS=0.5;
+ function featId(){const d=todayStr();let h=0;for(const c of d)h=(h*31+c.charCodeAt(0))>>>0;return MG[h%MG.length].id}
+ window.mgFeatId=featId;
+ const _play=playMG,_fin=mgFinish,_gEnd=gEnd,_chk=typeof checkAch==='function'?checkAch:null;
+ let PR=null;
+ function restore(){if(!PR)return;const id=PR.id,b=(S.best||{})[id]||0;S=JSON.parse(PR.snap);S.best=S.best||{};if(b>(S.best[id]||0))S.best[id]=b;PR=null;window._mgPrac=0;save();try{render()}catch(e){}}
+ function watch(){const mo=new MutationObserver(()=>{if(!document.getElementById('game')){mo.disconnect();setTimeout(restore,0)}});mo.observe(document.body,{childList:true})}
+ function practice(id){const p=pet();PR={id,snap:JSON.stringify(S)};window._mgPrac=1;S.gameToday=0;if(p.energy<10)p.energy=10;_play(id);
+  if(!document.getElementById('game')){restore();return}watch()}
+ window.mgPractice=practice;
+ if(_chk)checkAch=function(){if(PR)return;return _chk.apply(this,arguments)};
+ function pracBox(){const g=document.getElementById('game');if(!g)return;const box=[...g.querySelectorAll('.gstart')].pop();if(!box)return;
+  const c=box.querySelector('#gcoin');if(c){const line=c.closest('div');if(line)line.outerHTML='<div style="font-size:16px;font-weight:800;color:#8a5cff">🎯 練習模式：不拿獎勵，只刷新個人紀錄</div>'}
+  const t=[...box.querySelectorAll('div')].find(d=>/心情 \+10/.test(d.textContent)&&!d.querySelector('div'));if(t)t.remove();
+  const ok=box.querySelector('#gok');if(ok){ok.textContent='結束練習';ok.onclick=()=>{g.remove();G=null}}}
+ function featBonus(before){if(window._mgFeatNow!==featId())return;const got=S.coins-before;if(got<=0)return;const add=Math.round(got*FEAT_BONUS);S.coins+=add;
+  const g=document.getElementById('game');const box=g&&[...g.querySelectorAll('.gstart')].pop();const c=box&&box.querySelector('#gcoin');
+  if(c){const line=c.closest('div');line.insertAdjacentHTML('afterend',`<div style="font-size:14px;font-weight:800;color:#ff8a00">⭐ 今日推薦加成 +${add} 💰</div>`)}
+  const ok=box&&box.querySelector('#gok');if(ok){const f=ok.onclick;ok.onclick=function(){f&&f.apply(this,arguments);setTimeout(()=>floatText(`+${add} 💰 推薦加成`),500)}}}
+ mgFinish=function(){const before=S.coins;const r=_fin.apply(this,arguments);if(PR)pracBox();else featBonus(before);return r};
+ gEnd=function(){const before=S.coins;const r=_gEnd.apply(this,arguments);if(PR)pracBox();else featBonus(before);return r};
+ playMG=function(id){window._mgFeatNow=id;if(S.gameToday>=MGLIM){
+   modal(`<h3>🎯 練習模式</h3><p>今天的 ${MGLIM} 次獎勵已經玩完了。</p><p style="font-size:13px;color:#a08670">還想玩的話可以用練習模式：不拿金幣和道具、不消耗精力，但可以刷新個人最佳紀錄。</p><div class="mbtns"><button class="btn" onclick="closeModal();mgPractice('${id}')">開始練習</button><button class="btn gray" onclick="openGames()">回小遊戲場</button></div>`);return}
+  return _play(id)};
+ openGames=function(){
+  const p=pet();if(p.sick)return toast(`${p.name} 生病了，先帶去看獸醫吧 🏥`);
+  const fid=featId(),left=MGLIM-S.gameToday,L=[...MG].sort((a,b)=>(b.id===fid)-(a.id===fid));
+  modal(`<h3>🎮 小遊戲場</h3><p style="font-size:13px;color:#a08670">${left>0?`今天還能玩 ${left}/${MGLIM} 次・陪 ${esc(p.name)} 玩`:`今天的獎勵次數用完了，還可以玩 🎯 練習模式刷新紀錄`}</p>${L.map(g=>{const f=g.id===fid;return `<div class="row" onclick="playMG('${g.id}')" style="cursor:pointer${f?';background:linear-gradient(90deg,#fff3c4,#fff);border-color:#ffb020':''}"><span class="re">${g.e}</span><span class="rt"><b>${g.n}${f?' <span style="font-size:10px;background:#ff9a00;color:#fff;border-radius:8px;padding:0 5px">⭐ 今日推薦 金幣×1.5</span>':''}${g.nw&&!(S.best&&S.best[g.id])?' <span style="font-size:10px;background:#ff5c9e;color:#fff;border-radius:8px;padding:0 5px">NEW</span>':''}${S.best&&S.best[g.id]?` <span style="font-size:11px;color:#8a5cff">🏆 最佳 ${S.best[g.id]}</span>`:''}</b><small>${g.d}</small></span><button class="btn">${left>0?'玩':'練習'}</button></div>`}).join('')}<div class="mbtns"><button class="btn gray" onclick="closeModal()">關閉</button></div>`)};
+})();
+</script>
 <!-- ☁️ 雲端存檔（Firebase） -->
 <style>
 #cloudBtn{position:fixed;left:10px;bottom:8px;z-index:9999;background:#fff;border:2px solid #ffb36b;border-radius:20px;padding:4px 10px;font-size:12px;box-shadow:0 2px 6px #0002;cursor:pointer;transition:opacity .2s}
@@ -4329,39 +4362,6 @@ if(pawInApp()){
  const x=document.createElement('button');x.textContent='✕';x.style.cssText='border:0;background:none;font-size:15px';x.onclick=()=>bar.remove();bar.append(b,x);
  document.addEventListener('DOMContentLoaded',()=>document.body.appendChild(bar));if(document.body)document.body.appendChild(bar);
 }
-})();
-</script>
-<script>
-/* ---------- 小遊戲場加強：今日推薦（金幣 ×1.5）＋練習模式（次數用完也能玩，不拿獎勵、可刷新紀錄） ---------- */
-(function(){
- const FEAT_BONUS=0.5;
- function featId(){const d=todayStr();let h=0;for(const c of d)h=(h*31+c.charCodeAt(0))>>>0;return MG[h%MG.length].id}
- window.mgFeatId=featId;
- const _play=playMG,_fin=mgFinish,_gEnd=gEnd,_chk=typeof checkAch==='function'?checkAch:null;
- let PR=null;
- function restore(){if(!PR)return;const id=PR.id,b=(S.best||{})[id]||0;S=JSON.parse(PR.snap);S.best=S.best||{};if(b>(S.best[id]||0))S.best[id]=b;PR=null;window._mgPrac=0;save();try{render()}catch(e){}}
- function watch(){const mo=new MutationObserver(()=>{if(!document.getElementById('game')){mo.disconnect();setTimeout(restore,0)}});mo.observe(document.body,{childList:true})}
- function practice(id){const p=pet();PR={id,snap:JSON.stringify(S)};window._mgPrac=1;S.gameToday=0;if(p.energy<10)p.energy=10;_play(id);
-  if(!document.getElementById('game')){restore();return}watch()}
- window.mgPractice=practice;
- if(_chk)checkAch=function(){if(PR)return;return _chk.apply(this,arguments)};
- function pracBox(){const g=document.getElementById('game');if(!g)return;const box=[...g.querySelectorAll('.gstart')].pop();if(!box)return;
-  const c=box.querySelector('#gcoin');if(c){const line=c.closest('div');if(line)line.outerHTML='<div style="font-size:16px;font-weight:800;color:#8a5cff">🎯 練習模式：不拿獎勵，只刷新個人紀錄</div>'}
-  const t=[...box.querySelectorAll('div')].find(d=>/心情 \+10/.test(d.textContent)&&!d.querySelector('div'));if(t)t.remove();
-  const ok=box.querySelector('#gok');if(ok){ok.textContent='結束練習';ok.onclick=()=>{g.remove();G=null}}}
- function featBonus(before){if(window._mgFeatNow!==featId())return;const got=S.coins-before;if(got<=0)return;const add=Math.round(got*FEAT_BONUS);S.coins+=add;
-  const g=document.getElementById('game');const box=g&&[...g.querySelectorAll('.gstart')].pop();const c=box&&box.querySelector('#gcoin');
-  if(c){const line=c.closest('div');line.insertAdjacentHTML('afterend',`<div style="font-size:14px;font-weight:800;color:#ff8a00">⭐ 今日推薦加成 +${add} 💰</div>`)}
-  const ok=box&&box.querySelector('#gok');if(ok){const f=ok.onclick;ok.onclick=function(){f&&f.apply(this,arguments);setTimeout(()=>floatText(`+${add} 💰 推薦加成`),500)}}}
- mgFinish=function(){const before=S.coins;const r=_fin.apply(this,arguments);if(PR)pracBox();else featBonus(before);return r};
- gEnd=function(){const before=S.coins;const r=_gEnd.apply(this,arguments);if(PR)pracBox();else featBonus(before);return r};
- playMG=function(id){window._mgFeatNow=id;if(S.gameToday>=MGLIM){
-   modal(`<h3>🎯 練習模式</h3><p>今天的 ${MGLIM} 次獎勵已經玩完了。</p><p style="font-size:13px;color:#a08670">還想玩的話可以用練習模式：不拿金幣和道具、不消耗精力，但可以刷新個人最佳紀錄。</p><div class="mbtns"><button class="btn" onclick="closeModal();mgPractice('${id}')">開始練習</button><button class="btn gray" onclick="openGames()">回小遊戲場</button></div>`);return}
-  return _play(id)};
- openGames=function(){
-  const p=pet();if(p.sick)return toast(`${p.name} 生病了，先帶去看獸醫吧 🏥`);
-  const fid=featId(),left=MGLIM-S.gameToday,L=[...MG].sort((a,b)=>(b.id===fid)-(a.id===fid));
-  modal(`<h3>🎮 小遊戲場</h3><p style="font-size:13px;color:#a08670">${left>0?`今天還能玩 ${left}/${MGLIM} 次・陪 ${esc(p.name)} 玩`:`今天的獎勵次數用完了，還可以玩 🎯 練習模式刷新紀錄`}</p>${L.map(g=>{const f=g.id===fid;return `<div class="row" onclick="playMG('${g.id}')" style="cursor:pointer${f?';background:linear-gradient(90deg,#fff3c4,#fff);border-color:#ffb020':''}"><span class="re">${g.e}</span><span class="rt"><b>${g.n}${f?' <span style="font-size:10px;background:#ff9a00;color:#fff;border-radius:8px;padding:0 5px">⭐ 今日推薦 金幣×1.5</span>':''}${g.nw&&!(S.best&&S.best[g.id])?' <span style="font-size:10px;background:#ff5c9e;color:#fff;border-radius:8px;padding:0 5px">NEW</span>':''}${S.best&&S.best[g.id]?` <span style="font-size:11px;color:#8a5cff">🏆 最佳 ${S.best[g.id]}</span>`:''}</b><small>${g.d}</small></span><button class="btn">${left>0?'玩':'練習'}</button></div>`}).join('')}<div class="mbtns"><button class="btn gray" onclick="closeModal()">關閉</button></div>`)};
 })();
 </script>
 </body>
