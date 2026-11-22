@@ -4263,6 +4263,18 @@ load();S.pets.forEach(initPet);if(!S.wx)newWx();weekly();if(!S.pets.length){S.in
   modal(`<h3>🎮 小遊戲場</h3><p style="font-size:13px;color:#a08670">${left>0?`今天還能玩 ${left}/${MGLIM} 次・陪 ${esc(p.name)} 玩`:`今天的獎勵次數用完了，還可以玩 🎯 練習模式刷新紀錄`}</p>${L.map(g=>{const f=g.id===fid;return `<div class="row" onclick="playMG('${g.id}')" style="cursor:pointer${f?';background:linear-gradient(90deg,#fff3c4,#fff);border-color:#ffb020':''}"><span class="re">${g.e}</span><span class="rt"><b>${g.n}${f?' <span style="font-size:10px;background:#ff9a00;color:#fff;border-radius:8px;padding:0 5px">⭐ 今日推薦 金幣×1.5</span>':''}${g.nw&&!(S.best&&S.best[g.id])?' <span style="font-size:10px;background:#ff5c9e;color:#fff;border-radius:8px;padding:0 5px">NEW</span>':''}${S.best&&S.best[g.id]?` <span style="font-size:11px;color:#8a5cff">🏆 最佳 ${S.best[g.id]}</span>`:''}</b><small>${g.d}</small></span><button class="btn">${left>0?'玩':'練習'}</button></div>`}).join('')}<div class="mbtns"><button class="btn gray" onclick="closeModal()">關閉</button></div>`)};
 })();
 </script>
+<script>
+/* ---------- 朋友排行：今日推薦小遊戲的最佳紀錄（朋友資料多一個 mb 欄位） ---------- */
+(function(){
+ const ids=()=>MG.map(g=>g.id);
+ function cleanMB(o){const r={};if(o&&typeof o==='object')for(const k of ids())if(o[k]!=null){const v=num8(o[k],99999);if(v)r[k]=v}return r}
+ const _clean=cleanP,_me=meDoc;
+ cleanP=function(d){const r=_clean(d);r.mb=cleanMB(d&&d.mb);return r};
+ meDoc=function(){const r=_me();r.mb=cleanMB(S.best);return r};
+ Object.defineProperty(RANKS,'mg',{enumerable:true,configurable:true,get(){const g=MG.find(x=>x.id===mgFeatId())||MG[0];
+  return [`${g.e} 推薦遊戲「${g.n}」`,p=>(p.mb||{})[g.id]||0,v=>v?'最佳 '+v:'還沒玩過']}});
+})();
+</script>
 <!-- ☁️ 雲端存檔（Firebase） -->
 <style>
 #cloudBtn{position:fixed;left:10px;bottom:8px;z-index:9999;background:#fff;border:2px solid #ffb36b;border-radius:20px;padding:4px 10px;font-size:12px;box-shadow:0 2px 6px #0002;cursor:pointer;transition:opacity .2s}
@@ -4362,18 +4374,6 @@ if(pawInApp()){
  const x=document.createElement('button');x.textContent='✕';x.style.cssText='border:0;background:none;font-size:15px';x.onclick=()=>bar.remove();bar.append(b,x);
  document.addEventListener('DOMContentLoaded',()=>document.body.appendChild(bar));if(document.body)document.body.appendChild(bar);
 }
-})();
-</script>
-<script>
-/* ---------- 朋友排行：今日推薦小遊戲的最佳紀錄（朋友資料多一個 mb 欄位） ---------- */
-(function(){
- const ids=()=>MG.map(g=>g.id);
- function cleanMB(o){const r={};if(o&&typeof o==='object')for(const k of ids())if(o[k]!=null){const v=num8(o[k],99999);if(v)r[k]=v}return r}
- const _clean=cleanP,_me=meDoc;
- cleanP=function(d){const r=_clean(d);r.mb=cleanMB(d&&d.mb);return r};
- meDoc=function(){const r=_me();r.mb=cleanMB(S.best);return r};
- Object.defineProperty(RANKS,'mg',{enumerable:true,configurable:true,get(){const g=MG.find(x=>x.id===mgFeatId())||MG[0];
-  return [`${g.e} 推薦遊戲「${g.n}」`,p=>(p.mb||{})[g.id]||0,v=>v?'最佳 '+v:'還沒玩過']}});
 })();
 </script>
 </body>
