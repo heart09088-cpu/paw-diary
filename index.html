@@ -4364,5 +4364,17 @@ if(pawInApp()){
 }
 })();
 </script>
+<script>
+/* ---------- 朋友排行：今日推薦小遊戲的最佳紀錄（朋友資料多一個 mb 欄位） ---------- */
+(function(){
+ const ids=()=>MG.map(g=>g.id);
+ function cleanMB(o){const r={};if(o&&typeof o==='object')for(const k of ids())if(o[k]!=null){const v=num8(o[k],99999);if(v)r[k]=v}return r}
+ const _clean=cleanP,_me=meDoc;
+ cleanP=function(d){const r=_clean(d);r.mb=cleanMB(d&&d.mb);return r};
+ meDoc=function(){const r=_me();r.mb=cleanMB(S.best);return r};
+ Object.defineProperty(RANKS,'mg',{enumerable:true,configurable:true,get(){const g=MG.find(x=>x.id===mgFeatId())||MG[0];
+  return [`${g.e} 推薦遊戲「${g.n}」`,p=>(p.mb||{})[g.id]||0,v=>v?'最佳 '+v:'還沒玩過']}});
+})();
+</script>
 </body>
 </html>
