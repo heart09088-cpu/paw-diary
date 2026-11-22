@@ -13,6 +13,69 @@ try{const r=new URLSearchParams(location.search).get('ref');if(r&&/^[A-Za-z0-9]{
 })();
 </script>
 
+<style>/* restored minigame css (lost from artifact wrapper) */
+#game{background:var(--gbg,linear-gradient(#bfe6ff,#fff4e8))}
+#game[data-g=catch]{--gbg:linear-gradient(#aee0ff,#fff3dc 70%,#ffe2b8)}
+#game[data-g=fly]{--gbg:linear-gradient(#bdf0ff,#e9ffd9 65%,#bfe8a0)}
+#game[data-g=race]{--gbg:linear-gradient(#9fdcff,#dff7c8 55%,#a8dc84)}
+#game[data-g=dig]{--gbg:linear-gradient(#ffe7b8,#e8c08a 60%,#c99a62)}
+#game[data-g=mem]{--gbg:linear-gradient(#ffe0ef,#fff2f8)}
+#game[data-g=shell]{--gbg:linear-gradient(#ffeccf,#fff7ec)}
+#game[data-g=beat]{--gbg:linear-gradient(#e7dcff,#fff0f7)}
+#game[data-g=jump]{--gbg:linear-gradient(#9fdcff,#e8f8ff 60%,#bfe8a0)}
+#game[data-g=bath]{--gbg:linear-gradient(#d4f1ff,#f3fbff)}
+#game[data-g=shop]{--gbg:linear-gradient(#fff0d8,#ffe2c2)}
+#game[data-g=stack]{--gbg:linear-gradient(#ffd6e8,#fff3e0)}
+#game[data-g=fish]{--gbg:linear-gradient(#bfe6ff,#7cc7ef)}
+#game::before{content:'';position:absolute;inset:0 -50% auto -50%;height:46%;pointer-events:none;opacity:.55;
+ background:radial-gradient(60px 26px at 12% 30%,#fff 60%,#0000 62%),radial-gradient(80px 30px at 38% 18%,#fff 60%,#0000 62%),radial-gradient(54px 22px at 66% 36%,#fff 60%,#0000 62%),radial-gradient(70px 26px at 88% 14%,#fff 60%,#0000 62%);
+ animation:gcloud 40s linear infinite;will-change:transform}
+#game[data-g=beat]::before,#game[data-g=dig]::before,#game[data-g=mem]::before,#game[data-g=shop]::before{display:none}
+@keyframes gcloud{to{transform:translate3d(33%,0,0)}}
+#game .ghd{position:relative;z-index:6;padding:10px 12px 14px;gap:8px;align-items:center;font-size:17px}
+#game .ghd>span{background:#fffc;border-radius:999px;padding:5px 14px;box-shadow:0 2px 0 #0001;min-width:64px;text-align:center;font-variant-numeric:tabular-nums}
+#game .ghd>span:empty{visibility:hidden}
+#gs.bump{animation:gbump .28s}
+@keyframes gbump{40%{transform:scale(1.22)}}
+#gt.hurry{background:#ff5c6c;color:#fff;animation:ghurry 1s infinite}
+@keyframes ghurry{50%{transform:scale(1.1)}}
+#gbar{position:absolute;left:12px;right:12px;bottom:4px;height:6px;border-radius:9px;background:#0000001a;overflow:hidden}
+#gbar i{display:block;height:100%;width:100%;border-radius:9px;background:linear-gradient(90deg,#ffb020,#ff6b8a);transform-origin:left;will-change:transform;transition:transform .25s linear}
+#game .ghd{justify-content:flex-start}#game #gt{margin-left:auto}#gquit{flex:none;border:none;background:#fff9;border-radius:50%;width:32px;height:32px;font-size:15px;cursor:pointer;z-index:7;margin-left:4px}
+#garea{contain:layout paint}
+.gfx{position:absolute;width:9px;height:9px;border-radius:50%;pointer-events:none;z-index:4;will-change:transform,opacity;animation:gfx .5s ease-out forwards}
+@keyframes gfx{to{transform:translate3d(var(--dx),var(--dy),0) scale(.2);opacity:0}}
+.gring{position:absolute;width:16px;height:16px;margin:-8px 0 0 -8px;border:3px solid #fff;border-radius:50%;pointer-events:none;z-index:4;animation:gring .35s ease-out forwards}
+@keyframes gring{to{transform:scale(3.2);opacity:0}}
+.gcd{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:8;pointer-events:none}
+.gcd b{font-size:96px;font-weight:900;color:#fff;-webkit-text-stroke:3px #ee5a3c;text-shadow:0 6px 0 #ee5a3c55;animation:gcd .7s ease-out forwards}
+@keyframes gcd{0%{transform:scale(2.2);opacity:0}30%{transform:scale(1);opacity:1}80%{opacity:1}100%{transform:scale(.8);opacity:0}}
+.gconf{position:absolute;top:-20px;width:10px;height:14px;z-index:6;opacity:.9;pointer-events:none;will-change:transform;animation:gconf linear forwards}
+@keyframes gconf{to{transform:translate3d(var(--dx),110vh,0) rotate(var(--r))}}
+.gstars{font-size:34px;letter-spacing:4px}.gstars span{display:inline-block;opacity:.25;transform:scale(.6);transition:.3s}.gstars span.on{opacity:1;transform:scale(1)}
+#garea>.gstart{z-index:5}
+
+/* 小遊戲插畫背景（ComfyUI 生成，進遊戲才載入） */
+#game[data-g=catch]{background:linear-gradient(#ffffff38,#ffffff38),url(a/mg_catch.webp) center/cover no-repeat,var(--gbg)}
+#game[data-g=fly]{background:linear-gradient(#ffffff38,#ffffff38),url(a/mg_fly.webp) center/cover no-repeat,var(--gbg)}
+#game[data-g=race]{background:linear-gradient(#ffffff38,#ffffff38),url(a/mg_race.webp) center/cover no-repeat,var(--gbg)}
+#game[data-g=dig]{background:linear-gradient(#ffffff38,#ffffff38),url(a/mg_dig.webp) center/cover no-repeat,var(--gbg)}
+#game[data-g=mem]{background:linear-gradient(#ffffff38,#ffffff38),url(a/mg_mem.webp) center/cover no-repeat,var(--gbg)}
+#game[data-g=shell]{background:linear-gradient(#ffffff38,#ffffff38),url(a/mg_shell.webp) center/cover no-repeat,var(--gbg)}
+#game[data-g=beat]{background:linear-gradient(#ffffff38,#ffffff38),url(a/mg_beat.webp) center/cover no-repeat,var(--gbg)}
+#game[data-g=jump]{background:linear-gradient(#ffffff38,#ffffff38),url(a/mg_jump.webp) center/cover no-repeat,var(--gbg)}
+#game[data-g=bath]{background:linear-gradient(#ffffff38,#ffffff38),url(a/mg_bath.webp) center/cover no-repeat,var(--gbg)}
+#game[data-g=shop]{background:linear-gradient(#ffffff38,#ffffff38),url(a/mg_shop.webp) center/cover no-repeat,var(--gbg)}
+#game[data-g=stack]{background:linear-gradient(#ffffff38,#ffffff38),url(a/mg_stack.webp) center/cover no-repeat,var(--gbg)}
+#game[data-g=fish]{background:linear-gradient(#ffffff38,#ffffff38),url(a/mg_fish.webp) center/cover no-repeat,var(--gbg)}
+#game[data-g]::before{display:none}
+#game .gi{text-shadow:0 4px 6px #0000004d}
+#game .gstart{background:radial-gradient(ellipse at center,#fffaf2f0 0 55%,#fffaf2b0 80%,#fffaf200)}
+#game .track{background:#bfe3a8d9;box-shadow:0 6px 18px #0002}
+#game .bt{background:linear-gradient(#fff7fbd9,#e9f3ffd9)}
+#game[data-g=catch] #garea::after{content:'';position:absolute;left:0;right:0;bottom:0;height:18%;background:linear-gradient(#0000,#fff4dc99);pointer-events:none}
+@media (prefers-reduced-motion:reduce){#game::before,.gfx,.gring,.gconf{animation:none;display:none}}
+</style>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@500;700;900&display=swap" rel="stylesheet">
 
 <meta charset="utf-8">
