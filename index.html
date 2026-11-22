@@ -13,7 +13,7 @@ try{const r=new URLSearchParams(location.search).get('ref');if(r&&/^[A-Za-z0-9]{
 })();
 </script>
 
-<style>/* restored minigame css (lost from artifact wrapper) */
+<style>/* 小遊戲共用樣式：插畫背景、倒數、點擊特效、星星（11/22 補回） */
 #game{background:var(--gbg,linear-gradient(#bfe6ff,#fff4e8))}
 #game[data-g=catch]{--gbg:linear-gradient(#aee0ff,#fff3dc 70%,#ffe2b8)}
 #game[data-g=fly]{--gbg:linear-gradient(#bdf0ff,#e9ffd9 65%,#bfe8a0)}
@@ -68,6 +68,7 @@ try{const r=new URLSearchParams(location.search).get('ref');if(r&&/^[A-Za-z0-9]{
 #game[data-g=shop]{background:linear-gradient(#ffffff38,#ffffff38),url(a/mg_shop.webp) center/cover no-repeat,var(--gbg)}
 #game[data-g=stack]{background:linear-gradient(#ffffff38,#ffffff38),url(a/mg_stack.webp) center/cover no-repeat,var(--gbg)}
 #game[data-g=fish]{background:linear-gradient(#ffffff38,#ffffff38),url(a/mg_fish.webp) center/cover no-repeat,var(--gbg)}
+#game[data-g=disc]{background:linear-gradient(#ffffff38,#ffffff38),url(a/mg_race.webp) center/cover no-repeat,var(--gbg)}
 #game[data-g]::before{display:none}
 #game .gi{text-shadow:0 4px 6px #0000004d}
 #game .gstart{background:radial-gradient(ellipse at center,#fffaf2f0 0 55%,#fffaf2b0 80%,#fffaf200)}
