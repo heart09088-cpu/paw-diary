@@ -4216,7 +4216,8 @@ load();S.pets.forEach(initPet);if(!S.wx)newWx();weekly();if(!S.pets.length){S.in
 </script>
 <!-- ☁️ 雲端存檔（Firebase） -->
 <style>
-#cloudBtn{position:fixed;left:8px;bottom:8px;z-index:9999;background:#fff;border:2px solid #ffb36b;border-radius:20px;padding:5px 11px;font-size:13px;box-shadow:0 2px 6px #0002;cursor:pointer}
+#cloudBtn{position:fixed;left:10px;bottom:8px;z-index:9999;background:#fff;border:2px solid #ffb36b;border-radius:20px;padding:4px 10px;font-size:12px;box-shadow:0 2px 6px #0002;cursor:pointer;transition:opacity .2s}
+#cloudBtn.hide{opacity:0;pointer-events:none}
 #cloudBox{position:fixed;inset:0;z-index:10000;background:#0006;display:none;align-items:center;justify-content:center}
 #cloudBox>div{background:#fff;border-radius:16px;padding:18px;max-width:320px;width:86%;text-align:center;font-size:15px;line-height:1.6}
 #cloudBox button{margin:6px;padding:8px 16px;border-radius:20px;border:0;font-size:15px;cursor:pointer}
@@ -4231,6 +4232,10 @@ load();S.pets.forEach(initPet);if(!S.wx)newWx();weekly();if(!S.pets.length){S.in
 const FIREBASE_CONFIG={apiKey:"AIzaSyDsmeqoKccf85qBxen19plpFg5VwMC3ScQ",authDomain:"paw-allowance-diary.firebaseapp.com",projectId:"paw-allowance-diary",storageBucket:"paw-allowance-diary.firebasestorage.app",messagingSenderId:"717749181671",appId:"1:717749181671:web:94ba1a64163eeb6f40d642"};
 const btn=document.getElementById('cloudBtn'),box=document.getElementById('cloudBox');
 const setBtn=t=>btn.textContent=t;
+setInterval(()=>{try{const nav=document.getElementById('nav'),m=document.getElementById('modal');
+ const busy=document.getElementById('game')||(m&&!m.classList.contains('hidden'));btn.classList.toggle('hide',!!busy);
+ if(nav){const r=nav.getBoundingClientRect();if(r.height>0&&r.top<innerHeight){btn.style.bottom=Math.max(8,innerHeight-r.top+6)+'px'}else btn.style.bottom='8px'}}catch(e){}},400);
+
 if(!FIREBASE_CONFIG||typeof firebase==='undefined'){setBtn('☁️ 只存在本機');return}
 firebase.initializeApp(FIREBASE_CONFIG);
 const auth=firebase.auth(),db=firebase.firestore();
@@ -4238,7 +4243,7 @@ let ref=null,timer=null,ready=false;
 function docFor(u){return db.collection('saves').doc(u.uid)}
 window.cloudSave=function(){if(!ref||!ready)return;clearTimeout(timer);timer=setTimeout(()=>{
   ref.set({data:JSON.stringify(S),savedAt:S.savedAt||Date.now()}).then(()=>setBtn(label())).catch(()=>setBtn('☁️ 存檔失敗，稍後重試'))},1500)};
-function label(){const u=auth.currentUser;return u&&!u.isAnonymous?'☁️ 已同步（'+(u.displayName||'Google')+'）':'☁️ 已存雲端（點我綁定 Google）'}
+function label(){const u=auth.currentUser;return u&&!u.isAnonymous?'☁️ 已同步':'☁️ 綁定 Google 保存進度'}
 async function sync(u){
   ref=docFor(u);
   try{const d=await ref.get();
