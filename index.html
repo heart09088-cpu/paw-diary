@@ -690,6 +690,45 @@ nav .badge{box-shadow:inset 0 2px 0 #ffffff70}
 .obbar{height:8px;border-radius:9px;background:#0000001a;overflow:hidden;margin:4px 0 8px}.obbar i{display:block;height:100%;background:linear-gradient(90deg,#ffb020,#ff6b8a);border-radius:9px;transition:width .4s}
 .obnext{font-size:12.5px;background:#ffffffb0;border-radius:12px;padding:7px 9px;margin-top:6px;line-height:1.6}
 .obskip{display:block;margin:8px auto 0;border:none;background:none;font:inherit;font-size:12px;color:#a08670;text-decoration:underline;cursor:pointer}
+
+/* ===== 11/23 可愛版介面：柔和的線條和陰影、肉球背景、貓耳按鈕、按下去會 Q 彈 ===== */
+:root{--ink:#6A4766;--sky:#BFE7FF;--pink:#FF7FB0;--pk2:#FFA9CC;--yel:#FFE07A;--mint:#9BEBC8;--blu:#93D8FF;--lav:#D5C2FF;--org:#FFC48E}
+body{background-color:#CDEBFF;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cg fill='%23ffffff' fill-opacity='.42'%3E%3Cg transform='translate(22 26) rotate(-18)'%3E%3Cellipse cx='0' cy='6' rx='9' ry='7.5'/%3E%3Ccircle cx='-10' cy='-4' r='3.6'/%3E%3Ccircle cx='-3.5' cy='-9' r='3.8'/%3E%3Ccircle cx='4' cy='-9' r='3.8'/%3E%3Ccircle cx='10.5' cy='-4' r='3.6'/%3E%3C/g%3E%3Cg transform='translate(84 86) rotate(20) scale(.8)'%3E%3Cellipse cx='0' cy='6' rx='9' ry='7.5'/%3E%3Ccircle cx='-10' cy='-4' r='3.6'/%3E%3Ccircle cx='-3.5' cy='-9' r='3.8'/%3E%3Ccircle cx='4' cy='-9' r='3.8'/%3E%3Ccircle cx='10.5' cy='-4' r='3.6'/%3E%3C/g%3E%3Cpath d='M92 22c3-5 10-1 5 5l-5 5-5-5c-5-6 2-10 5-5z' fill-opacity='.5'/%3E%3Ccircle cx='30' cy='92' r='3'/%3E%3C/g%3E%3C/svg%3E"),linear-gradient(180deg,#BFE7FF 0%,#DCEBFF 45%,#FFE4F1 100%);background-size:120px 120px,100% 100%;background-attachment:fixed,fixed}
+.card,.prod,.ach,.row{border-radius:24px}
+.card{border:2.5px solid var(--ink);box-shadow:0 4px 0 #6A476633,0 10px 20px #b06a9a1f;background-image:linear-gradient(#fff 0,#fff 72%,#fff6fb 100%)}
+.mbox{border-radius:30px;box-shadow:0 6px 0 #6A476655,0 18px 40px #7a4a8a44,inset 0 4px 0 #fff}
+.btn,.big,.chip,.rnm{border-radius:999px!important}
+.big{border-radius:24px!important}
+.btn{border-width:2.5px}
+/* 照顧按鈕：貓耳朵 */
+.actions{margin-top:16px;row-gap:18px}
+.ab{position:relative;border-radius:26px;overflow:visible;border-width:2.5px;box-shadow:0 5px 0 #6A476655,inset 0 4px 0 #ffffff90,inset 0 -6px 0 #6a47661a}
+.ab{isolation:isolate}
+.ab::before,.ab::after{content:'';position:absolute;top:-11px;width:24px;height:24px;background:inherit;background-size:400% 400%;border:2.5px solid var(--ink);border-right:none;border-bottom:none;border-radius:8px 0 0 0;z-index:-1}
+.ab::before{left:9px;transform:rotate(38deg) skew(6deg,6deg)}
+.ab::after{right:9px;transform:rotate(52deg) skew(-6deg,-6deg)}
+.ab .ae{font-size:32px;animation:cuteBob 2.6s ease-in-out infinite}
+.ab:nth-child(2) .ae{animation-delay:.3s}.ab:nth-child(3) .ae{animation-delay:.6s}.ab:nth-child(4) .ae{animation-delay:.9s}.ab:nth-child(5) .ae{animation-delay:1.2s}.ab:nth-child(6) .ae{animation-delay:1.5s}
+.ab.off .ae{animation:none}
+@keyframes cuteBob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-3px) rotate(-4deg)}}
+/* 按下去 Q 彈 */
+.btn,.big,.chip,.ab,.rnm,.hub button,.fitt button,.gogrid button,.obr button{transition:transform .18s cubic-bezier(.3,1.7,.5,1)}
+.btn:active,.big:active,.chip:active,.ab:active,.rnm:active,.hub button:active,.fitt button:active,.gogrid button:active,.obr button:active{transform:scale(.93)}
+/* 標題前面的小肉球 */
+.banner{border-radius:28px;border-width:2.5px;box-shadow:0 5px 0 #6A476655,0 10px 18px #b06a9a2a,inset 0 4px 0 #ffffff55;background-image:radial-gradient(circle at 92% 20%,#ffffff40 0 14px,#0000 15px),radial-gradient(circle at 82% 70%,#ffffff2a 0 22px,#0000 23px)}
+.hub button{border-radius:999px;border-width:2px;box-shadow:0 2px 0 #6A476640}
+/* 下方導覽列 */
+nav{border-radius:30px;border-width:2.5px;box-shadow:0 5px 0 #6A476655,0 8px 22px #b06a9a33}
+nav button.on span{border-radius:16px;border-width:2.5px;position:relative}
+nav button.on span::before,nav button.on span::after{content:'';position:absolute;top:-6px;width:10px;height:10px;background:var(--yel);border:2.5px solid var(--ink);border-right:none;border-bottom:none;border-radius:4px 0 0 0}
+nav button.on span::before{left:3px;transform:rotate(20deg)}nav button.on span::after{right:3px;transform:rotate(70deg)}
+/* 狀態條變圓、加一點光澤 */
+.fitt button{border-radius:999px}
+.obc{border-width:2.5px;border-radius:26px;box-shadow:0 4px 0 #6A476655}
+/* 點一下冒出的小肉球 */
+.tappaw{position:fixed;z-index:9999;pointer-events:none;font-size:18px;animation:tapPaw .7s ease-out forwards;will-change:transform,opacity}
+@keyframes tapPaw{0%{transform:translate(-50%,-50%) scale(.4) rotate(var(--r));opacity:.95}100%{transform:translate(-50%,-190%) scale(1.15) rotate(var(--r));opacity:0}}
+@media (prefers-reduced-motion:reduce){.ab .ae{animation:none}.tappaw{display:none}}
 </style>
 </head>
 <body>
@@ -3406,9 +3445,12 @@ function furnDex(){const F=FESTS.reduce((a,f)=>(a[f.id]=f,a),{});const src=i=>i.
  return `<div class="card"><div class="nameRow"><b>🛋️ 家具與配件圖鑑</b><span class="lv">${n}/${L.length}</span></div>
  <div class="fitt"><button class="${dexTab==='deco'?'on':''}" onclick="dexTab='deco';render();setTimeout(()=>colJump('家具與配件圖鑑'),30)">🛋️ 家具 ${ITEMS.filter(i=>i.c==='deco'&&has(i.id)).length}/${ITEMS.filter(i=>i.c==='deco').length}</button><button class="${dexTab==='wear'?'on':''}" onclick="dexTab='wear';render();setTimeout(()=>colJump('家具與配件圖鑑'),30)">🎀 配件衣服 ${ITEMS.filter(i=>i.c==='wear'&&has(i.id)).length}/${ITEMS.filter(i=>i.c==='wear').length}</button></div>
  <div class="rgs" style="max-height:300px;overflow:auto">${L.map(i=>{const o=has(i.id);return `<div class="${o?'':'no'}" onclick="toast('${i.e} ${esc(i.name).replace(/'/g,'')}：${o?'已擁有':'取得方式 '+src(i)}')" style="cursor:pointer">${i.c==='deco'&&DECOIMG[i.id]?`<img src="${DECOIMG[i.id]}" style="height:30px;max-width:100%;object-fit:contain">`:i.breed?thumb(i.breed,'a',28,1):i.e}<small>${esc(i.name.length>5?i.name.slice(0,5):i.name)}</small></div>`}).join('')}</div></div>`}
-function colNav(){const L=[['📘','護照'],['🎁','稀有禮物'],['🗓️','陪伴日曆'],['📊','本月回顧'],['🏅','成就徽章'],['✨','可愛瞬間'],['🗓️','年度活動'],['📔','成長相簿'],['🛋️','家具與配件圖鑑'],['📖','小劇情圖鑑'],['🗓️','每週挑戰'],['💌','旅行明信片'],['🏅','成就徽章'],['📖','毛孩圖鑑']];
- return `<div class="hub" style="position:sticky;top:0;z-index:30;background:linear-gradient(#bfe6ff,#bfe6ffee);padding-top:6px">${L.map(([e,n])=>`<button onclick="colJump('${n}')">${e} ${n}</button>`).join('')}</div>`}
-function colJump(n){const el=[...document.querySelectorAll('.card,.sec,.banner')].find(c=>{const b=c.querySelector('b')||c;return (c.classList.contains('sec')?c.textContent:b.textContent).includes(n)});if(el)window.scrollTo({top:el.getBoundingClientRect().top+scrollY-70,behavior:'smooth'})}
+let colTab='now';
+const COLT=[['now','📘','進行中',['護照','每週挑戰','陪伴日曆','本月回顧','年度活動']],['ach','🏅','成就',['成就']],['dex','📖','圖鑑',['毛孩圖鑑','家具','稀有禮物','小劇情','長篇故事','可愛瞬間']],['mem','📔','回憶',['成長相簿','明信片','日記']]];
+function colNav(){const ca=ACH.filter(a=>S.ach[a.id]===1).length,wk=(()=>{try{return weekly().list.filter(x=>!x.got&&x.have>=WPOOL.find(q=>q.id===x.id).need).length}catch(e){return 0}})();
+ return `<div class="fitt" style="position:sticky;top:0;z-index:30;background:#ffffffb8;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:999px;padding:6px 6px;margin-bottom:6px">${COLT.map(([k,e,n])=>{const b=k==='ach'?ca:k==='now'?wk:0;return `<button class="${colTab===k?'on':''}" style="position:relative" onclick="colTab='${k}';render();window.scrollTo(0,0)">${e} ${n}${b?`<span style="position:absolute;right:2px;top:-4px;background:#ff5c8a;color:#fff;border-radius:999px;padding:0 6px;font-size:11px;line-height:17px">${b}</span>`:''}</button>`}).join('')}</div>`}
+function colJump(n){const t=COLT.find(c=>c[3].some(k=>String(n).includes(k)||k.includes(String(n))));const go2=()=>{const el=[...document.querySelectorAll('.card,.sec,.banner')].find(c=>{const b=c.querySelector('b')||c;return (c.classList.contains('sec')?c.textContent:b.textContent).includes(n)});if(el)window.scrollTo({top:el.getBoundingClientRect().top+scrollY-70,behavior:'smooth'})};
+ if(t&&t[0]!==colTab){colTab=t[0];if(tab==='col')render();setTimeout(go2,60)}else go2()}
 function evRead(id){const e=EVALL.find(x=>x.id===id);if(!e)return;const f=s=>esc(s.replace(/\{n\}/g,'毛孩').replace(/\{m\}/g,'另一隻毛孩'));
  modal(`<h3>📖 小劇情回顧</h3><p class="evtx">${f(e.x)}</p>${e.o.map(q=>`<div style="background:#f6f2ff;border-radius:12px;padding:8px 10px;margin:6px 0;font-size:13px"><b>${f(q[0])}</b><br><span style="color:#6b5a50">→ ${f(q[1])}</span></div>`).join('')}<p style="font-size:12px;color:#a08670;text-align:center">遇過 ${(S.evSeen||{})[id]||0} 次</p><div class="mbtns"><button class="btn gray" onclick="go('col');closeModal()">返回</button></div>`)}
 
@@ -3621,28 +3663,30 @@ function claimWeek(i){const w=weekly(),x=w.list[i],d=WPOOL.find(q=>q.id===x.id);
 function claimable(){checkAch();const w=weekly();return festReady()+(spReady()?1:0)+passReady().length+ACH.filter(a=>S.ach[a.id]===1).length+w.list.filter(x=>!x.got&&x.have>=WPOOL.find(q=>q.id===x.id).need).length}
 function colHTML(){
  checkAch();const w=weekly();const dexN=Object.keys(S.dex).length;const days=7-((Date.now()/864e5+3)%7);
- return `
- <div class="banner" style="background:linear-gradient(120deg,#7c5cff,#c05cff);box-shadow:0 3px 0 #5a3fc0"><h2>🏆 收集與成就</h2><p>圖鑑 ${dexN}/${BREEDS.length*3}・成就 ${ACH.filter(a=>S.ach[a.id]).length}/${ACH.length}</p></div>
- ${colNav()}
+ const T=colTab,sec=T==='now'?`
  ${passHTML()}
- ${rgHTML()}
- ${calCard()}
- ${monthCard()}
- ${m3Card()}
- ${festCal()}
- ${albumCard()}
- ${furnDex()}
- ${evBookHTML()}
  <div class="card"><div class="nameRow"><b>🗓️ 每週挑戰</b><span class="lv">還剩 ${Math.ceil(days)} 天・每個 🦐${WREW}</span></div>
  ${w.list.map((x,i)=>{const d=WPOOL.find(q=>q.id===x.id);const ok=x.have>=d.need;return `<div class="row" style="box-shadow:none;background:#f6f2ff;margin:6px 0 0"><span class="rt">${d.n}<small><span class="tr" style="display:inline-block;width:120px;height:7px;background:#e4dcf7;border-radius:5px;vertical-align:middle;overflow:hidden"><span style="display:block;height:100%;width:${Math.min(100,x.have/d.need*100)}%;background:#8a5cff"></span></span> ${Math.min(x.have,d.need)}/${d.need}</small></span>${x.got?'<button class="btn gray" disabled>已領</button>':ok?`<button class="btn" style="background:#8a5cff" onclick="claimWeek(${i})">領 🦐${WREW}</button>`:'<button class="btn gray" disabled>進行中</button>'}</div>`}).join('')}
  <p style="font-size:11.5px;color:#a08670;margin:6px 0 0">3 個全完成再加送 🦐50</p></div>
- ${albumHTML()}
- ${diaryHTML()}
+ ${calCard()}
+ ${monthCard()}
+ ${festCal()}`:T==='ach'?`
  <div class="sec">🏅 成就徽章 <small style="font-weight:600;color:#a08670">${ACH.filter(a=>S.ach[a.id]).length}/${ACH.length}</small></div>
  <div class="fitt" style="margin-bottom:6px">${[['todo','🎯 進行中'],['claim',`🎁 可領 ${ACH.filter(a=>S.ach[a.id]===1).length}`],['done','✅ 已完成'],['all','全部']].map(([k,n])=>`<button class="${achTab===k?'on':''}" onclick="achTab='${k}';render();setTimeout(()=>colJump('成就徽章'),30)">${n}</button>`).join('')}</div>
- <div class="achs">${ACH.filter(a=>{const s=S.ach[a.id];return achTab==='all'||(achTab==='claim'&&s===1)||(achTab==='done'&&s===2)||(achTab==='todo'&&s!==2)}).sort((x,y)=>(S.ach[y.id]===1)-(S.ach[x.id]===1)).map(a=>{const s=S.ach[a.id];return `<div class="ach ${s?'':'lock'}"><div class="ae">${a.e}</div><b>${a.n}</b><small>${a.d}</small><small style="color:#d9662f">💰${a.r[0]}${a.r[1]?` 🦐${a.r[1]}`:''}</small>${s===1?`<button class="btn" style="padding:5px;font-size:12px;margin-top:4px" onclick="claimAch('${a.id}')">領獎</button>`:s===2?'<span style="font-size:11px;color:#45b37a;font-weight:700">✔ 已領</span>':''}</div>`}).join('')}</div>
+ <div class="achs">${ACH.filter(a=>{const s=S.ach[a.id];return achTab==='all'||(achTab==='claim'&&s===1)||(achTab==='done'&&s===2)||(achTab==='todo'&&s!==2)}).sort((x,y)=>(S.ach[y.id]===1)-(S.ach[x.id]===1)).map(a=>{const s=S.ach[a.id];return `<div class="ach ${s?'':'lock'}"><div class="ae">${a.e}</div><b>${a.n}</b><small>${a.d}</small><small style="color:#d9662f">💰${a.r[0]}${a.r[1]?` 🦐${a.r[1]}`:''}</small>${s===1?`<button class="btn" style="padding:5px;font-size:12px;margin-top:4px" onclick="claimAch('${a.id}')">領獎</button>`:s===2?'<span style="font-size:11px;color:#45b37a;font-weight:700">✔ 已領</span>':''}</div>`}).join('')}</div>`:T==='dex'?`
  <div class="sec">📖 毛孩圖鑑</div><p style="font-size:12px;color:#a08670;margin:-2px 2px 6px">養過的品種和年齡會被記錄下來</p>
  <div class="dex">${BREEDS.map(b=>`<div class="dexrow"><span class="dn">${b.breed}</span>${['b','a','o'].map(s=>`<span class="dc ${S.dex[b.id+'_'+s]?'':'lock'}">${thumb(b.id,s,40)}<small>${STG[s][b.type]}</small></span>`).join('')}</div>`).join('')}</div>
+ ${furnDex()}
+ ${rgHTML()}
+ ${evBookHTML()}
+ ${m3Card()}`:`
+ ${albumCard()}
+ ${albumHTML()}
+ ${diaryHTML()}`;
+ return `
+ <div class="banner" style="background:linear-gradient(120deg,#7c5cff,#c05cff);box-shadow:0 3px 0 #5a3fc0"><h2>🏆 收集與成就</h2><p>圖鑑 ${dexN}/${BREEDS.length*3}・成就 ${ACH.filter(a=>S.ach[a.id]).length}/${ACH.length}</p></div>
+ ${colNav()}
+ ${sec}
  <p style="font-size:11px;color:#b8a48f;margin:14px 4px 0;line-height:1.5">🔊 貓狗叫聲為 CC0 公眾領域錄音：OpenGameArt（IgnasD、Kerzoven、HaelDB）、BigSoundBank（Joseph Sardin）。</p>
  <div style="height:16px"></div>`;
 }
@@ -4366,6 +4410,9 @@ function bkImport(){const o=bkDec((document.getElementById('bkin')||{}).value);i
 cbInit();
 
 {const w=(n,k)=>{const o=window[n];if(typeof o==='function')window[n]=function(){obFlag(k);return o.apply(this,arguments)}};w('openTown','town');w('open3D','r3');w('openBackup','bk')}
+/* 可愛版：點按鈕時冒出小肉球或愛心 */
+(()=>{const E=['🐾','💗','🐾','✨','🐾','💕'];let last=0;document.addEventListener('pointerdown',e=>{try{if(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches)return;const t=e.target.closest&&e.target.closest('button,.row,.prod,.card[onclick],label');if(!t||document.getElementById('game'))return;const now=Date.now();if(now-last<120)return;last=now;const d=document.createElement('span');d.className='tappaw';d.textContent=E[Math.floor(Math.random()*E.length)];d.style.left=e.clientX+'px';d.style.top=e.clientY+'px';d.style.setProperty('--r',(Math.random()*50-25)+'deg');document.body.appendChild(d);setTimeout(()=>d.remove(),720)}catch(x){}},{passive:true})})();
+
 load();S.pets.forEach(initPet);if(!S.wx)newWx();weekly();if(!S.pets.length){S.intro=false}if(!S.tasks)newTasks();render();if(!S.intro||!S.pets.length){window.PENDLOGIN=1;realDay();intro()}else if(syncDay()){window.AFTERM=()=>loginBonus()}else loginBonus();
 </script>
 <script>
