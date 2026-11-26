@@ -226,6 +226,11 @@ main{padding:0 12px}
 .stk{position:relative;margin:0 auto;overflow:hidden;border-radius:18px;background:linear-gradient(#ffe9f2,#fff7e8);box-shadow:inset 0 0 0 3px #3a2a4a22;touch-action:manipulation;user-select:none}
 .stk .lay{position:absolute;height:26px;border-radius:8px;box-shadow:inset 0 -4px 0 #0002;transition:width .15s,left .15s}
 .stk .cut{position:absolute;height:26px;border-radius:8px;opacity:.7;transition:transform .6s ease-in,opacity .6s}
+.stk .spop{position:absolute;left:50%;transform:translateX(-50%);font-weight:900;font-size:15px;color:#d0476a;background:#fffe;border:2px solid var(--ink,#3a2a4a);border-radius:10px;padding:1px 8px;pointer-events:none;animation:jpop .8s ease-out forwards;z-index:4;white-space:nowrap}
+.stk .spop.gold{color:#b7791f;background:#fff6cf}
+.stk .lay.pf{animation:spf .45s ease-out}
+@keyframes spf{0%{filter:brightness(1.6) drop-shadow(0 0 8px #ffd54a)}100%{filter:none}}
+.stk .chn{position:absolute;right:8px;top:8px;font-weight:900;font-size:13px;background:#fff6cf;border:2px solid var(--ink,#3a2a4a);border-radius:12px;padding:2px 8px;z-index:4;display:none}
 .gogrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
 .gogrid button{border:0;border-radius:18px;padding:10px 8px;color:#fff;font-family:inherit;text-align:left;cursor:pointer;text-shadow:0 1px 2px #0004;min-height:64px}
 .gogrid b{display:block;font-size:15px}.gogrid small{display:block;font-size:11px;opacity:.95;margin-top:2px;font-weight:normal}
@@ -238,7 +243,18 @@ main{padding:0 12px}
 .bth .dk{position:absolute;font-size:34px;cursor:pointer;animation:dkB 1.6s ease-in-out infinite}
 @keyframes dkB{50%{transform:translateY(-6px) rotate(-8deg)}}
 .jp .jpet{position:absolute;left:46px;will-change:transform}
-.jp .ob{position:absolute;font-size:34px;line-height:1;will-change:transform}
+.jp .ob{position:absolute;font-size:34px;line-height:1;will-change:transform;z-index:2}
+.jp .jgr{position:absolute;left:0;right:0;top:62%;bottom:0;background:repeating-linear-gradient(90deg,#0000 0 34px,#ffffff2e 34px 40px,#0000 40px 80px),radial-gradient(circle at 20px 70%,#8a5f38 3px,#0000 4px) 0 0/80px 100% repeat-x,radial-gradient(circle at 58px 40%,#fff6 2px,#0000 3px) 0 0/80px 100% repeat-x;pointer-events:none}
+.jp .jhill{position:absolute;left:0;right:0;top:42%;height:20%;background:radial-gradient(ellipse 70px 46px at 60px 100%,#a8dc8a 98%,#0000 100%) 0 0/240px 100% repeat-x,radial-gradient(ellipse 50px 30px at 180px 100%,#c3e9a8 98%,#0000 100%) 0 0/240px 100% repeat-x;opacity:.9;pointer-events:none}
+.jp .cl{left:0}
+.jp .jwing{display:none;position:absolute;right:8px;top:8px;background:#fffd;border:2px solid var(--ink,#3a2a4a);border-radius:12px;padding:2px 8px;font-weight:900;font-size:13px;color:var(--ink,#3a2a4a);z-index:3}
+.jp .jpuf{position:absolute;left:0;top:0;font-size:24px;pointer-events:none;animation:jpuf .5s ease-out forwards}
+@keyframes jpuf{to{opacity:0;margin-top:22px;margin-left:-14px}}
+.jp .jpop{position:absolute;font-weight:900;font-size:15px;color:#d0476a;background:#fffe;border:2px solid var(--ink,#3a2a4a);border-radius:10px;padding:1px 8px;pointer-events:none;animation:jpop .7s ease-out forwards;z-index:3;white-space:nowrap}
+@keyframes jpop{to{opacity:0;margin-top:-26px}}
+.jp .jpet.jspin>*{animation:jspin .45s ease-out}
+@keyframes jspin{50%{transform:rotate(-18deg) scale(1.08)}}
+
 .jp .cl{position:absolute;font-size:40px;opacity:.85}
 .jp .hint{position:absolute;left:0;right:0;top:12px;text-align:center;font-weight:900;color:#3a6a9a;font-size:15px}
 .bt{position:relative;margin:0 auto;overflow:hidden;border-radius:18px;background:linear-gradient(#fff7fb,#e9f3ff);box-shadow:inset 0 0 0 3px #3a2a4a22}
@@ -608,6 +624,9 @@ nav .badge{box-shadow:inset 0 2px 0 #ffffff70}
 #game .dig{gap:10px}
 #game .dcell{border:3px solid var(--ink);border-radius:18px 18px 14px 14px;background:radial-gradient(circle at 30% 30%,#7a522f 0 3px,#0000 4px),radial-gradient(circle at 70% 62%,#7a522f 0 3px,#0000 4px),radial-gradient(circle at 45% 78%,#8a6040 0 2px,#0000 3px),radial-gradient(ellipse at 50% 22%,#e2bd90 0,#c69565 55%,#a8784a 100%);box-shadow:0 5px 0 var(--ink),inset 0 4px 0 #ffffff55,inset 0 -6px 0 #5a3a1f40;transition:transform .12s}
 #game .dcell:not(.open):active{transform:translateY(3px) scale(.96)}
+#game .dscan{font:inherit;font-weight:800;font-size:14px;padding:5px 12px;border-radius:99px;border:2.5px solid var(--ink);background:#bfe9ff;color:var(--ink);box-shadow:0 3px 0 var(--ink)}#game .dscan.on{background:#ffe27a;animation:jly .5s infinite alternate}#game .dscan:disabled{opacity:.45}
+#game .dig.scanning .dcell:not(.open){outline:3px dashed #ffe27a;outline-offset:-6px}
+#game .dnum{display:inline-grid;place-items:center;width:1.4em;height:1.4em;border-radius:50%;font-size:26px;font-weight:900;color:#fff;border:2.5px solid var(--ink);background:#8fd6a0}#game .dnum.h0{background:#b9c3cf}#game .dnum.h2{background:#ffc35a}#game .dnum.h3,#game .dnum.h4{background:#ff7a8a}
 #game .dcell.open{background:radial-gradient(ellipse at 50% 60%,#fff8ec 0,#f1dcc0 70%,#e2c49c 100%);box-shadow:0 3px 0 var(--ink),inset 0 6px 10px #a8784a55}
 /* 零食翻牌：卡背花紋 */
 #game .mcell{position:relative;border:3px solid var(--ink);background:radial-gradient(circle,#ffffff40 0 3px,#0000 4px) 0 0/16px 16px,linear-gradient(150deg,#ffa6cb,#c9adff);box-shadow:0 4px 0 var(--ink),inset 0 3px 0 #ffffff80,inset 0 -4px 0 #3b2a5526}
@@ -760,6 +779,7 @@ const ITEMS=[
  {id:'ck_ball',name:'能量燕麥球',e:'🧆',p:0,c:'food',for:'all',ck:1,fx:{hunger:25,energy:50},d:'毛孩廚房做的元氣點心'},
  {id:'ck_herb',name:'香草貓草餅',e:'🥠',p:0,c:'food',for:'cat',ck:1,fx:{mood:40,energy:20},d:'毛孩廚房做的開心點心'},
  {id:'ck_party',name:'雙層派對蛋糕',e:'🍰',p:0,c:'food',for:'all',ck:1,fx:{hunger:45,mood:45,aff:20},d:'毛孩廚房做的特別蛋糕'},
+ {id:'ck_bday',name:'手作雞肉南瓜蛋糕',e:'🎂',p:0,c:'food',for:'all',ck:1,fx:{hunger:35,mood:50,aff:20},d:'無調味雞胸肉＋蒸南瓜泥做的毛孩蛋糕，不加糖和奶油；一次吃一小塊就好'},
  {id:'cake',name:'毛孩生日蛋糕',e:'🎂',p:60,c:'food',for:'all',fx:{hunger:40,mood:40,aff:15},d:'特別的日子！親密度+15'},
  {id:'shampoo',name:'泡泡沐浴乳',e:'🧴',p:12,c:'supply',for:'all',d:'洗澡自動使用：不再生氣，還會開心'},
  {id:'wipes',name:'寵物濕紙巾',e:'🧻',p:8,c:'supply',for:'all',fx:{clean:25},d:'隨手擦擦，清潔+25'},
@@ -1359,6 +1379,7 @@ function bagHTML(){
    return `<div class="row"><span class="re">${i.breed?thumb(i.breed,'a',34,1):i.e}</span><span class="rt">${i.name} ×${S.inv[i.id]}<small>${who.length?'穿戴中：'+who.map(esc).join('、'):'沒人穿'}</small></span><button class="btn ${on?'ghost':''}" onclick="equip('${i.id}')">${on?'脫下':'穿上'}</button></div>`})}
  ${sec('🧸 玩具（擁有就自動生效）',own('toy'),i=>`<div class="row"><span class="re">${i.e}</span><span class="rt">${i.name}<small>${i.d}</small></span></div>`)}
  ${sec('🛋️ 家具（已擺在家裡）',own('deco'),i=>`<div class="row"><span class="re">${DECOIMG[i.id]?`<img src="${DECOIMG[i.id]}" style="height:34px">`:i.e}</span><span class="rt">${i.name}<small>舒適度 +${i.cf}</small></span></div>`)}
+ ${FR.owner?`<div class="card" onclick="openAdmin()" style="cursor:pointer;margin-top:18px;background:linear-gradient(135deg,#fff1d6,#ffe3ef)"><div style="display:flex;gap:10px;align-items:center"><span style="font-size:30px">🏪</span><div style="flex:1"><b>店長後台</b><br><small>玩家人數、上線狀況、留存率（只有你看得到）</small></div><span style="font-size:20px">›</span></div></div>`:''}
  <div class="card" onclick="openBackup()" style="cursor:pointer;margin-top:18px;background:linear-gradient(135deg,#eef7ff,#fff8ec)"><div style="display:flex;gap:10px;align-items:center"><span style="font-size:30px">💾</span><div style="flex:1"><b>存檔備份</b><br><small>雲端自動備份、備份碼。換手機也能把毛孩帶走</small></div><span style="font-size:20px">›</span></div></div>
  <div style="text-align:center;margin:26px 0"><button class="btn gray" onclick="askReset()">重新開始遊戲</button></div>`;
 }
@@ -1479,12 +1500,13 @@ function openFeed(){
  modal(`<h3>🍽️ 要給 ${esc(p.name)} 吃什麼？</h3>${foods.map(i=>`<div class="row"><span class="re">${i.e}</span><span class="rt">${i.name} ×${S.inv[i.id]}<small>${i.d}</small></span><button class="btn" onclick="useItem('${i.id}',1)">餵</button></div>`).join('')}<div class="mbtns"><button class="btn gray" onclick="closeModal()">關閉</button></div>`);
 }
 /* ---------- 毛孩廚房：兩樣食物＋攪拌小遊戲 → 大餐 ---------- */
-const RECIPES=[['ck_pump',{g_pump:1,jerky:1}],['ck_carrot',{g_carrot:2,g_potato:1}],['ck_berry',{g_berry:3,puree:1}],['ck_straw',{g_strawb:3,cookie:1}],['ck_fish',{can:1,puree:1}],['ck_roll',{jerky:1,bone:1}],['ck_ball',{kibble:2,cookie:1}],['ck_herb',{catnip:1,cookie:1}],['ck_party',{cake:1,puree:2,cookie:1}]];
+const RECIPES=[['ck_pump',{g_pump:1,jerky:1}],['ck_carrot',{g_carrot:2,g_potato:1}],['ck_berry',{g_berry:3,puree:1}],['ck_straw',{g_strawb:3,cookie:1}],['ck_fish',{can:1,puree:1}],['ck_roll',{jerky:1,bone:1}],['ck_ball',{kibble:2,cookie:1}],['ck_herb',{catnip:1,cookie:1}],['ck_party',{cake:1,puree:2,cookie:1}],['ck_bday',{chick_sv:1,g_pump:1},'bday']];
 const KDAY=6;let KC=null;
-function kOk(r){return Object.entries(r[1]).every(([k,n])=>(S.inv[k]||0)>=n)}
+function kLock(r){return !!r[2]&&!(S.arcs&&S.arcs[r[2]])}
+function kOk(r){return !kLock(r)&&Object.entries(r[1]).every(([k,n])=>(S.inv[k]||0)>=n)}
 function openKitchen(){S.today.cook=S.today.cook||0;const left=KDAY-S.today.cook;
  modal(`<h3>🍳 毛孩廚房</h3><p style="font-size:12.5px;color:#a08670;margin:0 0 6px">挑一道菜，材料會從背包扣掉。攪拌時在綠色區域按下，三次都成功會多做一份！今天還能做 ${left} 次。</p>
- ${RECIPES.map(r=>{const d=IT[r[0]],ok=kOk(r)&&left>0;const fx=Object.entries(d.fx).map(([k,v])=>`${k==='aff'?'親密度':EVN[k]} +${v}`).join('・');
+ ${RECIPES.map(r=>{const d=IT[r[0]],ok=kOk(r)&&left>0;if(kLock(r))return `<div class="row" style="box-shadow:none;margin:6px 0 0;opacity:.6"><span class="re" style="font-size:30px;filter:grayscale(1)">${d.e}</span><span class="rt">🔒 ${d.name}<small>完成長篇故事「${(typeof ARCN!=='undefined'&&ARCN[r[2]])||'毛孩的生日派對'}」後解鎖食譜</small></span></div>`;const fx=Object.entries(d.fx).map(([k,v])=>`${k==='aff'?'親密度':EVN[k]} +${v}`).join('・');
   return `<div class="row" style="box-shadow:none;margin:6px 0 0;${ok?'':'opacity:.55'}"><span class="re" style="font-size:30px">${d.e}</span><span class="rt">${d.name}${d.for!=='all'?`<small>${d.for==='cat'?'🐱 貓咪':'🐶 狗狗'}吃的</small>`:''}<small>${Object.entries(r[1]).map(([k,n])=>`${IT[k].e}${IT[k].name}×${n}（有 ${S.inv[k]||0}）`).join('＋')}</small><small style="color:#3d8a5a">${fx}　你有 ${S.inv[r[0]]||0} 份</small></span><button class="btn" ${ok?'':'disabled'} onclick="kCook('${r[0]}')">做</button></div>`}).join('')}
  <p class="tip" style="margin-top:8px">材料不夠的話，可以去蝦拼百貨買。</p><div class="mbtns"><button class="btn gray" onclick="closeModal()">關閉</button></div>`)}
 function kCook(id){const r=RECIPES.find(x=>x[0]===id);S.today.cook=S.today.cook||0;if(!r||!kOk(r)||S.today.cook>=KDAY)return;
@@ -1686,6 +1708,7 @@ function useItem(id,fromModal){
  let favHit=false;if(i.c==='food'&&id===p.fav){favHit=true;fx2.mood=(fx2.mood||0)+15;if(!p.favKnown){p.favKnown=true;diary(`❤️ 發現 ${p.name} 最愛吃 ${i.name}`);setTimeout(()=>toast(`❤️ 發現了！${p.name} 最愛吃 ${i.e}${i.name}`),500)}}
  const lk=luckT();let lkb=0;if(i.c==='food'&&lk&&LUCK[lk.i][1]==='aff'&&!lk.used){lk.used=1;lkb=3;setTimeout(()=>toast('🔮 今日運勢：親密度額外 +3'),700)}
  applyFx(p,fx2);addAff(p,(i.fx.aff||0)+1+(favHit?3:0)+lkb);if(i.c==='food'){task('feed');stat('feed');wishHit(p,'eat',id);if(tab==='home')setTimeout(()=>doEat(p),60)}
+ if(id==='ck_bday'){diary(`🎂 ${p.name} 吃了自己的生日蛋糕，一小塊一小塊慢慢吃，吃完還舔了舔嘴巴`);setTimeout(()=>toast(`🎉 祝 ${p.name} 生日快樂！記得蛋糕分幾天吃、今天正餐少一點喔`),900)}
  if(fromModal)closeModal();
  if(tab!=='home'){render();toast(`${p.name} ${i.c==='food'?'吃了':'用了'}${i.name} ${i.e}`);return}
  render();jump();beep(700,.06);floatText(i.c==='food'?(favHit?'最愛的！好好吃😍':p.type==='cat'?'嗯嗯好吃😋':'大口吃！😋'):'乾淨溜溜✨');
@@ -1941,7 +1964,7 @@ function gachaReveal(g,title){
 function gachaBanner(){return `<div class="sale" style="border-color:#f0a500;background:linear-gradient(90deg,#fffaf0,#fff)"><span class="se">🎰</span><div class="st"><span class="tag" style="background:#f0a500">蝦拼扭蛋機</span><div style="font-weight:800;margin-top:4px">扭蛋限定帽子、項鍊等你轉</div><div style="font-size:12px;color:#9b7f69">還有零用金、拼幣、零食大獎</div></div><div style="display:flex;flex-direction:column;gap:4px"><button class="btn" style="background:#f0a500;padding:6px 8px" onclick="spinGacha('shrimp')">🦐30</button><button class="btn ghost" style="padding:6px 8px" onclick="spinGacha('coin')">💰100</button></div></div>`}
 
 /* ---------- 小遊戲 ---------- */
-const MG=[{id:'catch',n:'接零食',e:'🍖',d:'點掉下來的零食，避開辣椒洋蔥；點到 🌈 開啟零食雨'},{id:'fly',n:'抓蝴蝶',e:'🦋',d:'點飛舞的蝴蝶和瓢蟲，小心蜜蜂；連抓 5 隻有連擊獎勵，還有稀有彩虹蝶'},{id:'race',n:'毛孩賽跑',e:'🏁',d:'狂點衝刺，跟其他毛孩比賽'},{id:'dig',n:'挖寶藏',e:'⛏️',d:'6 把鏟子，挖出寶物和傳說寶箱'},{id:'mem',n:'零食翻牌',e:'🃏',d:'翻出一樣的零食配對，45 秒配完 6 對'},{id:'shell',n:'毛孩躲哪裡',e:'📦',d:'毛孩躲進箱子，箱子換來換去，猜猜在哪'},{id:'beat',n:'節奏拍拍',e:'🥁',d:'腳印掉到線上時點那一排，和毛孩一起打拍子'},{id:'jump',n:'跳跳毛孩',e:'🦘',d:'點畫面讓毛孩跳過障礙，沿路吃零食'},{id:'bath',n:'泡泡浴',e:'🛁',d:'在毛孩身上來回刷，把泥巴洗乾淨，還能抓小鴨'},{id:'shop',n:'小小店長',e:'🏪',d:'動物客人想買什麼，就趕快從貨架拿給他'},{id:'stack',n:'零食疊疊樂',e:'🍰',d:'點一下放下零食，疊得越高越好，歪掉的部分會被切掉'},{id:'fish',n:'池塘釣魚',e:'🎣',d:'浮標出現 ❗ 時馬上點，太早點會把魚嚇跑；最後 10 秒魚群來了'},{id:'disc',n:'飛盤接接樂',e:'🥏',d:'手指左右拖，讓毛孩接住飛盤和零食；🌟 讓毛孩變大',nw:1},{id:'puz',n:'毛孩拼圖',e:'🧩',d:'點空格旁的圖塊移動，把插畫拼回來；新增 4×4 困難模式，獎勵加倍',nw:1},{id:'simon',n:'口令記憶',e:'🧠',d:'記住毛孩表演的動作順序，照著按，一關比一關長',nw:1}];
+const MG=[{id:'catch',n:'接零食',e:'🍖',d:'點掉下來的零食，避開辣椒洋蔥；點到 🌈 開啟零食雨'},{id:'fly',n:'抓蝴蝶',e:'🦋',d:'點飛舞的蝴蝶和瓢蟲，小心蜜蜂；連抓 5 隻有連擊獎勵，還有稀有彩虹蝶'},{id:'race',n:'毛孩賽跑',e:'🏁',d:'狂點衝刺，跟其他毛孩比賽'},{id:'dig',n:'挖寶藏',e:'⛏️',d:'6 把鏟子，挖出寶物和傳說寶箱；📡 探測器告訴你周圍藏了幾個寶物',nw:1},{id:'mem',n:'零食翻牌',e:'🃏',d:'翻出一樣的零食配對，45 秒配完 6 對'},{id:'shell',n:'毛孩躲哪裡',e:'📦',d:'毛孩躲進箱子，箱子換來換去，猜猜在哪'},{id:'beat',n:'節奏拍拍',e:'🥁',d:'腳印掉到線上時點那一排，和毛孩一起打拍子'},{id:'jump',n:'跳跳毛孩',e:'🦘',d:'點畫面讓毛孩跳過障礙，沿路吃零食；撿到 🪽 可以二段跳，連吃 5 個有獎勵',nw:1},{id:'bath',n:'泡泡浴',e:'🛁',d:'在毛孩身上來回刷，把泥巴洗乾淨，還能抓小鴨'},{id:'shop',n:'小小店長',e:'🏪',d:'動物客人想買什麼，就趕快從貨架拿給他'},{id:'stack',n:'零食疊疊樂',e:'🍰',d:'點一下放下零食，疊得越高越好，歪掉的部分會被切掉；連續完美對齊 3 次，零食會慢慢變回寬寬的'},{id:'fish',n:'池塘釣魚',e:'🎣',d:'浮標出現 ❗ 時馬上點，太早點會把魚嚇跑；最後 10 秒魚群來了'},{id:'disc',n:'飛盤接接樂',e:'🥏',d:'手指左右拖，讓毛孩接住飛盤和零食；🌟 讓毛孩變大',nw:1},{id:'puz',n:'毛孩拼圖',e:'🧩',d:'點空格旁的圖塊移動，把插畫拼回來；新增 4×4 困難模式，獎勵加倍',nw:1},{id:'simon',n:'口令記憶',e:'🧠',d:'記住毛孩表演的動作順序，照著按，一關比一關長',nw:1}];
 const MGLIM=5;
 function mgRec(raw){const id=window._mgId;if(!id)return'';S.best=S.best||{};const v=Math.round(raw*10)/10,o=S.best[id]||0;window._mgId=null;if(v>o){S.best[id]=v;return o?`<div style="font-weight:900;color:#8a5cff;font-size:16px">🎉 新紀錄！（之前 ${o}）</div>`:''}return `<div style="font-size:12px;color:#a08670">個人最佳 ${o}</div>`}
 function openGames(){
@@ -2125,19 +2148,25 @@ function raceGame(p){
  },false);
 }
 function digGame(p){
- mgOpen(p,`跟 ${esc(p.name)} 一起挖寶！`,'你有 6 把鏟子⛏️<br>挖開 16 格土，找出寶物！',(ov,area)=>{
+ mgOpen(p,`跟 ${esc(p.name)} 一起挖寶！`,'你有 6 把鏟子⛏️<br>挖開 16 格土，找出寶物！<br>📡 探測器可以用 2 次：先按探測器再點一格，會顯示那一格和周圍 8 格藏了幾個寶物（不用花鏟子）',(ov,area)=>{
   const cells=Array(16).fill('rock');const put=(k,n)=>{for(let i=0;i<n;i++){let j;do{j=Math.floor(Math.random()*16)}while(cells[j]!=='rock');cells[j]=k}};
   put('bone',3);put('coin',2);put('shrimp',2);put('gift',1);if(Math.random()<.3)put('chest',1);
   const PR={rock:['🪨','石頭',0,0],bone:['🦴','骨頭 +10',10,0],coin:['💰','零用金 +30',30,0],shrimp:['🦐','拼幣 +5',0,5],gift:['🎁','零食禮物',5,0],chest:['💎','傳說寶箱！',100,20]};
-  let left=6,coins=0,shrimp=0,found=[];G={on:true};
-  area.innerHTML=`<div style="text-align:center;font-weight:800;margin:6px 0" id="dl">⛏️ × 6</div><div class="dig">${cells.map((c,i)=>`<button class="dcell" data-i="${i}"></button>`).join('')}</div>`;
-  area.querySelectorAll('.dcell').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.open||left<=0)return;b.dataset.open=1;left--;const k=cells[+b.dataset.i];const pr=PR[k];
+  let left=6,coins=0,shrimp=0,found=[],scan=2,scanOn=false,scanUsed=0;G={on:true};
+  const near=i=>{const r=Math.floor(i/4),c=i%4;let n=0;for(let dr=-1;dr<=1;dr++)for(let dc=-1;dc<=1;dc++){const rr=r+dr,cc=c+dc;if(rr<0||rr>3||cc<0||cc>3)continue;if(cells[rr*4+cc]!=='rock')n++}return n};
+  area.innerHTML=`<div style="display:flex;justify-content:center;align-items:center;gap:10px;margin:6px 0"><b id="dl">⛏️ × 6</b><button class="dscan" id="dsc">📡 探測器 × 2</button></div><div class="dig">${cells.map((c,i)=>`<button class="dcell" data-i="${i}"></button>`).join('')}</div>`;
+  const sb=area.querySelector('#dsc'),sbUp=()=>{sb.textContent=scanOn?'📡 點一格探測':'📡 探測器 × '+scan;sb.classList.toggle('on',scanOn);sb.disabled=!scan||left<=0};
+  sb.addEventListener('click',()=>{if(!scan||left<=0)return;scanOn=!scanOn;sbUp();area.querySelector('.dig').classList.toggle('scanning',scanOn);beep(scanOn?660:440,.06,'sine',.04)});
+  area.querySelectorAll('.dcell').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.open||left<=0)return;
+   if(scanOn){if(b.dataset.sc)return;const n=near(+b.dataset.i);scan--;scanOn=false;scanUsed++;b.dataset.sc=n;b.innerHTML=`<span class="dnum h${Math.min(n,4)}">${n}</span>`;area.querySelector('.dig').classList.remove('scanning');sbUp();
+    [523,659,784].slice(0,1+Math.min(2,n)).forEach((f,j)=>setTimeout(()=>beep(f,.07,'sine',.05),j*90));area.querySelector('#dl').textContent='⛏️ × '+left+'　📡 周圍有 '+n+' 個寶物';return}
+   b.dataset.open=1;left--;sbUp();const k=cells[+b.dataset.i];const pr=PR[k];
    b.textContent=pr[0];b.classList.add('open');coins+=pr[2];shrimp+=pr[3];if(k!=='rock')found.push(pr[0]);
    if(k==='gift'){const it=IT[['puree','cookie','can','jerky'][Math.floor(Math.random()*4)]];S.inv[it.id]=(S.inv[it.id]||0)+1}
    if(k==='chest'){stat('legend');[784,988,1175,1568].forEach((f,i)=>setTimeout(()=>beep(f,.12,'triangle',.06),i*110))}else k==='rock'?beep(200,.08,'triangle'):beep(988,.08,'square',.04);
    area.querySelector('#dl').textContent='⛏️ × '+left+'　'+pr[1];
-   if(left<=0){setTimeout(()=>{area.querySelectorAll('.dcell').forEach(x=>{if(!x.dataset.open){x.textContent=PR[cells[+x.dataset.i]][0];x.style.opacity=.35}});
-    setTimeout(()=>mgFinish(p,ov,area,`<div style="font-size:56px">${found.includes('💎')?'💎':'⛏️'}</div><b style="font-size:20px">挖到：${found.join(' ')||'都是石頭…'}</b>`,coins,shrimp),900)},500)}}));
+   if(left<=0){if(found.length>=5)stat('dig5');setTimeout(()=>{area.querySelectorAll('.dcell').forEach(x=>{if(!x.dataset.open){x.textContent=PR[cells[+x.dataset.i]][0];x.style.opacity=.35}});
+    setTimeout(()=>mgFinish(p,ov,area,`<div style="font-size:56px">${found.includes('💎')?'💎':'⛏️'}</div><b style="font-size:20px">挖到：${found.join(' ')||'都是石頭…'}</b><div style="font-size:13px;margin-top:4px">6 鏟挖到 ${found.length} 個寶物${scanUsed?`・用了 ${scanUsed} 次探測器`:''}${found.length>=5?'　🏅 尋寶達人！':''}</div>`,coins,shrimp),900)},500)}}));
  },false);
 }
 
@@ -2416,7 +2445,7 @@ async function chatSend(q){if(CH.busy)return;const p=pet(),inp=document.getEleme
  CH.busy=0;const bb=document.getElementById('chb');if(bb){bb.innerHTML=chatHTML(p);bb.scrollTop=bb.scrollHeight}}
 
 /* ---------- 更新公告（每個版本顯示一次） ---------- */
-const VER='2026-11-23',VNEWS=[['🎒','長篇故事「毛孩上學去」','第 12 篇長篇故事！帶毛孩去上生活禮儀課，學會用零食和響片好好溝通。在「收集 → 長篇故事書架」挑選'],['🖼️','拼圖 4×4 困難模式','毛孩拼圖開始前可以選 4×4：15 塊、150 秒，獎勵加倍，還有新成就「拼圖大師」'],['💾','存檔備份','進度會自動備份到雲端（只有你看得到），換手機用同一個帳號就能還原；也可以複製備份碼。在「背包」最下面'],['🎅','聖誕配件上架','聖誕老公公帽、麋鹿角髮箍、聖誕鈴鐺項圈、雪花髮夾，在蝦拼「小配件」買，試衣間換上'],['🎄','聖誕倒數月曆','12/1 到 12/25 每天開一格拿禮物，聖誕樹會一天天掛滿裝飾，集滿 25 格聖誕節有大禮'],['🧩','毛孩拼圖','第 14 個小遊戲！把打亂的 3×3 插畫拼回來，30 步內拼好有額外拼幣'],['🧠','口令記憶','第 15 個小遊戲！毛孩表演坐下、握手、轉圈、趴下，記住順序照著按，一關比一關長'],['🥏','飛盤接接樂','第 13 個小遊戲！手指左右拖，讓毛孩接住飛盤和零食，撿到 🌟 會變大，連續接越多加越多分'],['🎮','小遊戲新玩法','接零食有 🌈 零食雨、抓蝴蝶有連擊和稀有彩虹蝶、池塘釣魚最後 10 秒魚群來了，還能釣到 🎁 寶箱'],['🌊','長篇故事：第一次看海','第 11 篇長篇故事！帶毛孩第一次去海邊，踩浪花、挖貝殼、看夕陽，在「長篇故事書架」就能挑'],['📖','門鈴訪客會記得你','鄰居下次來按門鈴時，會依你上次的選擇接著發生新的事，20 段接續劇情，不用網路也能看'],['🛍️','蝦拼上新 36 樣','新增 12 種食物、4 種清潔保養、11 種玩具用品（玩耍、散步、梳毛、洗澡都有加成）、6 件新家具，還有福袋禮盒'],['🎣','池塘釣魚','第 12 個小遊戲！浮標出現 ❗ 時快點，太早點魚會被嚇跑，運氣好能釣到傳說鯨魚'],['🏪','毛孩小攤','把花園收成和料理擺上攤位賣，可以選便宜、一般或高價；你不在時客人也會來買，回來收錢就好'],['☁️','夢境雲朵床','新 3D 家具！集滿 12 種夢境碎片，就能在夢境合成做出雲朵床，2D 家裡和 3D 房間都能擺'],['💍','長篇故事：毛孩當花童','第 10 篇長篇故事，表姊的婚禮請毛孩叼著戒指枕走紅毯'],['🪷','3 個新旅行地點','集集小火車站、福壽山農場、白河蓮花池（旅行 91 次以上依序開放）'],['🎨','畫畫猜謎新題目','毛孩畫畫我來猜多了 8 張：船、鞋子、蝴蝶、老鼠、蛋糕、鳥、香蕉、時鐘'],['🎨','毛孩畫畫我來猜','反過來玩！毛孩咬著蠟筆一筆一筆畫，趁牠還沒畫完就猜中，獎勵最多（每天 5 題）'],['⛺','長篇故事：第一次去露營','第 9 篇長篇故事，帶毛孩第一次去山上露營，看營火、遇到小刺蝟、一起看雲海'],['💌','4 個新旅行地點','馬祖藍眼淚、台東三仙台、鶯歌陶瓷老街、宜蘭外澳海邊，都是新畫的明信片（旅行 83 次以上依序開放）'],['🪄','夢境合成','「昨晚的夢」收集的碎片集齊 3 種，就能合成星月睡帽、泡泡項鍊等 4 件夢境配件（碎片不會用掉）'],['🐈‍⬛','長篇故事：社區的浪浪','第 8 篇長篇故事！跟愛心媽媽林姐一起幫巷口的浪浪貓做 TNR（結紮、打疫苗再放回原地），5 話有分歧路線'],['🐕','黑糖常來玩','讀完「颱風天的鄰居」後，對面的陳阿姨會帶黑糖來按門鈴：一起玩、出差託你照顧、表演新把戲'],['🌀','長篇故事：颱風天的鄰居','第 7 篇長篇故事！颱風夜幫鄰居照顧淋雨的小黑狗「黑糖」，5 話有分歧路線和新成就'],['📚','長篇故事書架','收藏頁新增書架，看得到每篇讀到第幾話，還能自己挑下一篇要讀哪個故事'],['🎲','小鎮大富翁','每天 3 顆骰子帶毛孩繞小鎮：機會卡、公車、小學堂抽考、許願池；迎接門鈴訪客多送 1 顆'],['🕵️','毛孩偵探社','家裡發生小怪事！搜查地點找線索、聽嫌疑人說法，指認真正的犯人（Claude 每天出新案件）'],['📖','毛孩冒險書','每天一本互動故事：Claude 說故事，你替毛孩做三次選擇，選擇會影響結局和毛孩的性格'],['🧩','毛孩猜謎','毛孩出題給 3 個提示，越早猜中獎勵越多（Claude 出題，離線也有題庫）'],['🔔','門鈴訪客','每 2～3 小時會有鄰居來按門鈴，選不同的回應會有不同結果，也會影響毛孩的個性'],['🌙','夢境星空燈','3D 家具店新家具，收集到的夢境碎片會繞著燈慢慢飛；毛孩睡覺時頭上也會冒出夢泡泡'],['🖍️','你畫我猜','用手指畫畫給毛孩猜，Claude 看你的畫猜答案，猜中有獎勵'],['📷','生活尋寶','每天 3 個題目（圓圓的東西、今天的天空…），拍下身邊的東西，Claude 確認後毛孩會發表感想'],['🗞️','小鎮週報','每週一期，頭條新聞寫你家毛孩這週真實發生的事，還有時尚版、分類廣告和毛孩運勢'],['🌙','昨晚的夢','每天聽毛孩說昨晚的夢（Claude 依照最近發生的事寫），收集 12 種夢境碎片'],['🤝','社區週主題','社區合作每週換主題（種菜週、美食週…），符合主題的行動愛心加倍；佈告欄也多了指定大餐的請求'],['🪄','AI 造型師','試衣間裡按一下，Claude 依照選美主題幫毛孩搭配整套造型'],['❓','問店長','不知道怎麼玩？到小鎮的店長小攤問店長'],['🎉','3D 派對模式','燈光變色、彩帶落下，毛孩跟著音樂跳舞'],['💌','毛孩的信','每個禮拜，毛孩會寫一封信給你，收在信箱裡'],['🏔️','冬季限定：合歡雪山','探險隊新增雪山，冬天才能去，有 6 種新的稀有發現'],['🧑‍⚖️','AI 選美評審','選美結束後，Claude 評審會針對毛孩的穿搭給講評'],['📌','小鎮佈告欄','鄰居每天的小請求，用花園和廚房的成果幫忙，累積小鎮聲望'],['🌱','3D 花園菜箱','3D 房間擺菜箱，看得到小花園的作物在長大'],['🗓️','陪伴日曆','12 週的熱力圖，看看你每天陪毛孩多少'],['👂','偷聽悄悄話','Claude 寫出家裡毛孩之間的對話，感情越好聊得越親密'],['👩‍💼','委託第四季','第 43～54 章，帶你玩遍所有新功能，最後拿 🌈 彩虹英雄披風'],['🏪','小小店長','第 11 個小遊戲：毛孩當店長，動物客人要什麼趕快拿'],['✨','3D 可愛瞬間','毛孩做出特別動作時快拍照，收集 16 種瞬間'],['🔍','找找分身','上傳你家毛孩的照片，Claude 找出遊戲裡最像的品種'],['📚','照護小學堂','每天 3 題真實的寵物照護知識，答對有獎勵'],['🎬','3D 錄影','在 3D 房間錄 5 秒影片，存下毛孩的可愛瞬間'],['💞','毛孩關係圖','家裡的毛孩之間也會培養感情，從剛認識變成最親的家人'],['🌙','睡前故事','Claude 以你家毛孩為主角寫故事，還能用語音念出來'],['🏆','3D 探險收藏櫃','把探險找到的稀有發現擺在 3D 房間的玻璃櫃裡'],['🧬','性格成長雷達','你怎麼陪牠，牠就長成什麼個性，還會影響聊天和漫畫'],['🏘️','毛孩小鎮地圖','用 Blender 做的立體小鎮，點建築物就能前往各個地方'],['🗺️','毛孩探險隊','翻開迷霧格子找寶物，4 個地方共 24 種稀有發現'],['⏳','時光膠囊','寫給未來的自己和毛孩，時間到才能打開'],['👀','3D 毛孩視角','鏡頭跟在毛孩身後，用牠的高度看房間'],['🎙️','叫叫看','用聲音叫毛孩的名字、下才藝口令，牠聽得懂！'],['🎵','毛孩合唱團','排 8 拍旋律，毛孩用喵喵汪汪唱給你聽'],['🎨','AI 四格漫畫','Claude 依照毛孩今天發生的事，畫成一則四格漫畫'],['📷','毛孩寫真館','選背景、相框、貼圖，還能把毛孩放進你自己拍的照片裡'],['🙈','3D 捉迷藏','毛孩會躲到家具後面，轉動畫面把牠找出來'],['🤝','社區合作目標','朋友廣場和大家一起累積愛心，達標每個人都領獎'],['🌱','毛孩小花園','種菜和水果，現實時間長大，收成做 4 道新大餐'],['🍳','毛孩廚房','背包裡打開，把食物做成效果更好的大餐'],['🛁','2 個新小遊戲','泡泡浴：刷掉泥巴抓小鴨；零食疊疊樂：疊得越高越好'],['📜','長篇故事','10 篇每天一話的故事，有分歧路線和專屬稱號'],['🎉','4 個新節日','情人節、母親節、端午節、秋日豐收祭，各有 4 件新 3D 家具'],['🌙','3D 房間日夜','燈光跟著真實時間變，晚上毛孩會想睡覺'],['👩‍💼','委託第三季','第 31～42 章，最後拿 🎖️ 明星主人勳章'],['🔮','今日運勢','每天讓毛孩幫你抽一支籤'],['🏅','選美每週主題','符合主題額外 +20 分'],
+const VER='2026-11-26',VNEWS=[['📡','挖寶藏：探測器','每局 2 次探測器，點一格就知道那一格和周圍藏了幾個寶物，用推理挖出寶藏；新成就「尋寶達人」'],['🎂','手作雞肉南瓜蛋糕食譜','完成長篇故事「毛孩的生日派對」後，毛孩廚房解鎖：舒肥雞胸＋小南瓜，親手做毛孩能吃的生日蛋糕'],['🎂','長篇故事「毛孩的生日派對」','第 14 篇長篇故事！幫毛孩辦第一場慶生會，學會準備毛孩能吃的蛋糕、讓派對安全又開心。在「收集 → 長篇故事書架」挑選'],['✨','零食疊疊樂：完美連續','連續完美對齊 3 次以上，零食會慢慢變回寬寬的，還會跳出「完美 ×N」；新成就「完美甜點師」'],['🏨','長篇故事「第一次住寵物旅館」','第 13 篇長篇故事！主人要出差，第一次讓毛孩去寵物旅館住兩天一夜。在「收集 → 長篇故事書架」挑選'],['🪽','跳跳毛孩大升級','地面和山丘會跟著速度捲動；撿到小翅膀可以在空中二段跳，連吃 5 個零食有額外加分，還有新成就「空中飛毛孩」'],['🎒','長篇故事「毛孩上學去」','第 12 篇長篇故事！帶毛孩去上生活禮儀課，學會用零食和響片好好溝通。在「收集 → 長篇故事書架」挑選'],['🖼️','拼圖 4×4 困難模式','毛孩拼圖開始前可以選 4×4：15 塊、150 秒，獎勵加倍，還有新成就「拼圖大師」'],['💾','存檔備份','進度會自動備份到雲端（只有你看得到），換手機用同一個帳號就能還原；也可以複製備份碼。在「背包」最下面'],['🎅','聖誕配件上架','聖誕老公公帽、麋鹿角髮箍、聖誕鈴鐺項圈、雪花髮夾，在蝦拼「小配件」買，試衣間換上'],['🎄','聖誕倒數月曆','12/1 到 12/25 每天開一格拿禮物，聖誕樹會一天天掛滿裝飾，集滿 25 格聖誕節有大禮'],['🧩','毛孩拼圖','第 14 個小遊戲！把打亂的 3×3 插畫拼回來，30 步內拼好有額外拼幣'],['🧠','口令記憶','第 15 個小遊戲！毛孩表演坐下、握手、轉圈、趴下，記住順序照著按，一關比一關長'],['🥏','飛盤接接樂','第 13 個小遊戲！手指左右拖，讓毛孩接住飛盤和零食，撿到 🌟 會變大，連續接越多加越多分'],['🎮','小遊戲新玩法','接零食有 🌈 零食雨、抓蝴蝶有連擊和稀有彩虹蝶、池塘釣魚最後 10 秒魚群來了，還能釣到 🎁 寶箱'],['🌊','長篇故事：第一次看海','第 11 篇長篇故事！帶毛孩第一次去海邊，踩浪花、挖貝殼、看夕陽，在「長篇故事書架」就能挑'],['📖','門鈴訪客會記得你','鄰居下次來按門鈴時，會依你上次的選擇接著發生新的事，20 段接續劇情，不用網路也能看'],['🛍️','蝦拼上新 36 樣','新增 12 種食物、4 種清潔保養、11 種玩具用品（玩耍、散步、梳毛、洗澡都有加成）、6 件新家具，還有福袋禮盒'],['🎣','池塘釣魚','第 12 個小遊戲！浮標出現 ❗ 時快點，太早點魚會被嚇跑，運氣好能釣到傳說鯨魚'],['🏪','毛孩小攤','把花園收成和料理擺上攤位賣，可以選便宜、一般或高價；你不在時客人也會來買，回來收錢就好'],['☁️','夢境雲朵床','新 3D 家具！集滿 12 種夢境碎片，就能在夢境合成做出雲朵床，2D 家裡和 3D 房間都能擺'],['💍','長篇故事：毛孩當花童','第 10 篇長篇故事，表姊的婚禮請毛孩叼著戒指枕走紅毯'],['🪷','3 個新旅行地點','集集小火車站、福壽山農場、白河蓮花池（旅行 91 次以上依序開放）'],['🎨','畫畫猜謎新題目','毛孩畫畫我來猜多了 8 張：船、鞋子、蝴蝶、老鼠、蛋糕、鳥、香蕉、時鐘'],['🎨','毛孩畫畫我來猜','反過來玩！毛孩咬著蠟筆一筆一筆畫，趁牠還沒畫完就猜中，獎勵最多（每天 5 題）'],['⛺','長篇故事：第一次去露營','第 9 篇長篇故事，帶毛孩第一次去山上露營，看營火、遇到小刺蝟、一起看雲海'],['💌','4 個新旅行地點','馬祖藍眼淚、台東三仙台、鶯歌陶瓷老街、宜蘭外澳海邊，都是新畫的明信片（旅行 83 次以上依序開放）'],['🪄','夢境合成','「昨晚的夢」收集的碎片集齊 3 種，就能合成星月睡帽、泡泡項鍊等 4 件夢境配件（碎片不會用掉）'],['🐈‍⬛','長篇故事：社區的浪浪','第 8 篇長篇故事！跟愛心媽媽林姐一起幫巷口的浪浪貓做 TNR（結紮、打疫苗再放回原地），5 話有分歧路線'],['🐕','黑糖常來玩','讀完「颱風天的鄰居」後，對面的陳阿姨會帶黑糖來按門鈴：一起玩、出差託你照顧、表演新把戲'],['🌀','長篇故事：颱風天的鄰居','第 7 篇長篇故事！颱風夜幫鄰居照顧淋雨的小黑狗「黑糖」，5 話有分歧路線和新成就'],['📚','長篇故事書架','收藏頁新增書架，看得到每篇讀到第幾話，還能自己挑下一篇要讀哪個故事'],['🎲','小鎮大富翁','每天 3 顆骰子帶毛孩繞小鎮：機會卡、公車、小學堂抽考、許願池；迎接門鈴訪客多送 1 顆'],['🕵️','毛孩偵探社','家裡發生小怪事！搜查地點找線索、聽嫌疑人說法，指認真正的犯人（Claude 每天出新案件）'],['📖','毛孩冒險書','每天一本互動故事：Claude 說故事，你替毛孩做三次選擇，選擇會影響結局和毛孩的性格'],['🧩','毛孩猜謎','毛孩出題給 3 個提示，越早猜中獎勵越多（Claude 出題，離線也有題庫）'],['🔔','門鈴訪客','每 2～3 小時會有鄰居來按門鈴，選不同的回應會有不同結果，也會影響毛孩的個性'],['🌙','夢境星空燈','3D 家具店新家具，收集到的夢境碎片會繞著燈慢慢飛；毛孩睡覺時頭上也會冒出夢泡泡'],['🖍️','你畫我猜','用手指畫畫給毛孩猜，Claude 看你的畫猜答案，猜中有獎勵'],['📷','生活尋寶','每天 3 個題目（圓圓的東西、今天的天空…），拍下身邊的東西，Claude 確認後毛孩會發表感想'],['🗞️','小鎮週報','每週一期，頭條新聞寫你家毛孩這週真實發生的事，還有時尚版、分類廣告和毛孩運勢'],['🌙','昨晚的夢','每天聽毛孩說昨晚的夢（Claude 依照最近發生的事寫），收集 12 種夢境碎片'],['🤝','社區週主題','社區合作每週換主題（種菜週、美食週…），符合主題的行動愛心加倍；佈告欄也多了指定大餐的請求'],['🪄','AI 造型師','試衣間裡按一下，Claude 依照選美主題幫毛孩搭配整套造型'],['❓','問店長','不知道怎麼玩？到小鎮的店長小攤問店長'],['🎉','3D 派對模式','燈光變色、彩帶落下，毛孩跟著音樂跳舞'],['💌','毛孩的信','每個禮拜，毛孩會寫一封信給你，收在信箱裡'],['🏔️','冬季限定：合歡雪山','探險隊新增雪山，冬天才能去，有 6 種新的稀有發現'],['🧑‍⚖️','AI 選美評審','選美結束後，Claude 評審會針對毛孩的穿搭給講評'],['📌','小鎮佈告欄','鄰居每天的小請求，用花園和廚房的成果幫忙，累積小鎮聲望'],['🌱','3D 花園菜箱','3D 房間擺菜箱，看得到小花園的作物在長大'],['🗓️','陪伴日曆','12 週的熱力圖，看看你每天陪毛孩多少'],['👂','偷聽悄悄話','Claude 寫出家裡毛孩之間的對話，感情越好聊得越親密'],['👩‍💼','委託第四季','第 43～54 章，帶你玩遍所有新功能，最後拿 🌈 彩虹英雄披風'],['🏪','小小店長','第 11 個小遊戲：毛孩當店長，動物客人要什麼趕快拿'],['✨','3D 可愛瞬間','毛孩做出特別動作時快拍照，收集 16 種瞬間'],['🔍','找找分身','上傳你家毛孩的照片，Claude 找出遊戲裡最像的品種'],['📚','照護小學堂','每天 3 題真實的寵物照護知識，答對有獎勵'],['🎬','3D 錄影','在 3D 房間錄 5 秒影片，存下毛孩的可愛瞬間'],['💞','毛孩關係圖','家裡的毛孩之間也會培養感情，從剛認識變成最親的家人'],['🌙','睡前故事','Claude 以你家毛孩為主角寫故事，還能用語音念出來'],['🏆','3D 探險收藏櫃','把探險找到的稀有發現擺在 3D 房間的玻璃櫃裡'],['🧬','性格成長雷達','你怎麼陪牠，牠就長成什麼個性，還會影響聊天和漫畫'],['🏘️','毛孩小鎮地圖','用 Blender 做的立體小鎮，點建築物就能前往各個地方'],['🗺️','毛孩探險隊','翻開迷霧格子找寶物，4 個地方共 24 種稀有發現'],['⏳','時光膠囊','寫給未來的自己和毛孩，時間到才能打開'],['👀','3D 毛孩視角','鏡頭跟在毛孩身後，用牠的高度看房間'],['🎙️','叫叫看','用聲音叫毛孩的名字、下才藝口令，牠聽得懂！'],['🎵','毛孩合唱團','排 8 拍旋律，毛孩用喵喵汪汪唱給你聽'],['🎨','AI 四格漫畫','Claude 依照毛孩今天發生的事，畫成一則四格漫畫'],['📷','毛孩寫真館','選背景、相框、貼圖，還能把毛孩放進你自己拍的照片裡'],['🙈','3D 捉迷藏','毛孩會躲到家具後面，轉動畫面把牠找出來'],['🤝','社區合作目標','朋友廣場和大家一起累積愛心，達標每個人都領獎'],['🌱','毛孩小花園','種菜和水果，現實時間長大，收成做 4 道新大餐'],['🍳','毛孩廚房','背包裡打開，把食物做成效果更好的大餐'],['🛁','2 個新小遊戲','泡泡浴：刷掉泥巴抓小鴨；零食疊疊樂：疊得越高越好'],['📜','長篇故事','10 篇每天一話的故事，有分歧路線和專屬稱號'],['🎉','4 個新節日','情人節、母親節、端午節、秋日豐收祭，各有 4 件新 3D 家具'],['🌙','3D 房間日夜','燈光跟著真實時間變，晚上毛孩會想睡覺'],['👩‍💼','委託第三季','第 31～42 章，最後拿 🎖️ 明星主人勳章'],['🔮','今日運勢','每天讓毛孩幫你抽一支籤'],['🏅','選美每週主題','符合主題額外 +20 分'],
  ['📊','本月回顧','收集頁看這個月陪毛孩做了哪些事'],['🗓️','年度活動行事曆','一年 10 個活動一次看'],['🗃️','家具與配件圖鑑','點一下看取得方式'],['🪞','試衣間','背包裡打開，四個部位分開換穿'],['🏷️','稱號上廣場','朋友會看到你戴的稱號'],['💬','網頁版也能聊天','沒有 Claude 時毛孩也會回你'],['💡','小提示','首頁會提醒你還沒玩過的新功能'],
  ['❄️','冬日暖暖祭','收集薑餅換限定配件和家具（到 12/31）'],['😻','順毛','在毛孩身上來回滑'],['📔','成長相簿＋分享卡','重要時刻自動收藏'],['🎂','領養紀念日','滿月、百日、週年都會慶祝'],['📓','晚安日記','晚上 8 點後，毛孩會寫日記給你']];
 function newsCheck(){if(!S||!S.pets||!S.pets.length||S.seenVer===VER||!S.intro)return;const m=document.getElementById('modal');if(m&&!m.classList.contains('hidden')||document.querySelector('#game,#ov3d'))return setTimeout(newsCheck,4000);
@@ -3253,22 +3282,38 @@ function qClaim(){if(!qDone())return;const Q=qCur(),q=qS(),r=Q.r;
 
 /* ---------- 小遊戲：跳跳毛孩 ---------- */
 function jumpGame(p){
- mgOpen(p,`陪 ${esc(p.name)} 跳跳跳！`,'點一下畫面跳起來，長按跳更高<br>跳過 🪣🧹🌵，吃到 🍖🐟⭐ 加分・撞到扣時間・25 秒',(ov,area)=>{
+ mgOpen(p,`陪 ${esc(p.name)} 跳跳跳！`,'點一下畫面跳起來，長按跳更高<br>跳過 🪣🧹🌵，吃到 🍖🐟⭐ 加分・撞到扣時間・25 秒<br><small>撿到 🪽 小翅膀：8 秒內在空中再點一下可以「二段跳」</small>',(ov,area)=>{
   const W=Math.min(area.clientWidth-16,400),H=330,GY=H*.62,ph=Math.round(56*Math.min(1.35,BR[p.breed].st[stage(p)].fh/BR[p.breed].st[stage(p)].fw*1.6)),pw=Math.round(ph*BR[p.breed].st[stage(p)].fw/BR[p.breed].st[stage(p)].fh);
-  area.innerHTML=`<div class="jp" style="width:${W}px;height:${H}px"><span class="cl" style="left:20%;top:12%">☁️</span><span class="cl" style="left:68%;top:22%">☁️</span><div class="hint" id="jh">點畫面跳躍！</div><div class="jpet" id="jpet">${thumb(p.breed,stage(p),ph,p.acc.body)}</div></div>`;
-  const box=area.querySelector('.jp'),pe=box.querySelector('#jpet');let y=0,vy=0,hold=false,score=0,t=25,last=performance.now(),spawn=1.2,speed=170,objs=[],ended=false,hits=0,eaten=0;G={on:true};
-  const hd=()=>{document.getElementById('gs').textContent='得分 '+score};hd();
-  const jump=()=>{if(!G||!G.on)return;if(y<=0.5){vy=520;beep(660,.05,'triangle',.04);const h=box.querySelector('#jh');if(h)h.remove()}};
+  area.innerHTML=`<div class="jp" style="width:${W}px;height:${H}px"><div class="jhill" id="jhill"></div><span class="cl" style="left:20%;top:12%">☁️</span><span class="cl" style="left:68%;top:22%">☁️</span><div class="jgr" id="jgr"></div><div class="hint" id="jh">點畫面跳躍！</div><div class="jwing" id="jw"></div><div class="jpet" id="jpet">${thumb(p.breed,stage(p),ph,p.acc.body)}</div></div>`;
+  const box=area.querySelector('.jp'),pe=box.querySelector('#jpet'),gr=box.querySelector('#jgr'),hl=box.querySelector('#jhill'),jw=box.querySelector('#jw'),cls=[...box.querySelectorAll('.cl')].map((el,i)=>({el,x:W*(i?.68:.2)}));
+  let y=0,vy=0,hold=false,score=0,t=25,last=performance.now(),spawn=1.2,speed=170,objs=[],ended=false,hits=0,eaten=0,dist=0,wing=0,dbl=false,dbls=0,wingN=0,combo=0,best=0;G={on:true};
+  cls.forEach(c=>c.el.style.left='0');
+  const hd=()=>{document.getElementById('gs').textContent='得分 '+score+(combo>=3?` ・連吃 ${combo}`:'')};hd();
+  const wingHud=()=>{jw.style.display=wing>0?'block':'none';if(wing>0)jw.textContent=`🪽 二段跳 ${Math.ceil(wing)} 秒`};
+  const puff=()=>{const el=document.createElement('span');el.className='jpuf';el.textContent='💨';el.style.transform=`translate(${46+pw*.2}px,${GY-y-18}px)`;box.appendChild(el);setTimeout(()=>el.remove(),500)};
+  const pop=(txt,x,yy)=>{const el=document.createElement('span');el.className='jpop';el.textContent=txt;el.style.left=x+'px';el.style.top=yy+'px';box.appendChild(el);setTimeout(()=>el.remove(),700)};
+  window._jpWing=()=>{wing=8;wingHud()};
+  const jump=()=>{if(!G||!G.on)return;if(y<=0.5){vy=520;dbl=false;beep(660,.05,'triangle',.04);const h=box.querySelector('#jh');if(h)h.remove()}
+   else if(wing>0&&!dbl){dbl=true;vy=Math.max(vy,0)+400;dbls++;stat('jumpdbl');puff();beep(990,.06,'triangle',.05);pe.classList.remove('jspin');void pe.offsetWidth;pe.classList.add('jspin')}};
   box.addEventListener('pointerdown',e=>{e.preventDefault();hold=true;jump()});box.addEventListener('pointerup',()=>hold=false);box.addEventListener('pointerleave',()=>hold=false);
-  const mk=()=>{const good=Math.random()<.45;const e=good?(Math.random()<.12?'⭐':Math.random()<.5?'🍖':'🐟'):['🪣','🧹','🌵'][Math.floor(Math.random()*3)];const el=document.createElement('span');el.className='ob';el.textContent=e;box.appendChild(el);
-   objs.push({el,e,good,x:W+10,y:good?(Math.random()<.5?0:60+Math.random()*60):0})};
-  const end=()=>{if(ended)return;ended=true;G.on=false;if(hits===0&&eaten>=8)stat('jumpall');mgFinish(p,ov,area,`<div style="font-size:56px">${hits===0?'🏆':'🦘'}</div><b style="font-size:22px">得分 ${score}・吃到 ${eaten} 個</b><div style="font-size:13px">撞到 ${hits} 次</div>`,Math.min(score,40)*.7,hits===0&&eaten>=8?3:0)};
-  const loop=ts=>{if(!G||!G.on||ended)return;const dt=Math.min(.05,(ts-last)/1000);last=ts;t-=dt;speed+=dt*6;
-   vy-=(hold&&vy>0?900:1600)*dt;y=Math.max(0,y+vy*dt);if(y===0)vy=0;pe.style.transform=`translateY(${GY-ph-y}px)`;
+  const mk=()=>{const good=Math.random()<.45;let e=good?(Math.random()<.12?'⭐':Math.random()<.5?'🍖':'🐟'):['🪣','🧹','🌵'][Math.floor(Math.random()*3)];
+   if(good&&t<21&&wing<=0&&wingN<3&&Math.random()<.22){e='🪽';wingN++}
+   const el=document.createElement('span');el.className='ob';el.textContent=e;box.appendChild(el);
+   const hi=e==='🪽'?130+Math.random()*30:wing>0&&good&&Math.random()<.4?150+Math.random()*30:(Math.random()<.5?0:60+Math.random()*60);
+   objs.push({el,e,good,x:W+10,y:good?hi:0})};
+  const end=()=>{if(ended)return;ended=true;G.on=false;if(hits===0&&eaten>=8)stat('jumpall');mgFinish(p,ov,area,`<div style="font-size:56px">${hits===0?'🏆':'🦘'}</div><b style="font-size:22px">得分 ${score}・吃到 ${eaten} 個</b><div style="font-size:13px">撞到 ${hits} 次${best>=5?`・最多連吃 ${best} 個`:''}${dbls?`・二段跳 ${dbls} 次`:''}</div>`,Math.min(score,40)*.7,hits===0&&eaten>=8?3:0)};
+  const loop=ts=>{if(!G||!G.on||ended)return;const dt=Math.min(.05,(ts-last)/1000);last=ts;t-=dt;speed+=dt*6;dist+=speed*dt;
+   gr.style.backgroundPositionX=(-dist%80)+'px';hl.style.backgroundPositionX=(-(dist*.3)%240)+'px';
+   cls.forEach((c,i)=>{c.x-=speed*dt*(.08+i*.04);if(c.x<-50)c.x=W+10;c.el.style.transform=`translateX(${c.x}px)`});
+   if(wing>0){wing=Math.max(0,wing-dt);wingHud()}
+   vy-=(hold&&vy>0?900:1600)*dt;y=Math.max(0,y+vy*dt);if(y===0){vy=0;dbl=false}const yMax=GY-ph-6;if(y>yMax){y=yMax;vy=Math.min(vy,0)}pe.style.transform=`translateY(${GY-ph-y}px)`;
    spawn-=dt;if(spawn<=0){mk();spawn=.75+Math.random()*.9}
    objs.forEach(o=>{if(o.dead)return;o.x-=speed*dt;o.el.style.transform=`translate(${o.x}px,${GY-34-o.y}px)`;
     const px0=46+pw*.2,px1=46+pw*.8,py0=y,py1=y+ph*.75,ox0=o.x+6,ox1=o.x+28,oy0=o.y,oy1=o.y+28;
-    if(ox1>px0&&ox0<px1&&oy1>py0&&oy0<py1){o.dead=1;o.el.remove();if(o.good){const v=o.e==='⭐'?5:2;score+=v;eaten++;beep(988,.06,'triangle',.05)}else{hits++;t=Math.max(0,t-2);score=Math.max(0,score-1);beep(200,.12,'sawtooth',.04);pe.style.opacity=.4;setTimeout(()=>pe.style.opacity=1,300)}hd()}
+    if(ox1>px0&&ox0<px1&&oy1>py0&&oy0<py1){o.dead=1;o.el.remove();
+     if(o.e==='🪽'){wing=8;wingHud();pop('🪽 可以二段跳了！',30,40);beep(1320,.08,'triangle',.05)}
+     else if(o.good){combo++;best=Math.max(best,combo);const v=(o.e==='⭐'?5:2)+(combo>=5&&combo%5===0?3:0);score+=v;eaten++;if(combo>=5&&combo%5===0)pop(`連吃 ${combo}！+3`,46,GY-ph-y-30);beep(988,.06,'triangle',.05)}
+     else{hits++;combo=0;t=Math.max(0,t-2);score=Math.max(0,score-1);beep(200,.12,'sawtooth',.04);pe.style.opacity=.4;setTimeout(()=>pe.style.opacity=1,300)}hd()}
     else if(o.x<-40){o.dead=1;o.el.remove()}});
    mgT(t);if(t<=0)return end();requestAnimationFrame(loop)};
   requestAnimationFrame(loop);
@@ -3329,24 +3374,27 @@ function bathGame(p){
 
 /* ---------- 小遊戲：零食疊疊樂 ---------- */
 function stackGame(p){
- mgOpen(p,`幫 ${esc(p.name)} 疊零食塔！`,'零食左右移動，點畫面放下<br>沒對齊的部分會被切掉，完全沒疊到就結束・最多 30 秒',(ov,area)=>{
+ mgOpen(p,`幫 ${esc(p.name)} 疊零食塔！`,'零食左右移動，點畫面放下<br>沒對齊的部分會被切掉，完全沒疊到就結束・最多 30 秒<br>✨ 連續完美對齊 3 次以上，零食會變寬一點',(ov,area)=>{
   const W=Math.min(area.clientWidth-16,380),H=Math.max(380,Math.min(area.clientHeight-30,480)),LH=26,COL=['#ffb3cf','#ffd27a','#a8e6a1','#a8d8ff','#d7b8ff','#ffc29e'];
-  area.innerHTML=`<div class="stk" style="width:${W}px;height:${H}px"><div style="position:absolute;bottom:0;left:0;right:0;height:${LH+8}px;background:#e9c9a8"></div><div class="jpet" style="position:absolute;left:6px;bottom:${LH+6}px">${thumb(p.breed,stage(p),70,p.acc.body)}</div><div id="sw" style="position:absolute;left:0;right:0;bottom:0;top:0;transition:transform .3s"></div><div class="hint" style="position:absolute;top:10px;width:100%;text-align:center;font-weight:800;color:#a0507a" id="sth">點一下放下零食！</div></div>`;
-  const box=area.querySelector('.stk'),wrap=box.querySelector('#sw');let layers=[{x:W*.25,w:W*.5}],cur=null,t=30,score=0,perfect=0,last=performance.now(),ended=false,dir=1,sp=150;G={on:true};
-  const hd=()=>{document.getElementById('gs').textContent='高度 '+score};hd();
+  area.innerHTML=`<div class="stk" style="width:${W}px;height:${H}px"><div style="position:absolute;bottom:0;left:0;right:0;height:${LH+8}px;background:#e9c9a8"></div><div class="jpet" style="position:absolute;left:6px;bottom:${LH+6}px">${thumb(p.breed,stage(p),70,p.acc.body)}</div><div id="sw" style="position:absolute;left:0;right:0;bottom:0;top:0;transition:transform .3s"></div><div class="hint" style="position:absolute;top:10px;width:100%;text-align:center;font-weight:800;color:#a0507a" id="sth">點一下放下零食！</div><div class="chn" id="stc"></div></div>`;
+  const box=area.querySelector('.stk'),wrap=box.querySelector('#sw');let layers=[{x:W*.25,w:W*.5}],cur=null,t=30,score=0,perfect=0,ch=0,chB=0,grow=0,last=performance.now(),ended=false,dir=1,sp=150;G={on:true};
+  const hd=()=>{document.getElementById('gs').textContent='高度 '+score;const c=box.querySelector('#stc');if(c){c.style.display=ch>=2?'block':'none';c.textContent='✨ 完美連續 ×'+ch}};hd();
+  const pop=(txt,y,gold)=>{const d=document.createElement('div');d.className='spop'+(gold?' gold':'');d.textContent=txt;d.style.top=y+'px';wrap.appendChild(d);setTimeout(()=>d.remove(),850)};
   const yOf=i=>H-(LH+8)-(i+1)*LH;
   const base=document.createElement('div');base.className='lay';base.style.cssText=`left:${layers[0].x}px;width:${layers[0].w}px;top:${yOf(0)}px;background:#c99a6b`;wrap.appendChild(base);
   const spawn=()=>{const L=layers[layers.length-1];const el=document.createElement('div');el.className='lay';el.style.background=COL[layers.length%COL.length];el.style.width=L.w+'px';el.style.top=yOf(layers.length)+'px';wrap.appendChild(el);cur={el,x:dir>0?-L.w:W,w:L.w}};
   spawn();
   const drop=()=>{if(!cur||ended)return;const h=box.querySelector('#sth');if(h)h.remove();const L=layers[layers.length-1];const a=Math.max(cur.x,L.x),b=Math.min(cur.x+cur.w,L.x+L.w),w=b-a;
    if(w<=2){cur.el.style.transition='transform .6s ease-in,opacity .6s';cur.el.style.transform='translateY(200px) rotate(25deg)';cur.el.style.opacity=0;beep(200,.15,'sawtooth',.04);cur=null;return end()}
-   const pf=Math.abs(cur.x-L.x)<4;let nx=a,nw=w;if(pf){nx=L.x;nw=L.w;perfect++;beep(1319,.08,'triangle',.05)}else{beep(660+layers.length*20,.06,'triangle',.05);
+   const pf=Math.abs(cur.x-L.x)<4;let nx=a,nw=w;if(pf){nx=L.x;nw=L.w;perfect++;ch++;chB=Math.max(chB,ch);beep(1319+Math.min(ch,6)*60,.08,'triangle',.05);
+    if(ch>=3&&L.w<W*.5){nw=Math.min(W*.5,L.w+10);nx=Math.max(0,Math.min(W-nw,L.x-(nw-L.w)/2));grow++;pop('✨ 完美 ×'+ch+'　變寬了！',yOf(layers.length)-30,1)}else pop(ch>=2?'完美 ×'+ch:'完美！',yOf(layers.length)-30,ch>=3);
+    cur.el.classList.add('pf')}else{ch=0;beep(660+layers.length*20,.06,'triangle',.05);
     const cx=cur.x<L.x?cur.x:b,cw=cur.x<L.x?L.x-cur.x:cur.x+cur.w-(L.x+L.w);if(cw>0){const c=document.createElement('div');c.className='cut';c.style.cssText=`left:${cx}px;width:${cw}px;top:${cur.el.style.top};background:${cur.el.style.background}`;wrap.appendChild(c);requestAnimationFrame(()=>{c.style.transform=`translateY(220px) rotate(${cur&&cur.x<L.x?-30:30}deg)`;c.style.opacity=0});setTimeout(()=>c.remove(),700)}}
    cur.el.style.left=nx+'px';cur.el.style.width=nw+'px';layers.push({x:nx,w:nw});score++;hd();cur=null;dir*=-1;sp=Math.min(320,sp+10);
    const top=yOf(layers.length);if(top<H*.35)wrap.style.transform=`translateY(${H*.35-top}px)`;spawn()};
   box.addEventListener('pointerdown',e=>{e.preventDefault();drop()});
-  const end=()=>{if(ended)return;ended=true;G.on=false;if(score>=15)stat('stackall');
-   mgFinish(p,ov,area,`<div style="font-size:56px">${score>=15?'🏆':'🍰'}</div><b style="font-size:22px">疊了 ${score} 層</b><div style="font-size:13px">完美對齊 ${perfect} 次</div>`,Math.min(40,score*1.6+perfect),score>=15?3:0)};
+  const end=()=>{if(ended)return;ended=true;G.on=false;if(score>=15)stat('stackall');if(chB>=5)stat('stackc5');
+   mgFinish(p,ov,area,`<div style="font-size:56px">${score>=15?'🏆':'🍰'}</div><b style="font-size:22px">疊了 ${score} 層</b><div style="font-size:13px">完美對齊 ${perfect} 次・最多連續 ${chB} 次${grow?`・變寬 ${grow} 次`:''}</div>`,Math.min(40,score*1.6+perfect+Math.max(0,chB-2)),score>=15?3:0)};
   const loop=ts=>{if(!G||!G.on||ended)return;const dt=Math.min(.05,(ts-last)/1000);last=ts;t-=dt;
    if(cur){cur.x+=dir*sp*dt;if(cur.x>W-cur.w*.2){cur.x=W-cur.w*.2;dir=-1}if(cur.x<-cur.w*.8){cur.x=-cur.w*.8;dir=1}cur.el.style.left=cur.x+'px'}
    mgT(t);if(t<=0)return end();requestAnimationFrame(loop)};
@@ -3394,7 +3442,7 @@ function beatGame(p){
 /* ---------- 小劇情圖鑑 ---------- */
 const EVCAT={mom:['謝謝媽咪祭限定','💐'],aut:['秋日豐收祭限定','🍁'],duan:['端午粽香祭限定','🐉'],val:['情人節愛心祭限定','💝'],arc:['長篇故事','📜'],spr:['春日花見祭限定','🌸'],sum:['夏日玩水祭限定','🏖️'],mid:['中秋賞月祭限定','🌕'],hal:['萬聖搗蛋祭限定','🎃'],all:['通用','🌈'],age:['成長階段','🌱'],chain:['連續劇情','📚'],duo:['兩隻一起','💞'],rain:['下雨天限定','🌧️'],win:['冬日暖暖祭限定','❄️'],cny:['新春好運祭限定','🧧']};
 let evOpen=false;
-const ARCE={kit:'🐈',gran:'👵',lost:'🏠',party:'🎉',talent:'🌟',visit:'🏅',storm:'🌀',tnr:'🐈‍⬛',camp:'⛺',wed:'💍',sea:'🌊',school:'🎒'};
+const ARCE={kit:'🐈',gran:'👵',lost:'🏠',party:'🎉',talent:'🌟',visit:'🏅',storm:'🌀',tnr:'🐈‍⬛',camp:'⛺',wed:'💍',sea:'🌊',school:'🎒',hotel:'🏨',bday:'🎂'};
 function arcShelf(){const A=S.arcs||{},C=S.evChain,ce=C?EVALL.find(x=>x.id===C.id):null,cur=ce&&ce.arc?ce.arc:null,L=EVS.arc||[];
  const done=Object.keys(ARCN).filter(k=>A[k]).length;
  const rows=Object.keys(ARCN).map(k=>{const eps=L.filter(e=>e.arc===k),tot=eps.length?parseInt(eps[0].ep.split('/')[1]):0;let st,col;
@@ -3568,6 +3616,8 @@ const ACH=[
  {id:'arc_tnr',n:'社區貓守護者',d:'完成長篇故事「社區的浪浪」',e:'🐈‍⬛',ok:()=>S.arcs&&S.arcs.tnr,r:[200,20]},
  {id:'dr_craft',n:'夢境裁縫師',d:'用夢境碎片合成全部 4 件夢境配件',e:'🪄',ok:()=>DRC.slice(0,4).every(r=>has(r[0])),r:[300,30]},
  {id:'arc_school',n:'模範小學生',d:'完成長篇故事「毛孩上學去」',e:'🎒',ok:()=>S.arcs&&S.arcs.school,r:[200,20]},
+ {id:'arc_bday',n:'生日小壽星',d:'完成長篇故事「毛孩的生日派對」',e:'🎂',ok:()=>S.arcs&&S.arcs.bday,r:[200,20]},
+ {id:'arc_hotel',n:'住宿小勇士',d:'完成長篇故事「第一次住寵物旅館」',e:'🏨',ok:()=>S.arcs&&S.arcs.hotel,r:[200,20]},
  {id:'arc_sea',n:'海邊小浪花',d:'完成長篇故事「第一次看海」',e:'🌊',ok:()=>S.arcs&&S.arcs.sea,r:[200,20]},
  {id:'arc_camp',n:'露營小達人',d:'完成長篇故事「第一次去露營」',e:'⛺',ok:()=>S.arcs&&S.arcs.camp,r:[200,20]},
  {id:'arc_wed',n:'最可愛的花童',d:'完成長篇故事「毛孩當花童」',e:'💍',ok:()=>S.arcs&&S.arcs.wed,r:[200,20]},
@@ -3599,8 +3649,11 @@ const ACH=[
  {id:'bglap5',n:'小鎮環遊家',d:'小鎮大富翁繞 5 圈',e:'🎲',ok:()=>st('bglap')>=5,r:[250,25]},{id:'whale1',n:'傳說釣手',d:'在池塘釣魚釣到傳說鯨魚',e:'🐋',ok:()=>st('whale')>=1,r:[200,20]},{id:'disc20',n:'飛盤神捕手',d:'飛盤接接樂連續接到 20 個',e:'🥏',ok:()=>st('discc')>=1,r:[200,20]},{id:'puzfast',n:'拼圖高手',d:'毛孩拼圖 30 步內拼好',e:'🧩',ok:()=>st('puzfast')>=1,r:[200,20]},{id:'puz4',n:'拼圖大師',d:'拼好一次 4×4 困難拼圖',e:'🖼️',ok:()=>st('puz4ok')>=1,r:[250,25]},{id:'simon10',n:'記憶大師',d:'口令記憶過 10 關',e:'🧠',ok:()=>st('simon10')>=1,r:[200,20]},{id:'xmas25',n:'聖誕樹掛滿了',d:'聖誕倒數月曆 25 格全部打開',e:'🎄',ok:()=>!!(S.xad&&Object.keys(S.xad.o||{}).length>=25),r:[300,30]},{id:'stall500',n:'小攤老闆',d:'小攤累計賺到 💰500',e:'🏪',ok:()=>st('stallcash')>=500,r:[250,25]},{id:'detect5',n:'名偵探',d:'破解 5 個偵探社案件',e:'🕵️',ok:()=>st('detectok')>=5,r:[200,20]},{id:'adv7',n:'故事書蟲',d:'完成 7 本毛孩冒險書',e:'📖',ok:()=>st('adv')>=7,r:[200,20]},{id:'riddle10',n:'謎題高手',d:'猜中 10 題毛孩猜謎',e:'🧩',ok:()=>st('riddleok')>=10,r:[200,20]},{id:'visit10',n:'好客主人',d:'迎接 10 位門口的訪客',e:'🔔',ok:()=>st('visit')>=10,r:[200,20]},{id:'draw10',n:'靈魂畫家',d:'你畫我猜被猜中 10 次',e:'🖍️',ok:()=>st('drawok')>=10,r:[200,20]},{id:'pdraw10',n:'畫作鑑賞家',d:'毛孩畫畫我來猜，一次就猜中 10 次',e:'🎨',ok:()=>st('pdok')>=10,r:[200,20]},{id:'photo10',n:'生活攝影師',d:'完成 10 個生活尋寶題目',e:'📷',ok:()=>st('photo')>=10,r:[200,20]},{id:'news4',n:'忠實讀者',d:'看 4 期小鎮週報',e:'🗞️',ok:()=>st('news')>=4,r:[150,15]},{id:'dream7',n:'追夢人',d:'聽毛孩說 7 次夢',e:'🌙',ok:()=>st('dream')>=7,r:[150,15]},{id:'dreamall',n:'夢境收藏家',d:'集滿 12 種夢境碎片',e:'🌌',ok:()=>!!S.drAll,r:[300,30]},{id:'stylist5',n:'時尚教主',d:'請造型師搭配 5 次',e:'🪄',ok:()=>st('stylist')>=5,r:[150,15]},{id:'cook1',n:'小小廚師',d:'在毛孩廚房做 10 道菜',e:'🍳',ok:()=>st('cook')>=10,r:[150,15]},
  {id:'cook2',n:'完美主廚',d:'攪拌三次都成功 5 次',e:'👨‍🍳',ok:()=>st('cookp')>=5,r:[250,25]},
  {id:'stack1',n:'疊疊樂大師',d:'零食疊疊樂疊到 15 層',e:'🍰',ok:()=>st('stackall')>=1,r:[150,15]},
+ {id:'dig5',n:'尋寶達人',d:'挖寶藏一局 6 鏟挖到 5 個以上寶物',e:'📡',ok:()=>st('dig5')>=1,r:[150,15]},
+ {id:'stackc5',n:'完美甜點師',d:'零食疊疊樂連續完美對齊 5 次',e:'✨',ok:()=>st('stackc5')>=1,r:[150,15]},
  {id:'bath1',n:'洗澡達人',d:'泡泡浴一次洗掉 12 塊以上的泥巴',e:'🛁',ok:()=>st('bathall')>=1,r:[150,15]},
  {id:'jump1',n:'跳跳高手',d:'跳跳毛孩不撞到任何障礙並吃到 8 個以上',e:'🦘',ok:()=>st('jumpall')>=1,r:[150,15]},
+ {id:'jumpdbl',n:'空中飛毛孩',d:'跳跳毛孩累計二段跳 30 次',e:'🪽',ok:()=>st('jumpdbl')>=30,r:[150,15]},
  {id:'chat10',n:'心有靈犀',d:'跟毛孩聊天 10 句',e:'💬',ok:()=>st('chat')>=10,r:[100,10]},
  {id:'nd7',n:'睡前故事',d:'看 7 次毛孩的晚安日記',e:'📓',ok:()=>st('nd')>=7,r:[150,15]},
  {id:'anni1',n:'紀念日快樂',d:'和毛孩慶祝一次領養紀念日',e:'🎂',ok:()=>st('anni')>=1,r:[100,10]},
@@ -3839,7 +3892,19 @@ const EVS={
   {id:'sch3a',cont:1,ep:'3/5',arc:'school',x:'老師教大家用響片：毛孩做對動作的「那一瞬間」按一下，再馬上給零食，牠就知道是哪個動作被稱讚。今天的題目是「看著我」。',o:[['🔔 牠一看你就按響片','{n} 一開始東張西望，後來發現「看你一眼就有零食」，眼睛就一直黏在你臉上了……（明天繼續）',{mood:6,aff:4,next:'sch4'}],['🗣️ 改用固定的稱讚詞「好棒」','你每次都用同一個語氣說「好棒」再給零食，{n} 一聽到這兩個字耳朵就豎起來……（明天繼續）',{mood:5,aff:4,next:'sch4'}]]},
   {id:'sch3b',cont:1,ep:'3/5',arc:'school',x:'隔壁同學是一隻很熱情的小毛孩，一直想撲上來玩。{n} 有點被嚇到，往後退了一步。老師說：「每隻毛孩交朋友的速度不一樣。」',o:[['↔️ 先拉開距離，隔一點看就好','你們退到幾步外，{n} 放鬆下來，還會偷偷看對方。下課前兩隻已經能並排坐著了……（明天繼續）',{mood:5,aff:4,next:'sch4'}],['🎾 請對方主人一起玩平行遊戲','兩隻毛孩各自玩自己的玩具，不用直接碰面。玩著玩著，{n} 的尾巴慢慢搖起來了……（明天繼續）',{mood:6,aff:3,energy:-4,next:'sch4'}]]},
   {id:'sch4',cont:1,ep:'4/5',arc:'school',x:'回家作業是每天練習「坐下」。可是今天 {n} 怎麼樣都不肯坐，一直跑去聞地板。你有點急了。',o:[['⏸️ 先休息，下次再練','老師說過：每次練幾分鐘就好，要在牠還想玩的時候結束。隔天 {n} 心情很好，一次就坐下了……（明天繼續）',{mood:6,aff:4,energy:4,next:'sch5'}],['🪜 把動作拆成更小的步驟','你先獎勵「屁股往下一點點」，再慢慢要求多一點。{n} 一步一步，最後穩穩坐好了……（明天繼續）',{mood:5,aff:5,next:'sch5'}]]},
-  {id:'sch5',cont:1,ep:'5/5 完結',arc:'school',x:'最後一堂課是小小結業式。輪到 {n} 上台表演學會的本事，台下的同學和主人都在看。',o:[['🎓 表演「看著我」加「坐下」','{n} 看著你的眼睛，穩穩坐下，全場拍手！老師頒給牠一張小小的結業證書，上面寫著「模範小學生」。',{mood:10,aff:6,arc:'school'}],['🤝 和第一天認識的同學一起合照','{n} 和同學並排坐好，誰也沒有亂跑。這張畢業合照，你決定放在相簿第一頁。',{mood:10,aff:6,arc:'school'}]]}],
+  {id:'sch5',cont:1,ep:'5/5 完結',arc:'school',x:'最後一堂課是小小結業式。輪到 {n} 上台表演學會的本事，台下的同學和主人都在看。',o:[['🎓 表演「看著我」加「坐下」','{n} 看著你的眼睛，穩穩坐下，全場拍手！老師頒給牠一張小小的結業證書，上面寫著「模範小學生」。',{mood:10,aff:6,arc:'school'}],['🤝 和第一天認識的同學一起合照','{n} 和同學並排坐好，誰也沒有亂跑。這張畢業合照，你決定放在相簿第一頁。',{mood:10,aff:6,arc:'school'}]]},
+  {id:'htl1',ep:'1/5',arc:'hotel',x:'下個月你要出差兩天，沒辦法帶 {n} 一起去。朋友推薦了一間寵物旅館，可是 {n} 從來沒有離開你過夜。',o:[['🏨 先帶牠去參觀一次','你們先去旅館逛一圈。店員讓 {n} 聞聞房間、認識照顧員，還說：「住宿前要先準備好疫苗紀錄喔。」……（明天繼續）',{mood:4,aff:2,next:'htl2'}],['🕐 先預約半天的試住','你幫 {n} 預約了半天的「體驗住宿」，讓牠先習慣一下新環境……（明天繼續）',{mood:4,aff:3,next:'htl2'}]]},
+  {id:'htl2',cont:1,ep:'2/5',arc:'hotel',x:'出發前一晚，你在幫 {n} 打包行李。牠一直跑來跑去，把頭塞進行李箱裡，好像知道要發生什麼事。',o:[['🧸 放進有家裡味道的小毯子','你把 {n} 每天睡的小毯子和最愛的玩具放進袋子。熟悉的味道會讓牠在新地方比較安心……（明天繼續）',{mood:5,aff:3,next:'htl3a'}],['📝 寫一張照顧小卡','你在卡片上寫好：每天吃幾次、一次多少、平常幾點睡、怕什麼聲音。照顧員看了一定會更了解牠……（明天繼續）',{mood:4,aff:4,next:'htl3b'}]]},
+  {id:'htl3a',cont:1,ep:'3/5',arc:'hotel',x:'到了旅館門口，{n} 回頭看著你，眼睛圓圓的。你好捨不得，好想再抱牠十分鐘。',o:[['👋 溫柔地說再見，快快離開','你摸摸牠的頭，用平常的語氣說「我很快就回來」，然後轉身離開。拖太久反而會讓牠更緊張……（明天繼續）',{mood:4,aff:4,next:'htl4'}],['🍪 交給照顧員一包牠的零食','你把平常吃的零食交給照顧員。照顧員蹲下來餵了一顆，{n} 的尾巴輕輕搖了一下……（明天繼續）',{mood:5,aff:3,hunger:3,next:'htl4'}]]},
+  {id:'htl3b',cont:1,ep:'3/5',arc:'hotel',x:'照顧員看完小卡，笑著說：「牠怕吹風機的聲音對嗎？那洗澡後我們會用毛巾慢慢擦乾。」{n} 在旁邊歪著頭聽。',o:[['☎️ 問可不可以傳照片給你','照顧員說每天會傳一張照片。你鬆了一口氣，摸摸 {n} 說「要乖乖喔」……（明天繼續）',{mood:4,aff:4,next:'htl4'}],['👋 平靜地說再見','你用平常的語氣跟牠道別，沒有哭哭啼啼。{n} 看你這麼放鬆，好像也沒那麼緊張了……（明天繼續）',{mood:5,aff:3,next:'htl4'}]]},
+  {id:'htl4',cont:1,ep:'4/5',arc:'hotel',x:'出差的晚上，手機「叮」一聲：照顧員傳來一張照片。{n} 窩在自己的小毯子上，旁邊還有一隻新認識的毛孩朋友。',o:[['💬 回一句「謝謝你們照顧牠」','照顧員回覆：「牠今天吃光光，還陪其他毛孩玩了一下喔！」你終於可以安心睡覺了……（明天繼續）',{mood:5,aff:3,next:'htl5'}],['📷 把照片設成手機桌布','你看著照片傻笑了好久。明天就可以去接牠回家了……（明天繼續）',{mood:5,aff:4,next:'htl5'}]]},
+  {id:'htl5',cont:1,ep:'5/5 完結',arc:'hotel',x:'終於去接 {n} 了！門一打開，牠衝過來繞著你轉圈圈，尾巴搖到整個屁股都在晃。',o:[['🏠 回家讓牠好好休息','回到家，你準備好乾淨的水，讓 {n} 在熟悉的窩裡大睡一覺。你也順便檢查一下牠的腳掌和毛，一切都好。下次出門，你們都不怕了。',{mood:10,aff:6,energy:6,arc:'hotel'}],['🤗 蹲下來抱抱，跟照顧員說謝謝','你抱著 {n}，跟照顧員道謝。照顧員送給牠一張「住宿小勇士」貼紙。這張貼紙，你決定貼在相簿裡。',{mood:10,aff:6,arc:'hotel'}]]},
+  {id:'bdy1',ep:'1/5',arc:'bday',x:'你在翻成長相簿，突然發現：下個星期就是 {n} 來到家裡滿一年的日子！牠趴在旁邊，尾巴一甩一甩的，完全不知道自己要當壽星了。',o:[['🎉 決定幫牠辦一場小小慶生會','你在月曆上畫了一個大大的愛心，開始想要邀請誰、準備什麼……（明天繼續）',{mood:4,aff:3,next:'bdy2'}],['🎂 先想想要準備什麼蛋糕','人吃的蛋糕不行給毛孩吃，要準備一個 {n} 專屬的才行……（明天繼續）',{mood:4,aff:2,next:'bdy2'}]]},
+  {id:'bdy2',cont:1,ep:'2/5',arc:'bday',x:'路過麵包店，櫥窗裡的巧克力蛋糕好漂亮。可是你記得：巧克力、葡萄、木糖醇、洋蔥都對毛孩有危險，糖和奶油太多也會讓牠拉肚子。',o:[['🍗 自己做一個毛孩蛋糕','你決定用無調味的水煮雞胸肉和蒸熟的南瓜泥，做一個小小的「毛孩蛋糕」……（明天繼續）',{mood:4,aff:4,next:'bdy3a'}],['🏪 去寵物烘焙店問問看','你走進寵物烘焙店，第一件事就是請店員給你看成分表……（明天繼續）',{mood:4,aff:3,next:'bdy3b'}]]},
+  {id:'bdy3a',cont:1,ep:'3/5',arc:'bday',x:'你在廚房忙著壓南瓜泥，{n} 一直在你腳邊繞圈圈，鼻子抽個不停。流理台上還放著剛買的葡萄乾和一顆洋蔥。',o:[['🧺 先把葡萄乾和洋蔥收進櫃子','你把危險的食物都收好，免得 {n} 趁你不注意偷吃。做料理的時候，地上掉了東西也要馬上撿起來……（明天繼續）',{mood:4,aff:4,next:'bdy4'}],['🍗 給牠聞聞一小塊雞肉','你撕了一小塊沒調味的雞肉給 {n} 試吃，牠吃完馬上坐得好端正，眼睛閃閃發亮……（明天繼續）',{mood:5,aff:3,hunger:3,next:'bdy4'}]]},
+  {id:'bdy3b',cont:1,ep:'3/5',arc:'bday',x:'店員拿出一個小小的毛孩蛋糕：「我們沒有加糖和鹽，也沒有巧克力和木糖醇。不過蛋糕熱量不低，記得分幾天吃，當天正餐也要少放一點喔。」',o:[['📝 記下來，決定分三天吃','你在手機裡記下「一天一小塊」，還要記得把正餐減少一些。毛孩開心，也不會吃太胖……（明天繼續）',{mood:4,aff:4,next:'bdy4'}],['❓ 問牠第一次吃要注意什麼','店員說：「第一次吃新食物先給一點點，觀察一天有沒有拉肚子或發癢。」你點點頭……（明天繼續）',{mood:4,aff:4,next:'bdy4'}]]},
+  {id:'bdy4',cont:1,ep:'4/5',arc:'bday',x:'派對當天，朋友帶了彩色氣球和一頂小小的派對帽。家裡突然好熱鬧，{n} 耳朵往後壓，偷偷躲到沙發旁邊。',o:[['🛋️ 在房間準備一個安靜角落','你把 {n} 的窩和水碗放到安靜的房間，跟朋友說：「牠想出來的時候自己會出來。」過了一會兒，牠真的探出頭來了……（明天繼續）',{mood:5,aff:4,next:'bdy5'}],['🎈 把氣球綁高，帽子戴一下就好','你把氣球綁在牠碰不到的地方，因為破掉的氣球碎片很容易被誤吞。派對帽只戴一下下拍照，牠一甩頭你就幫牠拿掉……（明天繼續）',{mood:5,aff:3,next:'bdy5'}]]},
+  {id:'bdy5',cont:1,ep:'5/5 完結',arc:'bday',x:'大家圍成一圈唱生日快樂歌！你點的是 LED 小蠟燭，不會燒到 {n} 的鬍鬚和毛。蛋糕放到牠面前，牠先聞了聞，然後看著你，好像在問：「這真的是給我的嗎？」',o:[['🍰 切一小塊給牠，剩下冰起來','{n} 一口一口吃得好認真，吃完還把盤子舔得亮晶晶。剩下的蛋糕你冰進冰箱，接下來幾天每天一小塊。這是牠第一個生日，你們都會記得好久好久。',{mood:10,aff:6,hunger:5,arc:'bday'}],['📷 和大家拍一張生日合照','你抱著 {n}，朋友們圍在旁邊比愛心。「喀嚓！」這張照片，你決定放在相簿的第一頁。生日快樂，我的小壽星。',{mood:10,aff:6,arc:'bday'}]]}],
  chain:[
   {id:'s1',x:'{n} 在陽台角落發現一隻受傷的小麻雀，一直守在旁邊不肯離開。',o:[['📦 做一個小紙箱讓麻雀休息','{n} 整晚都趴在紙箱旁邊，好像在當守衛……（明天繼續）',{mood:4,aff:2,next:'s1b'}],['📞 打電話問動物醫院','醫生教你怎麼照顧，{n} 在旁邊認真聽……（明天繼續）',{mood:4,aff:2,next:'s1b'}]]},
   {id:'s1b',cont:1,x:'隔天早上，小麻雀精神好多了，在紙箱裡拍拍翅膀。{n} 興奮地看著你。',o:[['🕊️ 一起送牠回到天空','小麻雀飛走前在陽台繞了一圈，{n} 一直望著天空。你們做了一件好事！',{mood:10,aff:4}],['🍞 再照顧牠一天','小麻雀吃飽飽才飛走，還在窗台留下一根羽毛當禮物。',{mood:8,aff:3}]]},
@@ -3901,7 +3966,7 @@ const EVS={
   {id:'ha2',fe:'hal',x:'門鈴響了，外面有小朋友來要糖果，{n} 躲到你腳後面。',o:[['🍬 抱著牠一起發糖果','小朋友摸摸 {n}，牠慢慢不怕了。',{mood:6,aff:3}],['🛋️ 讓牠在房間休息','{n} 在安靜的房間裡安心地睡著了。',{mood:4,aff:2,energy:6}]]},
   {id:'ha3',fe:'hal',x:'{n} 發現了你放在地上的萬聖節裝飾，一直想去咬那隻假蜘蛛。',o:[['🕷️ 把裝飾收高一點','{n} 不甘心地坐在下面盯著看。',{mood:-1,aff:2}],['🧸 給牠一個安全的玩具','{n} 叼著新玩具，馬上忘記假蜘蛛了。',{mood:7,aff:1}]]}]
 };
-const ARCN={kit:'門口的小訪客',gran:'隔壁的老奶奶',lost:'走失的豆花',party:'驚喜派對',talent:'才藝大會',visit:'安養院的小志工',storm:'颱風天的鄰居',tnr:'社區的浪浪',camp:'第一次去露營',wed:'毛孩當花童',sea:'第一次看海',school:'毛孩上學去'};
+const ARCN={kit:'門口的小訪客',gran:'隔壁的老奶奶',lost:'走失的豆花',party:'驚喜派對',talent:'才藝大會',visit:'安養院的小志工',storm:'颱風天的鄰居',tnr:'社區的浪浪',camp:'第一次去露營',wed:'毛孩當花童',sea:'第一次看海',school:'毛孩上學去',hotel:'第一次住寵物旅館',bday:'毛孩的生日派對'};
 const EV_DAY=3,EV_MIN=60,EV_MAX=120;
 const EVALL=Object.values(EVS).flat();
 function ev(){S.today=S.today||{};if(!S.today.ev)S.today.ev={n:0,next:0};return S.today.ev}
@@ -4236,19 +4301,22 @@ const today8=()=>todayStr();
  const [db,user]=await Promise.all([claude.use('db'),claude.use('user')]);if(!db||!user){FR.err='連不上朋友資料，請重新整理';if(tab==='fr')render();return}
  FR.db=db;FR.user=user;FR.uid=await user.id();if(!FR.uid){FR.err='連不上朋友資料，請重新整理';if(tab==='fr')render();return}
  try{const c=user.can&&await user.can('data.write');if(c===false)FR.ro=true}catch(e){}
+ try{FR.owner=!!(user.isOwner&&await user.isOwner())}catch(e){}
  FR.on=true;const to=setTimeout(()=>{if(!FR.loaded){FR.err='暫時連不上朋友資料，稍後再看看';if(tab==='fr')render()}},10000);
  db.collection('players').onSnapshot(s=>{clearTimeout(to);FR.loaded=true;FR.err='';FR.list=s.docs.filter(d=>d.exists).map(d=>({id:d.id,...cleanP(d.data())}));if(tab==='fr')render();else updNav8()},e=>{clearTimeout(to);FR.err='朋友資料暫時無法使用';if(tab==='fr')render()});
  setTimeout(pushMe,1500);setInterval(()=>pushMe(),20000);
 }catch(e){FR.err='連不上朋友資料，請重新整理'}})();
 const num8=(v,max=1e7)=>{v=Number(v);return isFinite(v)?Math.max(0,Math.min(max,Math.floor(v))):0};
 const str8=(v,n=16)=>String(v==null?'':v).slice(0,n);
-function cleanP(d){d=d||{};return{nick:str8(d.nick,12)||'神秘飼主',av:okAv(d.av)?d.av:'',day:num8(d.day),best:num8(d.best,9999),champ:num8(d.champ,9999),cards:num8(d.cards,999),aff:num8(d.aff),skin:SK[d.skin]?d.skin:'',tt:typeof d.tt==='string'&&ACH.some(a=>a.id===d.tt)?d.tt:'',dc:Array.isArray(d.dc)?d.dc.filter(x=>typeof x==='string'&&IT[x]&&IT[x].c==='deco').slice(0,12):[],co:d.co&&typeof d.co==='object'?{w:num8(d.co.w,99999),n:num8(d.co.n,CO_CAP)}:{w:0,n:0},
+function cleanP(d){d=d||{};const okD=v=>typeof v==='string'&&/^\d{4}-\d\d-\d\d$/.test(v)?v:'';return{fs:okD(d.fs),ld:okD(d.ld),ad:num8(d.ad,9999),seen:num8(d.seen,9e12),nick:str8(d.nick,12)||'神秘飼主',av:okAv(d.av)?d.av:'',day:num8(d.day),best:num8(d.best,9999),champ:num8(d.champ,9999),cards:num8(d.cards,999),aff:num8(d.aff),skin:SK[d.skin]?d.skin:'',tt:typeof d.tt==='string'&&ACH.some(a=>a.id===d.tt)?d.tt:'',dc:Array.isArray(d.dc)?d.dc.filter(x=>typeof x==='string'&&IT[x]&&IT[x].c==='deco').slice(0,12):[],co:d.co&&typeof d.co==='object'?{w:num8(d.co.w,99999),n:num8(d.co.n,CO_CAP)}:{w:0,n:0},
  pets:Array.isArray(d.pets)?d.pets.slice(0,8).filter(p=>p&&BR[p.b]&&['b','a','o'].includes(p.s)).map(p=>({b:p.b,s:p.s,n:str8(p.n,10),lv:num8(p.lv,99),tr:num8(p.tr,9),cl:!!p.cl})):[],
  liked:d.liked&&typeof d.liked==='object'?d.liked:{},lastLike:d.lastLike&&typeof d.lastLike==='object'?d.lastLike:{},
  ref:str8(d.ref,64),gifts:Array.isArray(d.gifts)?d.gifts.slice(-40).filter(g=>g&&typeof g.id==='string'&&typeof g.to==='string'&&IT[g.it]).map(g=>({id:str8(g.id,40),to:str8(g.to,200),it:g.it,d:str8(g.d,12)})):[]}}
 function myNick(){return S.nick||(S.pets[0]?S.pets[0].name+'的家':'新手飼主')}
-function meDoc(){const mine=FR.list.find(x=>x.id===FR.uid)||{};S.fr=S.fr||{liked:{},lastLike:{},gifts:[]};
- return{nick:myNick(),av:S.avatar||'',day:S.day,best:S.bestScore||0,champ:st('champ'),cards:cardsN(),aff:S.pets.reduce((a,p)=>a+p.aff,0),skin:(S.skin&&S.skin[0])||'',tt:titleOf()?S.title:'',co:{w:calWeek(),n:Math.min(CO_CAP,coW().n)},dc:ITEMS.filter(i=>i.c==='deco'&&has(i.id)).sort((a,b)=>(b.fe||b.legend||b.rg?1:0)-(a.fe||a.legend||a.rg?1:0)).slice(0,12).map(i=>i.id),
+function ymd(t){const d=new Date(t==null?Date.now():t);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function trackAct(){const t=ymd();if(!S.fs)S.fs=ymd(Date.now()-Math.max(0,(S.day||1)-1)*864e5);if(S.lastAD!==t){S.lastAD=t;S.adays=(S.adays||0)+1;save()}}
+function meDoc(){const mine=FR.list.find(x=>x.id===FR.uid)||{};S.fr=S.fr||{liked:{},lastLike:{},gifts:[]};trackAct();
+ return{fs:S.fs,ld:S.lastAD,ad:S.adays||1,seen:Math.floor(Date.now()/1800000)*1800000,nick:myNick(),av:S.avatar||'',day:S.day,best:S.bestScore||0,champ:st('champ'),cards:cardsN(),aff:S.pets.reduce((a,p)=>a+p.aff,0),skin:(S.skin&&S.skin[0])||'',tt:titleOf()?S.title:'',co:{w:calWeek(),n:Math.min(CO_CAP,coW().n)},dc:ITEMS.filter(i=>i.c==='deco'&&has(i.id)).sort((a,b)=>(b.fe||b.legend||b.rg?1:0)-(a.fe||a.legend||a.rg?1:0)).slice(0,12).map(i=>i.id),
   pets:S.pets.slice(0,8).map(p=>({b:p.breed,s:stage(p),n:p.name,lv:lvl(p),tr:(p.tricks||[]).length,cl:!!(p.acc&&p.acc.body)})),liked:S.fr.liked,lastLike:S.fr.lastLike,gifts:S.fr.gifts.slice(-40),ref:S.invitedBy||''}}
 async function pushMe(force){if(FR.writing){FR.again=1;return}if(!FR.on||FR.ro||!S||!S.pets.length)return;const d=meDoc();const j=JSON.stringify(d);if(j===FR.lastJSON&&!force)return;FR.writing=true;
  try{await FR.db.doc('players/'+FR.uid).set(d);FR.lastJSON=j}catch(e){if(e&&e.code==='invalid_argument'){FR.ro=true;if(tab==='fr')render()}}FR.writing=false;if(FR.again){FR.again=0;pushMe()}}
@@ -4412,6 +4480,35 @@ cbInit();
 {const w=(n,k)=>{const o=window[n];if(typeof o==='function')window[n]=function(){obFlag(k);return o.apply(this,arguments)}};w('openTown','town');w('open3D','r3');w('openBackup','bk')}
 /* 可愛版：點按鈕時冒出小肉球或愛心 */
 (()=>{const E=['🐾','💗','🐾','✨','🐾','💕'];let last=0;document.addEventListener('pointerdown',e=>{try{if(window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches)return;const t=e.target.closest&&e.target.closest('button,.row,.prod,.card[onclick],label');if(!t||document.getElementById('game'))return;const now=Date.now();if(now-last<120)return;last=now;const d=document.createElement('span');d.className='tappaw';d.textContent=E[Math.floor(Math.random()*E.length)];d.style.left=e.clientX+'px';d.style.top=e.clientY+'px';d.style.setProperty('--r',(Math.random()*50-25)+'deg');document.body.appendChild(d);setTimeout(()=>d.remove(),720)}catch(x){}},{passive:true})})();
+
+/* ================= 🏪 店長後台：只有遊戲擁有者看得到（user.isOwner） ================= */
+function adDays(a,b){return Math.round((new Date(b+'T00:00:00')-new Date(a+'T00:00:00'))/864e5)}
+function adFs(p){if(p.fs)return p.fs;return p.day?ymd(Date.now()-Math.max(0,p.day-1)*864e5):''}
+function openAdmin(){if(!FR.owner)return toast('只有遊戲的擁有者可以看店長後台');const L=FR.list.slice(),T=ymd(),N=L.length;
+ const known=L.filter(p=>p.ld),act=d=>known.filter(p=>adDays(p.ld,T)<=d).length;
+ const today=act(0),wk=act(6),newWk=L.filter(p=>{const f=adFs(p);return f&&adDays(f,T)<=6}).length;
+ const gone=known.filter(p=>adDays(p.ld,T)>=3);
+ const B=[['只玩 1 天',x=>x<=1],['2 天',x=>x===2],['3 天',x=>x===3],['4～7 天',x=>x>=4&&x<=7],['8 天以上',x=>x>=8]];
+ const goneB=B.map(([n,f])=>[n,gone.filter(p=>f(p.ad||1)).length]),gmax=Math.max(1,...goneB.map(x=>x[1]));
+ const ret=n=>{const el=L.filter(p=>p.ld&&adFs(p)&&adDays(adFs(p),T)>=n);if(!el.length)return null;const ok=el.filter(p=>adDays(adFs(p),p.ld)>=n).length;return[ok,el.length]};
+ const R=[['隔天還有回來',1],['第 3 天還有回來',3],['第 7 天還有回來',7]].map(([n,d])=>[n,ret(d)]);
+ const ago=p=>{if(!p.ld)return'舊版資料';const d=adDays(p.ld,T);return d<=0?(p.seen&&Date.now()-p.seen<3600e3?'剛剛':'今天'):d===1?'昨天':`${d} 天前`};
+ const rows=L.sort((a,b)=>(b.ld||'').localeCompare(a.ld||'')||(b.seen-a.seen)).slice(0,60);
+ const box='background:#fff;border:2px solid var(--ink);border-radius:18px;padding:10px;text-align:center';
+ modal(`<h3>🏪 店長後台</h3><p style="font-size:12px;color:#a08670;margin:0 0 8px">只有你看得到。資料來自朋友廣場的玩家清單（Claude 版），需要玩家登入 Claude 才會算進來。</p>
+ <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+  <div style="${box}"><div style="font-size:30px;font-weight:900">${N}</div><small>總玩家數</small></div>
+  <div style="${box}"><div style="font-size:30px;font-weight:900;color:#ee5a3c">${today}</div><small>今天有上線</small></div>
+  <div style="${box}"><div style="font-size:30px;font-weight:900;color:#3a8ad8">${wk}</div><small>這 7 天有上線</small></div>
+  <div style="${box}"><div style="font-size:30px;font-weight:900;color:#3d9a5a">${newWk}</div><small>這 7 天新加入</small></div></div>
+ <p style="font-weight:900;margin:12px 0 4px">📉 沒再回來的玩家，玩了幾天</p><p style="font-size:12px;color:#a08670;margin:0 0 6px">超過 3 天沒上線的算「沒再回來」，目前 ${gone.length} 人</p>
+ ${goneB.map(([n,v])=>`<div style="display:flex;align-items:center;gap:8px;margin:4px 0;font-size:13px"><span style="width:72px">${n}</span><span style="flex:1;height:16px;background:#f1e8f0;border-radius:9px;overflow:hidden"><i style="display:block;height:100%;width:${v/gmax*100}%;background:linear-gradient(90deg,#ff9ac2,#ff6b8a)"></i></span><b style="width:30px;text-align:right">${v}</b></div>`).join('')}
+ <p style="font-weight:900;margin:12px 0 4px">🔁 留存率</p>
+ ${R.map(([n,r])=>`<div style="display:flex;justify-content:space-between;font-size:13.5px;background:#fff8ee;border-radius:12px;padding:7px 10px;margin:4px 0"><span>${n}</span><b>${r?`${Math.round(r[0]/r[1]*100)}%（${r[0]}/${r[1]} 人）`:'資料還不夠'}</b></div>`).join('')}
+ <p style="font-weight:900;margin:12px 0 4px">👥 玩家清單</p>
+ <div style="max-height:260px;overflow:auto;border-radius:12px;background:#fff;border:1.5px solid #e8d8e4">${rows.map(p=>`<div style="display:flex;gap:6px;align-items:center;padding:6px 8px;border-bottom:1px solid #f3e9f0;font-size:12.5px"><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><b>${esc(p.nick)}</b>${p.id===FR.uid?'（你）':''}<br><small style="color:#a08670">${p.pets.length} 隻毛孩・從 ${adFs(p)||'?'} 開始・上線 ${p.ad||'?'} 天</small></span><span style="white-space:nowrap;color:${p.ld&&adDays(p.ld,T)>=3?'#c0607a':'#3d9a5a'}">${ago(p)}</span></div>`).join('')||'<p style="padding:10px;text-align:center">還沒有玩家</p>'}</div>
+ <p class="tip">「第一次玩的日期」和「上線天數」是這次更新才開始記錄的，舊玩家要再上線一次才會更新；更早的上線紀錄沒有保留，所以前幾天的數字會偏少。GitHub 版的玩家不在這裡。</p>
+ <div class="mbtns"><button class="btn gray" onclick="closeModal()">關閉</button></div>`)}
 
 load();S.pets.forEach(initPet);if(!S.wx)newWx();weekly();if(!S.pets.length){S.intro=false}if(!S.tasks)newTasks();render();if(!S.intro||!S.pets.length){window.PENDLOGIN=1;realDay();intro()}else if(syncDay()){window.AFTERM=()=>loginBonus()}else loginBonus();
 </script>
